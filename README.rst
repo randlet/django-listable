@@ -15,25 +15,25 @@ Django and DataTables.js
         :target: https://crate.io/packages/django-listable?version=latest
 
 
-A reusable Django app to make integrations with the DataTables javascript library easy.
+.. A reusable Django app to make integrations with the DataTables javascript library easy.
 
-Documentation
--------------
-
-The full documentation is at http://djangolistable.rtfd.org.
-
-Quickstart
-----------
-
-Install django-listable::
-
-    pip install django-listable
-
-Then use it in a project::
-
-	import listable
-
-Features
---------
-
-* TODO
+.. Documentation
+.. -------------
+..
+.. The full documentation is at http://djangolistable.rtfd.org.
+..
+.. Quickstart
+.. ----------
+..
+.. Install django-listable::
+..
+..     pip install django-listable
+..
+.. Then use it in a project::
+..
+.. 	import listable
+..
+.. Features
+.. --------
+..
+.. * TODO
