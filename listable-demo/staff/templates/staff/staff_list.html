@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load listable %}
+
+{% block extra_css %}
+    {% listable_css %}
+{% endblock extra_css %}
+
+{% block content %}
+    {{listable_table}}
+{% endblock %}
+
+{% block extra_js %}
+{% listable 'staff-list' %}
+{% endblock extra_js %}
+

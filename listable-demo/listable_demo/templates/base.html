@@ -1,0 +1,39 @@
+{% load staticfiles i18n %}<!DOCTYPE html>
+<html lang="en" ng-app>
+    <head>
+        <meta charset="utf-8">
+        <title>Listable Demo</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        {% block css %}
+            <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet">
+            <link href="{% static 'css/listable_demo.css'%}" rel="stylesheet">
+            {% block extra_css %}
+            {% endblock extra_css %}
+        {% endblock css %}
+
+    </head>
+
+    <body>
+
+        <div class="header navbar navbar-inverse">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'staff-list' %}">Staff List</a>
+            </div>
+        </div>
+
+        <div class="container">
+            {% block content %}
+                <p>Use this document as a way to quick start any new project.</p>
+            {% endblock content %}
+        </div> <!-- /container -->
+
+        {% block javascript %}
+            <script src="{% static 'js/jquery.min.js' %}"></script>
+            <script src="{% static 'js/bootstrap.min.js' %}"></script>
+            <script src="{% static 'js/listable_demo.js' %}"></script>
+            {% block extra_js %}
+            {% endblock extra_js%}
+        {% endblock javascript %}
+    </body>
+</html>
