@@ -13,6 +13,8 @@ class StaffList(BaseListableView):
         Column(field="id", ordering=True, filtering=False),
         Column(field="name", ordering="last_name", filtering=True),
         Column(field="department", ordering="department__name", filtering=True),
+        Column(field="columns", ordering="department__name", filtering=True),
+        Column(field="business", ordering="department__name", filtering=True),
     )
 
     def name(self, staff):
@@ -21,4 +23,6 @@ class StaffList(BaseListableView):
     def department(self, staff):
         return staff.department.name
 
+    def business(self, staff):
+        return staff.department.business.name
 
