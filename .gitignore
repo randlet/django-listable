@@ -18,6 +18,9 @@ develop-eggs
 lib
 lib64
 
+*.db
+*.sqlite3
+
 # Installer logs
 pip-log.txt
 
