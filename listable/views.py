@@ -106,26 +106,31 @@ class BaseListableView(ListView):
     def get_rows(self, objects):
         rows = []
         for obj in objects:
-            row = []
-            for col in self.columns:
-                row.append(self.format_col(col.field, obj))
-            rows.append(row)
+            rows.append([self.format_col(col.field, obj) for col in self.columns])
         return rows
 
     def format_col(self, field, obj):
 
-        formatter = getattr(self, "get_{0}_display".format(field), None)
+        # first see if subclass has a formatter defined
+        formatter = getattr(self,field, None)
         if formatter:
-            return formatter(obj)
+            return formatter(obj) if callable(formatter) else formatter
 
-        val = getattr(obj, field)
 
-        if isinstance(val, datetime.datetime):
+        # then look on object itself
+        attr = getattr(obj, field, None)
+
+        if attr is None:
+            raise ValueError("'%s' is not a valid format specifier" % (attr))
+
+        if callable(attr):
+            return attr()
+        elif isinstance(attr, datetime.datetime):
             return formats.date_format(val, "SHORT_DATETIME_FORMAT")
-        elif isinstance(val, datetime.date):
+        elif isinstance(attr, datetime.date):
             return formats.date_format(val, "SHORT_DATE_FORMAT")
 
-        return str(val)
+        return str(attr)
 
     def set_query_params(self):
         """
