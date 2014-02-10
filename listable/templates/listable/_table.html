@@ -1,13 +1,13 @@
 <table id="listable-table" class="table table-striped table-bordered">
     <thead>
         <tr>
-            {% for header in headers %}
-            <th>{{header}}</th>
+            {% for col in columns %}
+                <th>{% if col.header %}{{col.header}}{% else %} {{col.field|title}} {%endif %}</th>
             {% endfor %}
         </tr>
         <tr>
-            {% for header in headers %}
-            <th>{{header}}</th>
+            {% for col in columns %}
+                <th>{% if col.header %}{{col.header}}{% else %} {{col.field|title}} {%endif %}</th>
             {% endfor %}
         </tr>
     </thead>
@@ -22,8 +22,8 @@
     </tbody>
     <tfoot>
         <tr>
-            {% for header in headers %}
-            <th>{{header}}</th>
+            {% for col in columns %}
+                <th>{% if col.header %}{{col.header}}{% else %} {{col.field|title}} {%endif %}</th>
             {% endfor %}
         </tr>
     </tfoot>

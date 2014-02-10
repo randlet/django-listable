@@ -12,20 +12,30 @@ from django.template.loader import get_template
 from django.utils import formats
 from django.views.generic import ListView
 
-Column = namedtuple('Column', ['field', 'filtering', 'ordering'])
 
 DT_COOKIE_NAME = "SpryMedia_DataTables"
 
 
+class Column(namedtuple('Column', ['field', 'filtering', 'ordering', 'header'])):
+    """ Named tuple with default args. See http://stackoverflow.com/a/16721002/79802 """
+
+    def __new__(cls, field, filtering=None, ordering=True, header=None):
+        return super(Column, cls).__new__(cls, field, filtering, ordering, header)
+
+
 class BaseListableView(ListView):
+
     columns = ()
     paginate_by = 50
 
     def get(self, request, *args, **kwargs):
+
         if not self.request.is_ajax():
             return super(BaseListableView, self).get(request, *args, **kwargs)
 
+        # below taken from Django list view code
         self.object_list = self.get_queryset()
+
         allow_empty = self.get_allow_empty()
 
         if not allow_empty:
@@ -46,7 +56,6 @@ class BaseListableView(ListView):
 
 
     def get_table_context_data(self):
-
         self.set_page()
 
         context = super(BaseListableView, self).get_context_data()
@@ -62,28 +71,12 @@ class BaseListableView(ListView):
         return context
 
     def get_context_data(self, *args, **kwargs):
-
         context = super(BaseListableView, self).get_context_data(*args, **kwargs)
         template = get_template("listable/_table.html")
 
-        tmpl_context = Context({ 'headers':self.headers(), })
+        tmpl_context = Context({'columns':self.columns,})
         context['listable_table'] = template.render(tmpl_context)
         return context
-
-    def headers(self):
-        if not self.columns:
-            raise ValueError("Columns not set on Listable view")
-
-        headers = []
-        for col in self.columns:
-            attr_name = "%s_column_name" % col.field
-            if hasattr(self, attr_name):
-                header = getattr(self, attr_name)()
-            else:
-                header = col.field.title()
-            headers.append(header)
-
-        return headers
 
     def set_page(self):
         offset = int(self.search_filters.get("iDisplayStart", 0))
@@ -142,7 +135,7 @@ class BaseListableView(ListView):
         n_orderings = int(self.search_filters.get("iSortingCols", 0))
 
         if n_orderings == 0:
-            return
+            return qs
 
         # determine fields and direction to sort
         order_cols = []
