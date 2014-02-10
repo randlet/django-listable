@@ -1,7 +1,7 @@
 # Create your views here.
 from django.views.generic import View
 from django.http import Http404
-from listable.views  import BaseListableView, Column
+from listable.views  import BaseListableView, Column, SELECT
 
 from . import models
 
@@ -15,21 +15,29 @@ class StaffList(BaseListableView):
             ordering=True,
             filtering=False
         ),
+
+        Column(
+            field="first_name",
+            ordering="first_name",
+            filtering="first_name",
+        ),
         Column(
             field="name",
             ordering="last_name",
-            filtering=True
+            filtering="last_name",
+            widget=SELECT,
         ),
         Column(
             field="department",
             ordering="department__name",
-            filtering=True
+            filtering="department__name",
+            widget=SELECT,
         ),
         Column(
             header="Position Name",
             field="position",
             ordering="position__name",
-            filtering=True
+            filtering="position__name",
         ),
         Column(
             header="Business Name",
