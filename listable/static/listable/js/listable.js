@@ -8,7 +8,7 @@ $(Listable.tableId).dataTable({
     sAjaxSource: Listable.url,
     bAutoWidth: Listable.autoWidth,
     fnAdjustColumnSizing:true,
-    aoColumnDefs:Listable.columnDefs,
+    aoColumns:Listable.columnDefs,
     bFilter:true,
     sDom:Listable.DOM
 }).columnFilter({

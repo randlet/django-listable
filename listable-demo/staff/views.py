@@ -12,7 +12,7 @@ class StaffList(BaseListableView):
     columns = (
         Column(
             field="id",
-            ordering=True,
+            ordering=False,
             filtering=False
         ),
         Column(

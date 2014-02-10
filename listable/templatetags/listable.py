@@ -31,9 +31,13 @@ def listable(view_name, save_state=False):
     mdl = cls.model
 
     column_defs = []
-
     column_filter_defs = []
     for column in cls.columns:
+
+        #colum ordering
+        column_defs.append({"bSortable":False} if not column.ordering else None)
+
+        # column filters
         if isinstance(column.filtering, basestring) and column.widget==SELECT:
 
             if "__" in column.filtering:
