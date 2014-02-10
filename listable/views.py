@@ -29,6 +29,10 @@ class BaseListableView(ListView):
     paginate_by = 50
 
     def get(self, request, *args, **kwargs):
+        """
+        return regular list view on page load and then json data on
+        datatables ajax request.
+        """
 
         if not self.request.is_ajax():
             return super(BaseListableView, self).get(request, *args, **kwargs)
@@ -56,6 +60,7 @@ class BaseListableView(ListView):
 
 
     def get_table_context_data(self):
+        """ Context data for datatables ajax request """
         self.set_page()
 
         context = super(BaseListableView, self).get_context_data()
@@ -71,22 +76,24 @@ class BaseListableView(ListView):
         return context
 
     def get_context_data(self, *args, **kwargs):
+        """ Context data for full page request """
         context = super(BaseListableView, self).get_context_data(*args, **kwargs)
         template = get_template("listable/_table.html")
-
-        tmpl_context = Context({'columns':self.columns,})
-        context['listable_table'] = template.render(tmpl_context)
+        context['listable_table'] = template.render(Context({'columns':self.columns,}))
         return context
 
     def set_page(self):
+        """ Set page requested by DataTables """
         offset = int(self.search_filters.get("iDisplayStart", 0))
         page_size = self.get_paginate_by(self.object_list)
         self.kwargs[self.page_kwarg] = offset/page_size + 1
 
     def get_paginate_by(self, queryset):
+        """ Get page size requested by DataTables if available else default value"""
         return int(self.search_filters.get("iDisplayLength", self.paginate_by))
 
     def get_queryset(self):
+        """ filter and order queryset based on DataTables parameters """
         qs = super(BaseListableView, self).get_queryset()
         self.set_query_params()
         qs = self.filter_queryset(qs)
@@ -94,9 +101,8 @@ class BaseListableView(ListView):
         return qs
 
     def filter_queryset(self, qs):
-        """
-        filter the input queryset according to column definitions.
-        """
+        """ filter the input queryset according to column definitions.  """
+
         filter_queries = []
 
         for col_num, column in enumerate(self.columns):
