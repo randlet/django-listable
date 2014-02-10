@@ -10,11 +10,33 @@ class StaffList(BaseListableView):
     model = models.Staff
 
     columns = (
-        Column(field="id", ordering=True, filtering=False),
-        Column(field="name", ordering="last_name", filtering=True),
-        Column(field="department", ordering="department__name", filtering=True),
-        Column(field="position", ordering="position__name", filtering=True),
-        Column(field="business", ordering="department__business__name", filtering=True),
+        Column(
+            field="id",
+            ordering=True,
+            filtering=False
+        ),
+        Column(
+            field="name",
+            ordering="last_name",
+            filtering=True
+        ),
+        Column(
+            field="department",
+            ordering="department__name",
+            filtering=True
+        ),
+        Column(
+            header="Position Name",
+            field="position",
+            ordering="position__name",
+            filtering=True
+        ),
+        Column(
+            header="Business Name",
+            field="business",
+            ordering="department__business__name",
+            filtering=True
+        ),
     )
 
     def name(self, staff):
