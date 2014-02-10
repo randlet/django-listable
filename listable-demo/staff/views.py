@@ -13,8 +13,8 @@ class StaffList(BaseListableView):
         Column(field="id", ordering=True, filtering=False),
         Column(field="name", ordering="last_name", filtering=True),
         Column(field="department", ordering="department__name", filtering=True),
-        Column(field="columns", ordering="department__name", filtering=True),
-        Column(field="business", ordering="department__name", filtering=True),
+        Column(field="position", ordering="position__name", filtering=True),
+        Column(field="business", ordering="department__business__name", filtering=True),
     )
 
     def name(self, staff):
