@@ -15,7 +15,6 @@ class StaffList(BaseListableView):
             ordering=True,
             filtering=False
         ),
-
         Column(
             field="first_name",
             ordering="first_name",
