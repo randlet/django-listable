@@ -14,6 +14,9 @@ from django.views.generic import ListView
 
 Column = namedtuple('Column', ['field', 'filtering', 'ordering'])
 
+DT_COOKIE_NAME = "SpryMedia_DataTables"
+
+
 class BaseListableView(ListView):
     columns = ()
     paginate_by = 50
@@ -98,10 +101,76 @@ class BaseListableView(ListView):
         return qs
 
     def filter_queryset(self, qs):
-        return qs
+        """
+        filter the input queryset according to column definitions.
+        """
+        filter_queries = []
+
+        for col_num, column in enumerate(self.columns):
+
+            search_term = self.search_filters.get("sSearch_%d" % col_num, None)
+
+            if column.filtering and search_term:
+
+                lookup = "%s__%s" % (column.field, column.lookup)
+
+                if not isinstance(column.filtering, basestring):
+                    #handle case where we are filtering on a Generic Foreign Key field
+                    f = Q()
+                    for s, ct in column.lookup:
+                        f |= Q(**{s: search_term, "content_type": ct})
+                else:
+                    f = Q(**{lookup: search_term})
+
+                filter_queries.append(f)
+        return qs.filter(*filter_queries)
 
     def order_queryset(self, qs):
-        return qs
+        """
+        Order the input queryset according to column definitions.
+
+        Column ordering definitions can either be a truthy/falsy value, a
+        single string or an iterable of strings.  Orderings are in the
+        same form as Django model orderings.
+
+        For example:
+            Column(field="id", ordering=True/False, ...) <-- Set to False to disable ordering
+            Column(field="name", ordering=("last_name", "first_name", ), ...)
+            Column(field="last_name", ordering="last_name", ...)
+        """
+
+        n_orderings = int(self.search_filters.get("iSortingCols", 0))
+
+        if n_orderings == 0:
+            return
+
+        # determine fields and direction to sort
+        order_cols = []
+        for x in range(n_orderings):
+            col = int(self.search_filters.get("iSortCol_%d" % x))
+            direction = "" if self.search_filters.get("sSortDir_%d" % x, "asc") == "asc" else "-"
+            order_cols.append((col, direction))
+
+        orderings = []
+        for colnum, direction in order_cols:
+            col = self.columns[colnum]
+
+            if col.ordering:
+
+                if isinstance(col.ordering, basestring):
+                    #eg Column(field="id", ordering="last_name",, ...)
+                    orderings.append("%s%s" % (direction, col.ordering))
+                else:
+                    try:
+                        #eg Column(field="id", ordering=("last_name","first_name", ), ...)
+                        for o in col.ordering:
+                            orderings.append("%s%s" % (direction, o))
+                    except:
+                        if col.ordering:
+                            #eg Column(field="id", ordering=True, ...)
+                            orderings.append("%s%s" % (direction, col.field))
+
+        return qs.order_by(*orderings)
 
     def get_rows(self, objects):
         rows = []
@@ -134,43 +203,53 @@ class BaseListableView(ListView):
 
     def set_query_params(self):
         """
-        Create a search and filter context, overridng any cookie values
+        Create a search and order context, overridng any cookie values
         with request values.  This is required when "Sticky" DataTables filters
         are used.
         """
 
-        self.search_filters = self.get_cookie_filters()
+        self.search_filters = self.cookie_params()
 
+        # overide any cookie parameters with GET parameters
         self.search_filters.update(self.request.GET.dict())
 
-    def get_cookie_filters(self):
+    def cookie_params(self):
+        """return search and ordering parameters from DataTables cookie """
 
-        filters = {}
-        dt_cookie = None
+        params = {}
 
-        for k, v in self.request.COOKIES.items():
-            if k.startswith("SpryMedia_DataTables"):
-                dt_cookie = v
-                break
+        dt_cookie_params = self.dt_cookie()
+        if dt_cookie_params is None:
+            return params
 
-        if dt_cookie is None:
-            return filters
-
-        cookie_filters = json.loads(urllib.unquote(v))
-
-        for idx, search in enumerate(cookie_filters["aoSearchCols"]):
+        # add search queries
+        for idx, search in enumerate(dt_cookie_params["aoSearchCols"]):
             for k, v in search.items():
-                filters["%s_%d" % (k, idx)] = v
+                params["%s_%d" % (k, idx)] = v
 
-        filters["iSortingCols"] = 0
-        for idx, (col, dir_, _) in enumerate(cookie_filters["aaSorting"]):
-            filters["iSortCol_%d" % (idx)] = col
-            filters["sSortDir_%d" % (idx)] = dir_
-            filters["iSortingCols"] += 1
+        # columns to sort on
+        params["iSortingCols"] = 0  #  tally of number of colums to sort on
 
-        filters["iDisplayLength"] = cookie_filters["iLength"]
-        filters["iDisplayStart"] = cookie_filters["iStart"]
-        filters["iDisplayEnd"] = cookie_filters["iEnd"]
+        for idx, (col, dir_, _) in enumerate(dt_cookier_params["aaSorting"]):
+            params["iSortCol_%d" % (idx)] = col
+            params["sSortDir_%d" % (idx)] = dir_
+            params["iSortingCols"] += 1
+
+        params["iDisplayLength"] = dt_cookier_params["iLength"]
+        params["iDisplayStart"] = dt_cookier_params["iStart"]
+        params["iDisplayEnd"] = dt_cookier_params["iEnd"]
 
         return filters
+
+    def dt_cookie(self):
+        """return raw data tables cookie as dict"""
+
+        cookie_dt_params = None
+
+        for k, v in self.request.COOKIES.items():
+            if k.startswith(DT_COOKIE_NAME):
+                cookie_dt_params = json.loads(urllib.unquote(v))
+
+        return cookie_dt_params
+
 
