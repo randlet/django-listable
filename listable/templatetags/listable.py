@@ -56,7 +56,7 @@ def listable(view_name, save_state=False):
 
     opts = {
         "tableId":"#listable-table",
-        "sPaginationType":settings.LISTABLE_PAGINATION_TYPE,
+        "paginationType":settings.LISTABLE_PAGINATION_TYPE,
         "stateSave":settings.LISTABLE_STATE_SAVE,
         "url": reverse(view_name),
         "bProcessing":True,
