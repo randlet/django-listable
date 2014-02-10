@@ -246,16 +246,16 @@ class BaseListableView(ListView):
         # columns to sort on
         params["iSortingCols"] = 0  #  tally of number of colums to sort on
 
-        for idx, (col, dir_, _) in enumerate(dt_cookier_params["aaSorting"]):
+        for idx, (col, dir_, _) in enumerate(dt_cookie_params["aaSorting"]):
             params["iSortCol_%d" % (idx)] = col
             params["sSortDir_%d" % (idx)] = dir_
             params["iSortingCols"] += 1
 
-        params["iDisplayLength"] = dt_cookier_params["iLength"]
-        params["iDisplayStart"] = dt_cookier_params["iStart"]
-        params["iDisplayEnd"] = dt_cookier_params["iEnd"]
+        params["iDisplayLength"] = dt_cookie_params["iLength"]
+        params["iDisplayStart"] = dt_cookie_params["iStart"]
+        params["iDisplayEnd"] = dt_cookie_params["iEnd"]
 
-        return filters
+        return params
 
     def dt_cookie(self):
         """return raw data tables cookie as dict"""

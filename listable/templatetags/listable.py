@@ -24,7 +24,7 @@ def values_to_dt(values):
 
 
 @register.simple_tag
-def listable(view_name):
+def listable(view_name, save_state=False):
 
     cls = utils.class_for_view_name(view_name)
     mdl = cls.model
@@ -52,7 +52,9 @@ def listable(view_name):
     opts = {
         "tableId":"#listable-table",
         "sPaginationType":"bootstrap",
+        "saveState":save_state,
         "url": reverse(view_name),
+        "bProcessing":True,
         "autoWidth":True,
         "DOM": '<"row"<"col-sm-6"ir><"col-sm-6"p>>t<"row-fluid"<"col-sm-12"lp>>',
         "columnDefs":column_defs,

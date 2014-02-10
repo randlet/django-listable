@@ -1,9 +1,10 @@
 $(Listable.tableId).dataTable({
-    bSaveState:Listable.saveState,
+    bStateSave:Listable.saveState,
     bPaginate: true,
     sPaginationType:Listable.paginationType,
     bProcessing: true,
     bServerSide: true,
+    bStateSave: Listable.saveState,
     sAjaxSource: Listable.url,
     bAutoWidth: Listable.autoWidth,
     fnAdjustColumnSizing:true,
