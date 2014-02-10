@@ -1,5 +1,5 @@
 $(Listable.tableId).dataTable({
-    bStateSave:Listable.saveState,
+    bStateSave:Listable.stateSave,
     bPaginate: true,
     sPaginationType:Listable.paginationType,
     bProcessing: true,

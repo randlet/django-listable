@@ -6,6 +6,7 @@ from django.templatetags.static import static
 
 from .. import utils
 from .. views import SELECT
+from .. import settings
 
 register = template.Library()
 
@@ -51,12 +52,12 @@ def listable(view_name, save_state=False):
 
     opts = {
         "tableId":"#listable-table",
-        "sPaginationType":"bootstrap",
-        "saveState":save_state,
+        "sPaginationType":settings.LISTABLE_PAGINATION_TYPE,
+        "stateSave":settings.LISTABLE_STATE_SAVE,
         "url": reverse(view_name),
         "bProcessing":True,
         "autoWidth":True,
-        "DOM": '<"row"<"col-sm-6"ir><"col-sm-6"p>>t<"row-fluid"<"col-sm-12"lp>>',
+        "DOM": settings.LISTABLE_DOM,
         "columnDefs":column_defs,
         "columnFilterDefs":column_filter_defs,
     }

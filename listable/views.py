@@ -13,6 +13,7 @@ from django.utils import formats
 from django.views.generic import ListView
 
 from . import utils
+from . import settings as li_settings
 
 
 DT_COOKIE_NAME = "SpryMedia_DataTables"
@@ -29,7 +30,7 @@ class Column(namedtuple('Column', ['field', 'filtering','widget', 'ordering', 'h
 class BaseListableView(ListView):
 
     columns = ()
-    paginate_by = 50
+    paginate_by = li_settings.LISTABLE_PAGINATE_BY
 
     def get(self, request, *args, **kwargs):
         """
@@ -84,7 +85,6 @@ class BaseListableView(ListView):
         template = get_template("listable/_table.html")
         context['listable_table'] = template.render(Context({'columns':self.columns,}))
         context['columns'] = self.columns
-
         return context
 
     def set_page(self):
