@@ -4,6 +4,9 @@ from django import template
 from django.core.urlresolvers import reverse
 from django.templatetags.static import static
 
+from .. import utils
+from .. views import SELECT
+
 register = template.Library()
 
 
@@ -15,16 +18,45 @@ def listable_css():
     ])
 
 
+
+def values_to_dt(values):
+    return [{"value":str(x[0]), "label":x[1]} for x in utils.unique(values)]
+
+
 @register.simple_tag
-def listable(url):
+def listable(view_name):
+
+    cls = utils.class_for_view_name(view_name)
+    mdl = cls.model
+
+    column_defs = []
+
+    column_filter_defs = []
+    for column in cls.columns:
+        if isinstance(column.filtering, basestring) and column.widget==SELECT:
+
+            if "__" in column.filtering:
+                # foreign key select widget (select by pk)
+                filtering = "%s__pk" % utils.column_filter_model(column)
+            else:
+                # local field select widget
+                filtering = column.filtering
+
+            values = values_to_dt(cls.model.objects.values_list(filtering, column.filtering).order_by(column.filtering))
+            column_filter_defs.append({"type":"select", "values":values})
+        elif column.filtering:
+            column_filter_defs.append({"type":"text"})
+        else:
+            column_filter_defs.append(None)
+
     opts = {
         "tableId":"#listable-table",
-        "paginationType":"bootstrap",
-        "url":reverse(url),
+        "sPaginationType":"bootstrap",
+        "url": reverse(view_name),
         "autoWidth":True,
-        "DOM": '<"row-fluid"<"span6"ir><"span6"p>>t<"row-fluid"<"span12"lp>>',
-        "columnDefs":[],
-        "columnFilterDefs":[],
+        "DOM": '<"row"<"col-sm-6"ir><"col-sm-6"p>>t<"row-fluid"<"col-sm-12"lp>>',
+        "columnDefs":column_defs,
+        "columnFilterDefs":column_filter_defs,
     }
     scripts = [
         '<script type="text/javascript">var Listable = %s;</script>' % (json.dumps(opts), ),

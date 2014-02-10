@@ -12,15 +12,18 @@ from django.template.loader import get_template
 from django.utils import formats
 from django.views.generic import ListView
 
+from . import utils
+
 
 DT_COOKIE_NAME = "SpryMedia_DataTables"
+TEXT = "text"
+SELECT = "select"
 
-
-class Column(namedtuple('Column', ['field', 'filtering', 'ordering', 'header'])):
+class Column(namedtuple('Column', ['field', 'filtering','widget', 'ordering', 'header'])):
     """ Named tuple with default args. See http://stackoverflow.com/a/16721002/79802 """
 
-    def __new__(cls, field, filtering=None, ordering=True, header=None):
-        return super(Column, cls).__new__(cls, field, filtering, ordering, header)
+    def __new__(cls, field, filtering=None, widget=TEXT, ordering=True, header=None):
+        return super(Column, cls).__new__(cls, field, filtering, widget, ordering, header)
 
 
 class BaseListableView(ListView):
@@ -80,6 +83,8 @@ class BaseListableView(ListView):
         context = super(BaseListableView, self).get_context_data(*args, **kwargs)
         template = get_template("listable/_table.html")
         context['listable_table'] = template.render(Context({'columns':self.columns,}))
+        context['columns'] = self.columns
+
         return context
 
     def set_page(self):
@@ -111,18 +116,30 @@ class BaseListableView(ListView):
 
             if column.filtering and search_term:
 
-                lookup = "%s__%s" % (column.field, column.lookup)
+                if isinstance(column.filtering, basestring) and column.widget == SELECT:
+                    if "__" in column.filtering:
+                        # foreign key select widget (select by pk)
+                        model = utils.column_filter_model(column)
+                        qs = qs.filter(Q(**{model: search_term}))
+                    else:
+                        # local field select widget
+                        qs = qs.filter(Q(**{column.filtering: search_term}))
 
-                if not isinstance(column.filtering, basestring):
-                    #handle case where we are filtering on a Generic Foreign Key field
-                    f = Q()
-                    for s, ct in column.lookup:
-                        f |= Q(**{s: search_term, "content_type": ct})
+                elif isinstance(column.filtering, basestring):
+                    filtering = "%s__icontains" % (column.filtering,)
+                    qs = qs.filter(Q(**{filtering: search_term}))
                 else:
-                    f = Q(**{lookup: search_term})
+                    try:
+                        #handle case where we are filtering on a Generic Foreign Key field
+                        f = Q()
+                        for s, ct in column.filtering:
+                            f |= Q(**{s: search_term, "content_type": ct})
+                        qs = qs.filter(f)
+                    except TypeError:
+                        filtering = "%s__icontains" % (column.field,)
+                        qs = qs.filter(Q(**{filtering: search_term}))
 
-                filter_queries.append(f)
-        return qs.filter(*filter_queries)
+        return qs
 
     def order_queryset(self, qs):
         """
