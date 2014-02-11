@@ -203,10 +203,10 @@ class BaseListableView(ListView):
 
 
         # then look on object itself
-        attr = getattr(obj, field, None)
-
-        if attr is None:
-            raise ValueError("'%s' is not a valid format specifier" % (attr))
+        try:
+            attr = getattr(obj, field)
+        except AttributeError:
+            raise AttributeError("'%s' is not a valid format specifier" % (field))
 
         if callable(attr):
             return attr()
