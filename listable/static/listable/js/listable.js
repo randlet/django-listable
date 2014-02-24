@@ -1,4 +1,6 @@
-$(Listable.tableId).dataTable({
+$(Listable.tableId).addClass(
+    Listable.cssTableClass
+).dataTable({
     bStateSave:Listable.stateSave,
     bPaginate: true,
     sPaginationType:Listable.paginationType,
@@ -15,4 +17,6 @@ $(Listable.tableId).dataTable({
     sPlaceHolder: "head:after",
     aoColumns: Listable.columnFilterDefs,
     iFilteringDelay:250
-});
+}).find("input, select").addClass(
+    Listable.cssInputClass
+);

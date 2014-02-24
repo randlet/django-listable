@@ -24,8 +24,12 @@ def values_to_dt(values):
     return [{"value":str(x[0]), "label":x[1]} for x in utils.unique(values)]
 
 
+@register.filter(name="header")
+def header(value):
+    return value.title().replace("__"," ").replace("_", " ")
+
 @register.simple_tag
-def listable(view_name, save_state=False):
+def listable(view_name, save_state=False, css_table_class="", css_input_class=""):
 
     cls = utils.class_for_view_name(view_name)
     mdl = cls.model
@@ -64,6 +68,8 @@ def listable(view_name, save_state=False):
         "DOM": settings.LISTABLE_DOM,
         "columnDefs":column_defs,
         "columnFilterDefs":column_filter_defs,
+        "cssTableClass":css_table_class,
+        "cssInputClass":css_input_class,
     }
     scripts = [
         '<script type="text/javascript">var Listable = %s;</script>' % (json.dumps(opts), ),

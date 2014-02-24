@@ -1,13 +1,14 @@
+{% load listable %}
 <table id="listable-table" class="table table-striped table-bordered">
     <thead>
         <tr>
             {% for col in columns %}
-                <th>{% if col.header %}{{col.header}}{% else %} {{col.field|title}} {%endif %}</th>
+                <th>{% if col.header %}{{col.header}}{% else %} {{col.field|header}} {%endif %}</th>
             {% endfor %}
         </tr>
         <tr>
             {% for col in columns %}
-                <th>{% if col.header %}{{col.header}}{% else %} {{col.field|title}} {%endif %}</th>
+                <th>{% if col.header %}{{col.header}}{% else %} {{col.field|header}} {%endif %}</th>
             {% endfor %}
         </tr>
     </thead>
