@@ -9,7 +9,6 @@ $(Listable.tableId).addClass(
     bStateSave: Listable.saveState,
     sAjaxSource: Listable.url,
     bAutoWidth: Listable.autoWidth,
-    fnAdjustColumnSizing:true,
     aoColumns:Listable.columnDefs,
     bFilter:true,
     sDom:Listable.DOM
