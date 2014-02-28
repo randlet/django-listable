@@ -12,7 +12,12 @@ def class_for_view_name(view_name):
     """ return View class for input view_name
     see http://stackoverflow.com/a/21313506/79802
     """
-    view_func = resolve(reverse(view_name)).func
+
+    reverse_ = reverse(view_name, prefix="")
+    if reverse_ and reverse_[0] != "/":
+        reverse_ = "/%s" % reverse_
+
+    view_func = resolve(reverse_).func
     module = importlib.import_module(view_func.__module__)
     return getattr(module, view_func.__name__)
 
