@@ -49,7 +49,7 @@ class StaffList(BaseListableView):
             header="Generic Content",
             field="generic_object",
             ordering="generic_object__name",
-            filtering=True
+            filtering=(("staff.GenericModelA" ,"name"), ("staff.GenericModelB", "name"),)
         ),
     )
 

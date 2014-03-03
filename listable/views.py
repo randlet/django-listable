@@ -5,7 +5,9 @@ import urllib
 from collections import namedtuple
 
 from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
+from django.db.models.loading import get_model
 from django.http import HttpResponse
 from django.template import Context
 from django.template.loader import get_template
@@ -132,8 +134,10 @@ class BaseListableView(ListView):
                     try:
                         #handle case where we are filtering on a Generic Foreign Key field
                         f = Q()
-                        for s, ct in column.filtering:
-                            f |= Q(**{s: search_term, "content_type": ct})
+                        for ct, s in column.filtering:
+                            model = get_model(*ct.split('.'))
+                            ctype = ContentType.objects.get_for_model(model)
+                            f |= Q(**{"%s__%s__icontains"%(ctype.model,s):search_term, "content_type": ct})
                         qs = qs.filter(f)
                     except TypeError:
                         filtering = "%s__icontains" % (column.field,)
