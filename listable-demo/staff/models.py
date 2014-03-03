@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
 from django.utils.formats import localize
 
@@ -22,6 +24,8 @@ class Business(models.Model):
 
     name = models.CharField(max_length=255)
 
+    class Meta:
+        verbose_name_plural = "Business's"
     def __unicode__(self):
         return self.name
 
@@ -43,6 +47,28 @@ class Position(models.Model):
         return self.name
 
 
+class GenericModelA(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+
+    class Meta:
+        verbose_name_plural = "Generic Model A's"
+
+    def __unicode__(self):
+        return self.name
+
+
+class GenericModelB(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+
+    class Meta:
+        verbose_name_plural = "Generic Model B's"
+
+    def __unicode__(self):
+        return self.name
+
+
 class Staff(models.Model):
 
     first_name = models.CharField(max_length=255, help_text=_("Enter the name of the staff being rounded"))
@@ -51,6 +77,11 @@ class Staff(models.Model):
 
     position = models.ForeignKey(Position)
     department = models.ForeignKey(Department)
+
+    limit = models.Q(app_label='staff', model='genericmodela') | models.Q(app_label='staff', model='genericmodelb')
+    content_type = models.ForeignKey(ContentType, limit_choices_to=limit)
+    object_id = models.PositiveIntegerField()
+    generic_object = generic.GenericForeignKey("content_type", "object_id")
 
     class Meta:
         verbose_name_plural = "staff"

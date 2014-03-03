@@ -44,6 +44,13 @@ class StaffList(BaseListableView):
             ordering="department__business__name",
             filtering=True
         ),
+
+        Column(
+            header="Generic Content",
+            field="generic_object",
+            ordering="generic_object__name",
+            filtering=True
+        ),
     )
 
     def name(self, staff):
