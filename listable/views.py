@@ -5,7 +5,9 @@ import urllib
 from collections import namedtuple
 
 from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
+from django.db.models.loading import get_model
 from django.http import HttpResponse
 from django.template import Context
 from django.template.loader import get_template
@@ -59,15 +61,15 @@ class BaseListableView(ListView):
                 raise Http404(_("Empty list and '%(class_name)s.allow_empty' is False.")
                         % {'class_name': self.__class__.__name__})
 
-        context = self.get_table_context_data()
+        context = self.get_table_context_data(object_list=self.object_list)
         return HttpResponse(json.dumps(context), content_type='application/json')
 
 
-    def get_table_context_data(self):
+    def get_table_context_data(self, **kwargs):
         """ Context data for datatables ajax request """
         self.set_page()
 
-        context = super(BaseListableView, self).get_context_data()
+        context = super(BaseListableView, self).get_context_data(**kwargs)
 
         object_list = context["object_list"]
 
@@ -91,7 +93,8 @@ class BaseListableView(ListView):
         """ Set page requested by DataTables """
         offset = int(self.search_filters.get("iDisplayStart", 0))
         page_size = self.get_paginate_by(self.object_list)
-        self.kwargs[self.page_kwarg] = offset/page_size + 1
+        page_kwarg = getattr(self, "page_kwarg", "page")
+        self.kwargs[page_kwarg] = offset/page_size + 1
 
     def get_paginate_by(self, queryset):
         """ Get page size requested by DataTables if available else default value"""
@@ -132,8 +135,10 @@ class BaseListableView(ListView):
                     try:
                         #handle case where we are filtering on a Generic Foreign Key field
                         f = Q()
-                        for s, ct in column.filtering:
-                            f |= Q(**{s: search_term, "content_type": ct})
+                        for ct, s in column.filtering:
+                            model = get_model(*ct.split('.'))
+                            ctype = ContentType.objects.get_for_model(model)
+                            f |= Q(**{"%s__%s__icontains"%(ctype.model,s):search_term, "content_type": ctype})
                         qs = qs.filter(f)
                     except TypeError:
                         filtering = "%s__icontains" % (column.field,)

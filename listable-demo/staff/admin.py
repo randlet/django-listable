@@ -15,4 +15,4 @@ class StaffAdmin(admin.ModelAdmin):
 
 
 admin.site.register([models.Staff], StaffAdmin)
-admin.site.register([models.Department, models.Position, models.Business],admin.ModelAdmin)
+admin.site.register([models.Department, models.Position, models.Business, models.GenericModelA, models.GenericModelB],admin.ModelAdmin)
