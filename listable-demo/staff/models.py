@@ -1,11 +1,9 @@
 from django.db import models
-from django.contrib.auth import get_user_model
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
 from django.utils.formats import localize
 
-User = get_user_model()
 
 ACTIVE = 'active'
 INACTIVE = 'inactive'
@@ -47,9 +45,22 @@ class Position(models.Model):
         return self.name
 
 
-class GenericModelA(models.Model):
+class AbstractGeneric(models.Model):
+
     name = models.CharField(max_length=255)
     description = models.TextField()
+
+    staff = generic.GenericRelation(
+        "Staff",
+        content_type_field="content_type",
+        object_id_field="object_id",
+    )
+
+    class Meta:
+        abstract=True
+
+
+class GenericModelA(AbstractGeneric):
 
     class Meta:
         verbose_name_plural = "Generic Model A's"
@@ -58,9 +69,7 @@ class GenericModelA(models.Model):
         return self.name
 
 
-class GenericModelB(models.Model):
-    name = models.CharField(max_length=255)
-    description = models.TextField()
+class GenericModelB(AbstractGeneric):
 
     class Meta:
         verbose_name_plural = "Generic Model B's"
