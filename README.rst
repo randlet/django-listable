@@ -26,7 +26,7 @@ The idea is that you should easily be able to go from a model like this::
 
 to a filterable/orderable table in a template like this with as little code as possible:
 
-.. image:: _static/staff_table.png
+.. image:: docs/_static/staff_table.png
 
 There are a couple of other similar projects worth checking out to see if they fit your
 needs better:
