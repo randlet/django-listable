@@ -4,9 +4,8 @@ Installation
 
 At the command line::
 
-    $ easy_install djangoeasytables
+    $ easy_install django-listable
 
-Or, if you have virtualenvwrapper installed::
+Or, if you have virtualenv installed::
 
-    $ mkvirtualenv djangoeasytables
-    $ pip install djangoeasytables
+    $ pip install django-listable
