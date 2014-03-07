@@ -25,7 +25,7 @@ SELECT = "select"
 class Column(namedtuple('Column', ['field', 'filtering','widget', 'ordering', 'header'])):
     """ Named tuple with default args. See http://stackoverflow.com/a/16721002/79802 """
 
-    def __new__(cls, field, filtering=None, widget=TEXT, ordering=True, header=None):
+    def __new__(cls, field, filtering=True, widget=TEXT, ordering=True, header=None):
         return super(Column, cls).__new__(cls, field, filtering, widget, ordering, header)
 
 
