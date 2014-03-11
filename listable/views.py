@@ -219,6 +219,8 @@ class BaseListableView(ListView):
             return formats.date_format(attr, "SHORT_DATETIME_FORMAT")
         elif isinstance(attr, datetime.date):
             return formats.date_format(attr, "SHORT_DATE_FORMAT")
+        elif attr is None:
+            return ""
 
         return str(attr)
 
