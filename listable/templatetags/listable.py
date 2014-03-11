@@ -43,7 +43,7 @@ def listable(view_name, save_state=False, css_table_class="", css_input_class=""
 
         # column filters
         if column.widget==SELECT:
-            import ipdb; ipdb.set_trace()
+
             if isinstance(column.filtering, basestring) and "__" in column.filtering:
                 # foreign key select widget (select by pk)
                 filtering_k = "%s__pk" % utils.column_filter_model(column)
