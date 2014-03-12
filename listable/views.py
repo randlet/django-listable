@@ -22,6 +22,7 @@ DT_COOKIE_NAME = "SpryMedia_DataTables"
 TEXT = "text"
 SELECT = "select"
 
+
 class Column(namedtuple('Column', ['field', 'filtering','widget', 'ordering', 'header'])):
     """ Named tuple with default args. See http://stackoverflow.com/a/16721002/79802 """
 

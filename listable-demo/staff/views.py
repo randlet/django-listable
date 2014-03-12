@@ -44,7 +44,6 @@ class StaffList(BaseListableView):
             ordering="department__business__name",
             filtering=True
         ),
-
         Column(
             header="Generic Content",
             field="generic_object",
