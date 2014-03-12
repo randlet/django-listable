@@ -42,16 +42,21 @@ def listable(view_name, save_state=False, css_table_class="", css_input_class=""
         column_defs.append({"bSortable":False} if not column.ordering else None)
 
         # column filters
-        if isinstance(column.filtering, basestring) and column.widget==SELECT:
+        if column.widget==SELECT:
 
-            if "__" in column.filtering:
+            if isinstance(column.filtering, basestring) and "__" in column.filtering:
                 # foreign key select widget (select by pk)
-                filtering = "%s__pk" % utils.column_filter_model(column)
-            else:
+                filtering_k = "%s__pk" % utils.column_filter_model(column)
+                filtering_v = column.filtering
+            elif column.field in [field.name for field in mdl._meta.fields]:
                 # local field select widget
-                filtering = column.filtering
+                filtering_k = column.field
+                filtering_v = column.field
+            else:
+                filtering_k = column.filtering
+                filtering_v = column.filtering
 
-            values = values_to_dt(cls.model.objects.values_list(filtering, column.filtering).order_by(column.filtering))
+            values = values_to_dt(cls.model.objects.values_list(filtering_k, filtering_v).order_by(filtering_v))
             column_filter_defs.append({"type":"select", "values":values})
         elif column.filtering:
             column_filter_defs.append({"type":"text"})

@@ -2,11 +2,10 @@
 Usage
 ========
 
-There's five steps to using django-listable
+There's four steps to using django-listable
 
 [*] Including `listable` in your settings.INSTALLED_APPS
 [*] Create a view by subclassing listable.views.BaseListableView
-[*] Define some columns on the view using listable.views.Column
 [*] Connect the view to a url pattern in your apps urls.py
 [*] Include the `listable` template tag in a template
 
@@ -78,11 +77,11 @@ and set the model that is to be used as the source of data::
         ...
 
 Defining Columns for your view
-------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Every `listable` view must define one or more columns to be displayed in the table.
 A `listable` column is defined using the `listable.views.Column` data structure.
-A `Column` is essentially a namedtuple with the following fields:
+A `Column` is essentially a namedtuple with the following fields (detailed descriptions below):
 
 *field*
   The model field name for the column(this can also be a `virtual` field name described below)
@@ -113,17 +112,8 @@ A full example of a `listable` view is shown below::
                 ordering=False,
                 filtering=False
             ),
-            Column(
-                field="first_name",
-                ordering="first_name",
-                filtering="first_name",
-            ),
-            Column(
-                field="name",
-                ordering="last_name",
-                filtering="last_name",
-                widget=SELECT,
-            ),
+            Column(field="first_name"),
+            Column(field="name", ordering="last_name", widget=SELECT),
             Column(
                 field="department",
                 ordering="department__name",
