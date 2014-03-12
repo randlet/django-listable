@@ -10,6 +10,14 @@ from .. import settings
 
 register = template.Library()
 
+LISTABLE_SCRIPTS = [
+    '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.js'),
+    '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.columnFilter.js'),
+    '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.searchPlugins.js'),
+    '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.bootstrap.js'),
+    '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.sort.js'),
+    '<script src="%s" type="text/javascript"></script>' % static('listable/js/listable.js'),
+]
 
 @register.simple_tag
 def listable_css():
@@ -17,6 +25,10 @@ def listable_css():
         '<link href="%s" rel="stylesheet">'% (static('listable/css/jquery.dataTables.css')),
         '<link href="%s" rel="stylesheet">'% (static('listable/css/jquery.dataTables.bootstrap.css'))
     ])
+
+@register.simple_tag
+def listable_js():
+    return '\n'.join(LISTABLE_SCRIPTS)
 
 
 
@@ -78,13 +90,9 @@ def listable(view_name, save_state=False, css_table_class="", css_input_class=""
     }
     scripts = [
         '<script type="text/javascript">var Listable = %s;</script>' % (json.dumps(opts), ),
-        '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.js'),
-        '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.columnFilter.js'),
-        '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.searchPlugins.js'),
-        '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.bootstrap.js'),
-        '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.sort.js'),
-        '<script src="%s" type="text/javascript"></script>' % static('listable/js/listable.js'),
     ]
+    scripts += LISTABLE_SCRIPTS
+
     return "\n".join(scripts)
 
 
