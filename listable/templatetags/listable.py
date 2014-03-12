@@ -10,13 +10,12 @@ from .. import settings
 
 register = template.Library()
 
-LISTABLE_SCRIPTS = [
+DATATABLES_SCRIPTS = [
     '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.js'),
     '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.columnFilter.js'),
     '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.searchPlugins.js'),
     '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.bootstrap.js'),
     '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.sort.js'),
-    '<script src="%s" type="text/javascript"></script>' % static('listable/js/listable.js'),
 ]
 
 @register.simple_tag
@@ -28,8 +27,7 @@ def listable_css():
 
 @register.simple_tag
 def listable_js():
-    return '\n'.join(LISTABLE_SCRIPTS)
-
+    return '\n'.join(DATATABLES_SCRIPTS)
 
 
 def values_to_dt(values):
@@ -88,10 +86,9 @@ def listable(view_name, save_state=False, css_table_class="", css_input_class=""
         "cssTableClass":css_table_class,
         "cssInputClass":css_input_class,
     }
-    scripts = [
-        '<script type="text/javascript">var Listable = %s;</script>' % (json.dumps(opts), ),
-    ]
-    scripts += LISTABLE_SCRIPTS
+    scripts = [ '<script type="text/javascript">var Listable = %s;</script>' % (json.dumps(opts), ), ]
+    scripts += DATATABLES_SCRIPTS
+    scripts += ['<script src="%s" type="text/javascript"></script>' % static('listable/js/listable.js')]
 
     return "\n".join(scripts)
 
