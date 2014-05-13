@@ -314,7 +314,7 @@
             var index = iColumn;
             var currentFilter = oTable.fnSettings().aoPreSearchCols[i].sSearch;
 
-            var r = '<select class="search_init select_filter"><option value="" class="search_init">' + sLabel + '</option>';
+            var r = '<select class="search_init select_filter"><option value="" class="search_init">----</option>';
             var j = 0;
             var iLen = aData.length;
             for (j = 0; j < iLen; j++) {
