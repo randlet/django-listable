@@ -124,6 +124,9 @@ class BaseListableView(ListView):
                     if "__" in column.filtering:
                         # foreign key select widget (select by pk)
                         model = utils.column_filter_model(column)
+                        if search_term == "None":
+                            search_term = None
+
                         qs = qs.filter(Q(**{model: search_term}))
                     else:
                         # local field select widget
