@@ -21,6 +21,7 @@ from . import settings as li_settings
 DT_COOKIE_NAME = "SpryMedia_DataTables"
 TEXT = "text"
 SELECT = "select"
+SELECT_ALL = "select_all"
 
 
 class Column(namedtuple('Column', ['field', 'filtering','widget', 'ordering', 'header'])):
@@ -120,7 +121,7 @@ class BaseListableView(ListView):
 
             if column.filtering and search_term:
 
-                if isinstance(column.filtering, basestring) and column.widget == SELECT:
+                if isinstance(column.filtering, basestring) and column.widget in (SELECT, SELECT_ALL):
                     if "__" in column.filtering:
                         # foreign key select widget (select by pk)
                         model = utils.column_filter_model(column)
