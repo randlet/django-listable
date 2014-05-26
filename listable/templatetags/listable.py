@@ -56,17 +56,15 @@ def listable(view_name, save_state=False, css_table_class="", css_input_class=""
 
             if isinstance(column.filtering, basestring) and "__" in column.filtering:
                 # foreign key select widget (select by pk)
-                filtering_k = "%s__pk" % utils.column_filter_model(column)
-                filtering_v = column.filtering
+                FkModel = mdl._meta.get_field(utils.column_filter_model(column)).rel.to
+                values = values_to_dt(FkModel.objects.values_list("pk", column.filtering.split("__")[-1]))
+
             elif column.field in [field.name for field in mdl._meta.fields]:
                 # local field select widget
-                filtering_k = column.field
-                filtering_v = column.field
+                values = values_to_dt(cls.model._meta.get_field(column.field).choices)
             else:
-                filtering_k = column.filtering
-                filtering_v = column.filtering
+                values = values_to_dt(cls.model.objects.values_list(column.filtering, column.filtering).order_by(column.filtering))
 
-            values = values_to_dt(cls.model.objects.values_list(filtering_k, filtering_v).order_by(filtering_v))
             column_filter_defs.append({"type":"select", "values":values})
         elif column.filtering:
             column_filter_defs.append({"type":"text"})
