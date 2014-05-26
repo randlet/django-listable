@@ -79,7 +79,7 @@ def listable(view_name, save_state=False, css_table_class="", css_input_class=""
             else:
                 values = values_to_dt(cls.model.objects.values_list(column.filtering, column.filtering).order_by(column.filtering))
 
-             column_filter_defs.append({"type":"select", "values":values})
+            column_filter_defs.append({"type":"select", "values":values})
         elif column.filtering:
             column_filter_defs.append({"type":"text"})
         else:
