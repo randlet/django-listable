@@ -1,6 +1,7 @@
 $(Listable.tableId).addClass(
     Listable.cssTableClass
 ).dataTable({
+    aaSorting:[],
     bStateSave:Listable.stateSave,
     bPaginate: true,
     sPaginationType:Listable.paginationType,
