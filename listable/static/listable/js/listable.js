@@ -7,7 +7,6 @@ $(Listable.tableId).addClass(
     sPaginationType:Listable.paginationType,
     bProcessing: true,
     bServerSide: true,
-    bStateSave: Listable.saveState,
     sAjaxSource: Listable.url,
     bAutoWidth: Listable.autoWidth,
     aoColumns:Listable.columnDefs,
