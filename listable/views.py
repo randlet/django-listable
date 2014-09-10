@@ -278,8 +278,10 @@ class BaseListableView(ListView):
 
         cookie_dt_params = None
 
+        current_url = resolve(self.request.path_info).url_name
+        cookie_name = DT_COOKIE_NAME+"_listable-table-"+current_url+"_"
         for k, v in self.request.COOKIES.items():
-            if k.startswith(DT_COOKIE_NAME):
+            if k == cookie_name:
                 cookie_dt_params = json.loads(urllib.unquote(v))
 
         return cookie_dt_params
