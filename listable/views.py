@@ -6,6 +6,7 @@ from collections import namedtuple
 
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
+from django.core.urlresolvers import resolve
 from django.db.models import Q
 from django.db.models.loading import get_model
 from django.http import HttpResponse
@@ -87,7 +88,10 @@ class BaseListableView(ListView):
         """ Context data for full page request """
         context = super(BaseListableView, self).get_context_data(*args, **kwargs)
         template = get_template("listable/_table.html")
-        context['listable_table'] = template.render(Context({'columns':self.columns,}))
+
+        current_url = resolve(self.request.path_info).url_name
+        table_id = "listable-table-"+current_url
+        context['listable_table'] = template.render(Context({'columns':self.columns,'table_id':table_id}))
         context['columns'] = self.columns
         return context
 

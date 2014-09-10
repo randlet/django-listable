@@ -86,7 +86,7 @@ def listable(view_name, save_state=False, css_table_class="", css_input_class=""
             column_filter_defs.append(None)
 
     opts = {
-        "tableId":"#listable-table",
+        "tableId":"#listable-table-"+view_name,
         "paginationType":settings.LISTABLE_PAGINATION_TYPE,
         "stateSave":settings.LISTABLE_STATE_SAVE,
         "url": reverse(view_name),
