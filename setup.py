@@ -23,6 +23,12 @@ if sys.argv[-1] == 'publish':
 readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
+install_requires = []
+try:
+    import importlib
+except ImportError:
+    install_requires.append("importlib")
+
 setup(
     name='django-listable',
     version=version,
@@ -35,8 +41,7 @@ setup(
         'listable',
     ],
     include_package_data=True,
-    install_requires=[
-    ],
+    install_requires=install_requires,
     license="BSD",
     zip_safe=False,
     keywords='django-listable',
