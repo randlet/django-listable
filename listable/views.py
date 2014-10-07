@@ -142,12 +142,14 @@ class BaseListableView(ListView):
                     qs = qs.filter(Q(**{filtering: search_term}))
                 else:
                     try:
-                        #handle case where we are filtering on a Generic Foreign Key field
+                        # handle case where we are filtering on a Generic Foreign Key field
+                        # by looking for pk of all related objects matching search criteria
                         f = Q()
                         for ct, s in column.filtering:
                             model = get_model(*ct.split('.'))
                             ctype = ContentType.objects.get_for_model(model)
-                            f |= Q(**{"%s__%s__icontains"%(ctype.model,s):search_term, "content_type": ctype})
+                            gfk_pks = model.objects.filter(**{"{0}__icontains".format(s):search_term}).values_list("pk", flat=True)
+                            f |= Q(content_type=ctype, object_id__in=gfk_pks)
                         qs = qs.filter(f)
                     except TypeError:
                         filtering = "%s__icontains" % (column.field,)
