@@ -23,7 +23,6 @@ from . import settings as li_settings
 DT_COOKIE_NAME = "SpryMedia_DataTables"
 TEXT = "text"
 SELECT = "select"
-SELECT_ALL = "select_all"
 
 
 class BaseListableView(ListView):
