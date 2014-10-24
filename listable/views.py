@@ -6,6 +6,7 @@ from collections import namedtuple
 
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import FieldError
 from django.core.urlresolvers import resolve
 from django.db.models import Q
 from django.db.models.loading import get_model
@@ -25,17 +26,18 @@ SELECT = "select"
 SELECT_ALL = "select_all"
 
 
-class Column(namedtuple('Column', ['field', 'filtering','widget', 'ordering', 'header'])):
-    """ Named tuple with default args. See http://stackoverflow.com/a/16721002/79802 """
-
-    def __new__(cls, field, filtering=True, widget=TEXT, ordering=True, header=None):
-        return super(Column, cls).__new__(cls, field, filtering, widget, ordering, header)
-
-
 class BaseListableView(ListView):
 
-    columns = ()
+    fields = ()
+    widgets = {}
+    order_fields = {}
+    search_fields = {}
+    headers = {}
+
     paginate_by = li_settings.LISTABLE_PAGINATE_BY
+
+    select_related = ()
+    prefetch_related = ()
 
     def get(self, request, *args, **kwargs):
         """
@@ -76,11 +78,16 @@ class BaseListableView(ListView):
 
         object_list = context["object_list"]
 
+        try:
+            secho = int(self.search_filters.get("sEcho"))
+        except (TypeError, ValueError):
+            secho = None
+
         context = {
             "aaData": self.get_rows(object_list),
             "iTotalRecords": super(BaseListableView, self).get_queryset().count(),
             "iTotalDisplayRecords": self.object_list.count(),
-            "sEcho": int(self.search_filters.get("sEcho")),
+            "sEcho": secho,
         }
         return context
 
@@ -89,11 +96,20 @@ class BaseListableView(ListView):
         context = super(BaseListableView, self).get_context_data(*args, **kwargs)
         template = get_template("listable/_table.html")
 
+        # every table needs a unique ID to play well with sticky cookies
         current_url = resolve(self.request.path_info).url_name
         table_id = "listable-table-"+current_url
-        context['listable_table'] = template.render(Context({'columns':self.columns,'table_id':table_id}))
-        context['columns'] = self.columns
+
+        headers = [self.get_header_for_field(f) for f in self.fields]
+        context['listable_table'] = template.render(Context({'headers': headers, 'table_id':table_id}))
+
         return context
+
+    def get_header_for_field(self, field):
+        try:
+            return self.headers[field]
+        except KeyError:
+            return field.replace("__"," ").replace("_", " ").title()
 
     def set_page(self):
         """ Set page requested by DataTables """
@@ -109,66 +125,67 @@ class BaseListableView(ListView):
     def get_queryset(self):
         """ filter and order queryset based on DataTables parameters """
         qs = super(BaseListableView, self).get_queryset()
+        self.extra = self.get_extra()
+        if self.extra:
+            qs = qs.extra(**self.extra)
+
         self.set_query_params()
         qs = self.filter_queryset(qs)
         qs = self.order_queryset(qs)
+
+        if self.select_related:
+            qs = qs.select_related(*self.select_related)
+
+        if self.prefetch_related:
+            qs = qs.prefetch_related(*self.prefetch_related)
+
+        # FIXME: For some reason Django can choke when paginating a query
+        # that has an extra clause on it (the count() call fails)
+        # forcing evaluation of the  queryset with len(qs) here avoids that
+        # but loads the whole dataset in memory :(
+        if self.extra:
+            len(qs)
+
         return qs
 
     def filter_queryset(self, qs):
         """ filter the input queryset according to column definitions.  """
 
-        filter_queries = []
-
-        for col_num, column in enumerate(self.columns):
+        for col_num, field in enumerate(self.fields):
 
             search_term = self.search_filters.get("sSearch_%d" % col_num, None)
+            filtering = self.search_fields.get(field, True)
 
-            if column.filtering and search_term:
-
-                if isinstance(column.filtering, basestring) and column.widget in (SELECT, SELECT_ALL):
-                    if "__" in column.filtering:
-                        # foreign key select widget (select by pk)
-                        model = utils.column_filter_model(column)
-                        if search_term == "None":
-                            search_term = None
-
-                        qs = qs.filter(Q(**{model: search_term}))
+            if filtering and search_term:
+                if isinstance(filtering, basestring):
+                    if 'select' in self.extra and field in self.extra['select']:
+                        qs = qs.extra(where=["{0} LIKE %s".format(field)], params=["%{0}%".format(search_term)])
                     else:
-                        # local field select widget
-                        qs = qs.filter(Q(**{column.filtering: search_term}))
-
-                elif isinstance(column.filtering, basestring):
-                    filtering = "%s__icontains" % (column.filtering,)
-                    qs = qs.filter(Q(**{filtering: search_term}))
+                        qs = qs.filter(**{filtering: search_term})
                 else:
                     try:
-                        # handle case where we are filtering on a Generic Foreign Key field
-                        # by looking for pk of all related objects matching search criteria
-                        f = Q()
-                        for ct, s in column.filtering:
-                            model = get_model(*ct.split('.'))
-                            ctype = ContentType.objects.get_for_model(model)
-                            gfk_pks = model.objects.filter(**{"{0}__icontains".format(s):search_term}).values_list("pk", flat=True)
-                            f |= Q(content_type=ctype, object_id__in=gfk_pks)
-                        qs = qs.filter(f)
+                        # iterable of search fields e.g. order_fields = {"name": ("first_name", "last_name",)}
+                        queries = reduce(lambda q, f: q|Q(**{f: search_term}), filtering, Q())
+                        qs = qs.filter(queries)
+
                     except TypeError:
-                        filtering = "%s__icontains" % (column.field,)
-                        qs = qs.filter(Q(**{filtering: search_term}))
+                        # fall back to default search (e.g order_fields ={"first_name": True})
+                        filtering = "{0}__icontains".format(field)
+                        try:
+                            qs = qs.filter(**{filtering: search_term})
+                        except FieldError:
+                            raise TypeError("You can not filter on the '{field}' field. Filtering on"
+                                " GenericForeignKey's and callables must be explicitly disabled in `search_fields`".format(field=field))
+
 
         return qs
 
+    def get_extra(self, qs):
+        return None
+
     def order_queryset(self, qs):
         """
-        Order the input queryset according to column definitions.
-
-        Column ordering definitions can either be a truthy/falsy value, a
-        single string or an iterable of strings.  Orderings are in the
-        same form as Django model orderings.
-
-        For example:
-            Column(field="id", ordering=True/False, ...) <-- Set to False to disable ordering
-            Column(field="name", ordering=("last_name", "first_name", ), ...)
-            Column(field="last_name", ordering="last_name", ...)
+        Order the input queryset according to column ordering definitions.
         """
 
         n_orderings = int(self.search_filters.get("iSortingCols", 0))
@@ -185,47 +202,55 @@ class BaseListableView(ListView):
 
         orderings = []
         for colnum, direction in order_cols:
-            col = self.columns[colnum]
+            field = self.fields[colnum]
+            ordering = self.order_fields.get(field, field)
 
-            if col.ordering:
+            if ordering:
 
-                if isinstance(col.ordering, basestring):
-                    #eg Column(field="id", ordering="last_name",, ...)
-                    orderings.append("%s%s" % (direction, col.ordering))
+                if isinstance(ordering, basestring):
+                    # eg ordering= 'first_name' or ordering = 'business__name'
+                    orderings.append("%s%s" % (direction, ordering))
                 else:
                     try:
-                        #eg Column(field="id", ordering=("last_name","first_name", ), ...)
-                        for o in col.ordering:
+                        #eg ordering=("last_name","first_name", )
+                        for o in ordering:
                             orderings.append("%s%s" % (direction, o))
-                    except:
-                        if col.ordering:
-                            #eg Column(field="id", ordering=True, ...)
-                            orderings.append("%s%s" % (direction, col.field))
+                    except TypeError:
+                        # eg ordering = True
+                        orderings.append("%s%s" % (direction, field))
 
         return qs.order_by(*orderings)
 
     def get_rows(self, objects):
         rows = []
         for obj in objects:
-            rows.append([self.format_col(col.field, obj) for col in self.columns])
+            rows.append([self.format_col(field, obj) for field in self.fields])
         return rows
 
     def format_col(self, field, obj):
 
         # first see if subclass has a formatter defined
-        formatter = getattr(self,field, None)
+        formatter = getattr(self, field, None)
         if formatter:
             return formatter(obj) if callable(formatter) else formatter
 
 
-        # then look on object itself
+        # fk property
+        if "__" in field:
+            return utils.lookup_dunder_prop(obj, field)
+
+        try:
+            return getattr(obj, 'get_{0}_display'.format(field))()
+        except AttributeError:
+            pass
+
         try:
             attr = getattr(obj, field)
         except AttributeError:
             raise AttributeError("'%s' is not a valid format specifier" % (field))
 
         if callable(attr):
-            return attr()
+            return attr(obj)
         elif isinstance(attr, datetime.datetime):
             return formats.date_format(attr, "SHORT_DATETIME_FORMAT")
         elif isinstance(attr, datetime.date):

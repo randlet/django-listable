@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.templatetags.static import static
 
 from .. import utils
-from .. views import SELECT, SELECT_ALL
+from .. views import SELECT, SELECT_ALL, TEXT
 from .. import settings
 
 register = template.Library()
@@ -36,7 +36,8 @@ def values_to_dt(values):
 
 @register.filter(name="header")
 def header(value):
-    return value.title().replace("__"," ").replace("_", " ")
+    return value.replace("__"," ").replace("_", " ").title()
+
 
 @register.simple_tag
 def listable(view_name, save_state=False, css_table_class="", css_input_class=""):
@@ -46,44 +47,33 @@ def listable(view_name, save_state=False, css_table_class="", css_input_class=""
 
     column_defs = []
     column_filter_defs = []
-    for column in cls.columns:
 
-        #colum ordering
-        column_defs.append({"bSortable":False} if not column.ordering else None)
+    for field in cls.fields:
+
+        # column ordering def for datatablse
+        order_allowed = cls.order_fields.get(field, True)
+        column_defs.append({"bSortable":False} if not order_allowed else None)
 
         # column filters
-        if column.widget==SELECT_ALL:
+        filter_allowed = cls.search_fields.get(field, True)
+        widget_type = cls.widgets.get(field, TEXT)
 
-            if isinstance(column.filtering, basestring) and "__" in column.filtering:
-                # foreign key select widget (select by pk)
-                FkModel = mdl._meta.get_field(utils.column_filter_model(column)).rel.to
-                values = values_to_dt(FkModel.objects.values_list("pk", column.filtering.split("__")[-1]))
-
-            elif column.field in [field.name for field in mdl._meta.fields]:
-                # local field select widget
-                values = values_to_dt(cls.model._meta.get_field(column.field).choices)
-            else:
-                values = values_to_dt(cls.model.objects.values_list(column.filtering, column.filtering).order_by(column.filtering))
-
-            column_filter_defs.append({"type":"select", "values":values})
-
-        elif column.widget==SELECT:
-
-            if isinstance(column.filtering, basestring) and "__" in column.filtering:
-                 # foreign key select widget (select by pk)
-                filtering_k = "%s__pk" % utils.column_filter_model(column)
-                values = values_to_dt(cls.model.objects.values_list(filtering_k, column.filtering).order_by(column.filtering))
-            elif column.field in [field.name for field in mdl._meta.fields]:
-                # local field select widget
-                values = values_to_dt(cls.model.objects.values_list(column.field, column.field).order_by(column.field))
-            else:
-                values = values_to_dt(cls.model.objects.values_list(column.filtering, column.filtering).order_by(column.filtering))
-
-            column_filter_defs.append({"type":"select", "values":values})
-        elif column.filtering:
-            column_filter_defs.append({"type":"text"})
-        else:
+        if not filter_allowed:
             column_filter_defs.append(None)
+        elif widget_type == TEXT:
+            column_filter_defs.append({"type":"text"})
+        elif widget_type == SELECT:
+            is_local = field in [f.name for f in mdl._meta.fields]
+            choices = cls.model._meta.get_field(field).choices if is_local else None
+
+            if is_local and choices:
+                # local field with choices defined
+                values = values_to_dt(choices)
+            else:
+                values = values_to_dt(cls.model.objects.values_list(field, field).order_by(field))
+            column_filter_defs.append({"type":"select", "values":values})
+        else:
+            raise TypeError("{wt} is not a valid widget type".format(wt=widget_type))
 
     opts = {
         "tableId":"#listable-table-"+view_name,
@@ -98,6 +88,7 @@ def listable(view_name, save_state=False, css_table_class="", css_input_class=""
         "cssTableClass":css_table_class,
         "cssInputClass":css_input_class,
     }
+
     scripts = [ '<script type="text/javascript">var Listable = %s;</script>' % (json.dumps(opts), ), ]
     scripts += DATATABLES_SCRIPTS
     scripts += ['<script src="%s" type="text/javascript"></script>' % static('listable/js/listable.js')]

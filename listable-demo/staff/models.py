@@ -21,9 +21,11 @@ ACTIVE_CHOICES_DISPLAY = dict(ACTIVE_CHOICES)
 class Business(models.Model):
 
     name = models.CharField(max_length=255)
+    business_type = models.IntegerField(choices=zip(range(5),range(5)), default=1)
 
     class Meta:
-        verbose_name_plural = "Business's"
+        verbose_name_plural = "Businesses"
+
     def __unicode__(self):
         return self.name
 

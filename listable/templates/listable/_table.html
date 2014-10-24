@@ -2,14 +2,10 @@
 <table id="{{table_id}}" class="table table-striped table-bordered">
     <thead>
         <tr>
-            {% for col in columns %}
-                <th>{% if col.header %}{{col.header}}{% else %} {{col.field|header}} {%endif %}</th>
-            {% endfor %}
+            {% for header in headers %}<th>{{header}}</th>{% endfor %}
         </tr>
         <tr>
-            {% for col in columns %}
-                <th>{% if col.header %}{{col.header}}{% else %} {{col.field|header}} {%endif %}</th>
-            {% endfor %}
+            {% for header in headers %}<th>{{header}}</th>{% endfor %}
         </tr>
     </thead>
     <tbody>
@@ -23,9 +19,7 @@
     </tbody>
     <tfoot>
         <tr>
-            {% for col in columns %}
-                <th>{% if col.header %}{{col.header}}{% else %} {{col.field|title}} {%endif %}</th>
-            {% endfor %}
+            {% for header in headers %}<th>{{header}}</th>{% endfor %}
         </tr>
     </tfoot>
 

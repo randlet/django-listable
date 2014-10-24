@@ -8,6 +8,15 @@ def unique(seq):
     return [ x for x in seq if x not in seen and not seen_add(x)]
 
 
+def lookup_dunder_prop(obj, props):
+    if "__" in props:
+        head, tail = props.split("__", 1)
+        obj = getattr(obj, head)
+        return lookup_dunder_prop(obj, tail)
+
+    return getattr(obj, props)
+
+
 def class_for_view_name(view_name):
     """ return View class for input view_name
     see http://stackoverflow.com/a/21313506/79802

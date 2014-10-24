@@ -1,7 +1,8 @@
 # Create your views here.
 from django.views.generic import View
 from django.http import Http404
-from listable.views  import BaseListableView, Column, SELECT
+from django.utils.translation import ugettext as _
+from listable.views  import BaseListableView, SELECT
 
 from . import models
 
@@ -9,54 +10,56 @@ class StaffList(BaseListableView):
 
     model = models.Staff
 
-    columns = (
-        Column(
-            field="id",
-            ordering=False,
-            filtering=False
-        ),
-        Column(
-            field="first_name",
-            ordering=True,
-        ),
-        Column(
-            field="name",
-            ordering="last_name",
-            filtering="last_name",
-            widget=SELECT,
-        ),
-        Column(
-            field="department",
-            ordering="department__name",
-            filtering="department__name",
-            widget=SELECT,
-        ),
-        Column(
-            header="Position Name",
-            field="position",
-            ordering="position__name",
-            filtering="position__name",
-        ),
-        Column(
-            header="Business Name",
-            field="business",
-            ordering="department__business__name",
-            filtering=True
-        ),
-        Column(
-            header="Generic Content",
-            field="generic_object",
-            ordering="generic_object__name",
-            filtering=(("staff.GenericModelA" ,"name"), ("staff.GenericModelB", "name"),)
-        ),
+    fields = (
+        "id",
+        "name",
+        "active",
+        "department__name",
+        "position__name",
+        "department__business__name",
+        "department__business__business_type",
+        "genericname",
     )
+
+    widgets = {
+        "department__business__name": SELECT,
+        "department__business__business_type": SELECT,
+        "position__name": SELECT,
+        "choices": SELECT,
+        "active": SELECT,
+    }
+
+    search_fields = {
+        "name": ("first_name__icontains", "last_name__icontains",),
+        "last_name": "last_name__exact",
+        "genericname": "genericname__icontains",
+    }
+
+    order_fields = {
+        "name": ("last_name", "first_name",),
+    }
+
+    headers = {
+        "position__name": _("Position"),
+        "department__business__name": _("Business"),
+        "department__business__business_type": _("Business Type"),
+    }
+
+    select_related = ("department", "position", "department__business",)
+
+    def generic(self, obj):
+        return obj.generic_object.name
 
     def name(self, staff):
         return staff.name()
 
-    def department(self, staff):
-        return staff.department.name
-
-    def business(self, staff):
-        return staff.department.business.name
-
+    def get_extra(self):
+        extraq = """
+         CASE
+            WHEN content_type_id =11
+                THEN (SELECT name from staff_genericmodela WHERE object_id = staff_genericmodela.id)
+            WHEN content_type_id = 12
+                THEN (SELECT name from staff_genericmodelb WHERE object_id = staff_genericmodelb.id)
+         END
+         """
+        return {"select":{'genericname': extraq}}
