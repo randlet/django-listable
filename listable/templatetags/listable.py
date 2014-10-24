@@ -5,8 +5,9 @@ from django.core.urlresolvers import reverse
 from django.templatetags.static import static
 
 from .. import utils
-from .. views import SELECT, SELECT_ALL, TEXT
+from .. views import SELECT, TEXT
 from .. import settings
+
 
 register = template.Library()
 
@@ -18,12 +19,14 @@ DATATABLES_SCRIPTS = [
     '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.sort.js'),
 ]
 
+
 @register.simple_tag
 def listable_css():
     return '\n'.join([
-        '<link href="%s" rel="stylesheet">'% (static('listable/css/jquery.dataTables.css')),
-        '<link href="%s" rel="stylesheet">'% (static('listable/css/jquery.dataTables.bootstrap.css'))
+        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/jquery.dataTables.css')),
+        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/jquery.dataTables.bootstrap.css'))
     ])
+
 
 @register.simple_tag
 def listable_js():
@@ -31,12 +34,12 @@ def listable_js():
 
 
 def values_to_dt(values):
-    return [{"value":str(x[0]), "label":x[1]} for x in utils.unique(values)]
+    return [{"value": str(x[0]), "label": x[1]} for x in utils.unique(values)]
 
 
 @register.filter(name="header")
 def header(value):
-    return value.replace("__"," ").replace("_", " ").title()
+    return value.replace("__", " ").replace("_", " ").title()
 
 
 @register.simple_tag
@@ -52,7 +55,7 @@ def listable(view_name, save_state=False, css_table_class="", css_input_class=""
 
         # column ordering def for datatablse
         order_allowed = cls.order_fields.get(field, True)
-        column_defs.append({"bSortable":False} if not order_allowed else None)
+        column_defs.append({"bSortable": False} if not order_allowed else None)
 
         # column filters
         filter_allowed = cls.search_fields.get(field, True)
@@ -61,7 +64,7 @@ def listable(view_name, save_state=False, css_table_class="", css_input_class=""
         if not filter_allowed:
             column_filter_defs.append(None)
         elif widget_type == TEXT:
-            column_filter_defs.append({"type":"text"})
+            column_filter_defs.append({"type": "text"})
         elif widget_type == SELECT:
             is_local = field in [f.name for f in mdl._meta.fields]
             choices = cls.model._meta.get_field(field).choices if is_local else None
@@ -71,28 +74,26 @@ def listable(view_name, save_state=False, css_table_class="", css_input_class=""
                 values = values_to_dt(choices)
             else:
                 values = values_to_dt(cls.model.objects.values_list(field, field).order_by(field))
-            column_filter_defs.append({"type":"select", "values":values})
+            column_filter_defs.append({"type": "select", "values": values})
         else:
             raise TypeError("{wt} is not a valid widget type".format(wt=widget_type))
 
     opts = {
-        "tableId":"#listable-table-"+view_name,
-        "paginationType":settings.LISTABLE_PAGINATION_TYPE,
-        "stateSave":settings.LISTABLE_STATE_SAVE,
+        "tableId": "#listable-table-"+view_name,
+        "paginationType": settings.LISTABLE_PAGINATION_TYPE,
+        "stateSave": settings.LISTABLE_STATE_SAVE,
         "url": reverse(view_name),
-        "bProcessing":True,
-        "autoWidth":True,
+        "bProcessing": True,
+        "autoWidth": True,
         "DOM": settings.LISTABLE_DOM,
-        "columnDefs":column_defs,
-        "columnFilterDefs":column_filter_defs,
-        "cssTableClass":css_table_class,
-        "cssInputClass":css_input_class,
+        "columnDefs": column_defs,
+        "columnFilterDefs": column_filter_defs,
+        "cssTableClass": css_table_class,
+        "cssInputClass": css_input_class,
     }
 
-    scripts = [ '<script type="text/javascript">var Listable = %s;</script>' % (json.dumps(opts), ), ]
+    scripts = ['<script type="text/javascript">var Listable = {0};</script>'.format(json.dumps(opts))]
     scripts += DATATABLES_SCRIPTS
-    scripts += ['<script src="%s" type="text/javascript"></script>' % static('listable/js/listable.js')]
+    scripts += ['<script src="{0}" type="text/javascript"></script>'.format(static('listable/js/listable.js'))]
 
     return "\n".join(scripts)
-
-
