@@ -20,12 +20,12 @@ try:
             "listable",
         ],
         SITE_ID=1,
-        NOSE_ARGS=['-s'],
+        NOSE_ARGS=['-s', '--with-coverage', '--cover-package=listable'],
     )
 
     from django_nose import NoseTestSuiteRunner
 except ImportError:
-    raise ImportError("To fix this error, run: pip install -r requirements-test.txt")
+    raise ImportError("To fix this error, run: pip install -r requirements/test.txt")
 
 
 def run_tests(*test_args):
