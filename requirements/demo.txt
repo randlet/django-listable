@@ -1,0 +1,1 @@
+django-devserver>=0.8,<0.9

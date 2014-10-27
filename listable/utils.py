@@ -10,6 +10,13 @@ def unique(seq):
 
 
 def lookup_dunder_prop(obj, props):
+    """
+    Take an obj and lookup the value of a related attribute
+    using __ notation.
+
+    For example if Obj.a.b.c == "foo" then lookup_dunder (Obj, "a__b__c") == "foo"
+    """
+
     if "__" in props:
         head, tail = props.split("__", 1)
         obj = getattr(obj, head)
@@ -30,7 +37,3 @@ def class_for_view_name(view_name):
     view_func = resolve(reverse_).func
     module = importlib.import_module(view_func.__module__)
     return getattr(module, view_func.__name__)
-
-
-def column_filter_model(column):
-    return column.filtering[:column.filtering.rindex("__")]

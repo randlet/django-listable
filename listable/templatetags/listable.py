@@ -29,7 +29,7 @@ def listable_css():
 
 
 @register.simple_tag
-def listable_js():
+def listable_js(): #pragma: nocover
     return '\n'.join(DATATABLES_SCRIPTS)
 
 
@@ -42,9 +42,7 @@ def header(value):
     return value.replace("__", " ").replace("_", " ").title()
 
 
-@register.simple_tag
-def listable(view_name, save_state=False, css_table_class="", css_input_class=""):
-
+def get_options(view_name, save_state=False, css_table_class="", css_input_class=""):
     cls = utils.class_for_view_name(view_name)
     mdl = cls.model
 
@@ -91,6 +89,15 @@ def listable(view_name, save_state=False, css_table_class="", css_input_class=""
         "cssTableClass": css_table_class,
         "cssInputClass": css_input_class,
     }
+
+    return opts
+
+
+@register.simple_tag
+def listable(view_name, save_state=False, css_table_class="", css_input_class=""):
+    """ Generate all script tags and DataTables options for a given table"""
+
+    opts = get_options(view_name, save_state, css_table_class, css_input_class)
 
     scripts = ['<script type="text/javascript">var Listable = {0};</script>'.format(json.dumps(opts))]
     scripts += DATATABLES_SCRIPTS

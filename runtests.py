@@ -1,5 +1,7 @@
+import os
 import sys
 from optparse import OptionParser
+sys.path.append("listable-demo")
 
 try:
     from django.conf import settings
@@ -12,13 +14,31 @@ try:
                 "ENGINE": "django.db.backends.sqlite3",
             }
         },
-        ROOT_URLCONF="listable.urls",
+        ROOT_URLCONF="tests.urls",
         INSTALLED_APPS=[
             "django.contrib.auth",
             "django.contrib.contenttypes",
+            'django.contrib.messages',
             "django.contrib.sites",
+            'django.contrib.staticfiles',
+            'django.contrib.admin',
             "listable",
+            "staff",
         ],
+
+        STATIC_URL = '/static/',
+        TEMPLATE_LOADERS=(
+            'django.template.loaders.app_directories.Loader',
+            'django.template.loaders.filesystem.Loader',
+            # 'django.template.loaders.eggs.Loader',
+        ),
+
+        TEMPLATE_DIRS = (
+            os.path.join("listable-demo", "listable_demo", 'templates'),
+            os.path.join("listable-demo", "staff", 'templates'),
+        ),
+        LISTABLE_PAGINATE_BY=10,
+        FIXTURE_DIRS=("listable-demo",),
         SITE_ID=1,
         NOSE_ARGS=['-s', '--with-coverage', '--cover-package=listable'],
     )

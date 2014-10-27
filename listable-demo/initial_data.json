@@ -1,2867 +1,3470 @@
 [
 {
-    "pk": 1,
-    "model": "staff.business",
+    "pk": 1, 
+    "model": "staff.business", 
     "fields": {
+        "business_type": 1, 
         "name": "Amet"
     }
 },
 {
-    "pk": 2,
-    "model": "staff.business",
+    "pk": 2, 
+    "model": "staff.business", 
     "fields": {
+        "business_type": 10, 
         "name": "Maxime"
     }
 },
 {
-    "pk": 3,
-    "model": "staff.business",
+    "pk": 3, 
+    "model": "staff.business", 
     "fields": {
+        "business_type": 3, 
         "name": "Reiciendis"
     }
 },
 {
-    "pk": 4,
-    "model": "staff.business",
+    "pk": 4, 
+    "model": "staff.business", 
     "fields": {
+        "business_type": 4, 
         "name": "Eum"
     }
 },
 {
-    "pk": 1,
-    "model": "staff.department",
+    "pk": 1, 
+    "model": "staff.department", 
     "fields": {
-        "name": "Consectetur",
+        "name": "Consectetur", 
         "business": 3
     }
 },
 {
-    "pk": 2,
-    "model": "staff.department",
+    "pk": 2, 
+    "model": "staff.department", 
     "fields": {
-        "name": "Et",
+        "name": "Et", 
         "business": 4
     }
 },
 {
-    "pk": 3,
-    "model": "staff.department",
+    "pk": 3, 
+    "model": "staff.department", 
     "fields": {
-        "name": "Ut",
+        "name": "Ut", 
         "business": 1
     }
 },
 {
-    "pk": 4,
-    "model": "staff.department",
+    "pk": 4, 
+    "model": "staff.department", 
     "fields": {
-        "name": "Amet",
+        "name": "Amet", 
         "business": 4
     }
 },
 {
-    "pk": 5,
-    "model": "staff.department",
+    "pk": 5, 
+    "model": "staff.department", 
     "fields": {
-        "name": "Voluptas",
+        "name": "Voluptas", 
         "business": 1
     }
 },
 {
-    "pk": 6,
-    "model": "staff.department",
+    "pk": 6, 
+    "model": "staff.department", 
     "fields": {
-        "name": "Tempora",
+        "name": "Tempora", 
         "business": 3
     }
 },
 {
-    "pk": 7,
-    "model": "staff.department",
+    "pk": 7, 
+    "model": "staff.department", 
     "fields": {
-        "name": "Sed",
+        "name": "Sed", 
         "business": 2
     }
 },
 {
-    "pk": 8,
-    "model": "staff.department",
+    "pk": 8, 
+    "model": "staff.department", 
     "fields": {
-        "name": "Aliquam",
+        "name": "Aliquam", 
         "business": 1
     }
 },
 {
-    "pk": 9,
-    "model": "staff.department",
+    "pk": 9, 
+    "model": "staff.department", 
     "fields": {
-        "name": "Et",
+        "name": "Et", 
         "business": 2
     }
 },
 {
-    "pk": 10,
-    "model": "staff.department",
+    "pk": 10, 
+    "model": "staff.department", 
     "fields": {
-        "name": "Quaerat",
+        "name": "Quaerat", 
         "business": 3
     }
 },
 {
-    "pk": 11,
-    "model": "staff.department",
+    "pk": 11, 
+    "model": "staff.department", 
     "fields": {
-        "name": "Dignissimos",
+        "name": "Dignissimos", 
         "business": 3
     }
 },
 {
-    "pk": 12,
-    "model": "staff.department",
+    "pk": 12, 
+    "model": "staff.department", 
     "fields": {
-        "name": "Reprehenderit",
+        "name": "Reprehenderit", 
         "business": 1
     }
 },
 {
-    "pk": 13,
-    "model": "staff.department",
+    "pk": 13, 
+    "model": "staff.department", 
     "fields": {
-        "name": "Sapiente",
+        "name": "Sapiente", 
         "business": 2
     }
 },
 {
-    "pk": 14,
-    "model": "staff.department",
+    "pk": 14, 
+    "model": "staff.department", 
     "fields": {
-        "name": "Similique",
+        "name": "Similique", 
         "business": 1
     }
 },
 {
-    "pk": 15,
-    "model": "staff.department",
+    "pk": 15, 
+    "model": "staff.department", 
     "fields": {
-        "name": "Sed",
+        "name": "Sed", 
         "business": 2
     }
 },
 {
-    "pk": 16,
-    "model": "staff.department",
+    "pk": 16, 
+    "model": "staff.department", 
     "fields": {
-        "name": "Sed",
+        "name": "Sed", 
         "business": 3
     }
 },
 {
-    "pk": 17,
-    "model": "staff.department",
+    "pk": 17, 
+    "model": "staff.department", 
     "fields": {
-        "name": "Enim",
+        "name": "Enim", 
         "business": 2
     }
 },
 {
-    "pk": 18,
-    "model": "staff.department",
+    "pk": 18, 
+    "model": "staff.department", 
     "fields": {
-        "name": "Quisquam",
+        "name": "Quisquam", 
         "business": 1
     }
 },
 {
-    "pk": 19,
-    "model": "staff.department",
+    "pk": 19, 
+    "model": "staff.department", 
     "fields": {
-        "name": "Est",
+        "name": "Est", 
         "business": 1
     }
 },
 {
-    "pk": 20,
-    "model": "staff.department",
+    "pk": 20, 
+    "model": "staff.department", 
     "fields": {
-        "name": "Dolor",
+        "name": "Dolor", 
         "business": 4
     }
 },
 {
-    "pk": 1,
-    "model": "staff.position",
+    "pk": 1, 
+    "model": "staff.position", 
     "fields": {
         "name": "Maiores Reiciendis"
     }
 },
 {
-    "pk": 2,
-    "model": "staff.position",
+    "pk": 2, 
+    "model": "staff.position", 
     "fields": {
         "name": "Eum Et"
     }
 },
 {
-    "pk": 3,
-    "model": "staff.position",
+    "pk": 3, 
+    "model": "staff.position", 
     "fields": {
         "name": "Dolores Sequi"
     }
 },
 {
-    "pk": 4,
-    "model": "staff.position",
+    "pk": 4, 
+    "model": "staff.position", 
     "fields": {
         "name": "Ullam Quasi"
     }
 },
 {
-    "pk": 1,
-    "model": "staff.genericmodela",
+    "pk": 1, 
+    "model": "staff.genericmodela", 
     "fields": {
-        "name": "A1",
+        "name": "A1", 
         "description": "A1"
     }
 },
 {
-    "pk": 2,
-    "model": "staff.genericmodela",
+    "pk": 2, 
+    "model": "staff.genericmodela", 
     "fields": {
-        "name": "A2",
+        "name": "A2", 
         "description": "A2"
     }
 },
 {
-    "pk": 3,
-    "model": "staff.genericmodela",
+    "pk": 3, 
+    "model": "staff.genericmodela", 
     "fields": {
-        "name": "A3",
+        "name": "A3", 
         "description": "A3"
     }
 },
 {
-    "pk": 1,
-    "model": "staff.genericmodelb",
+    "pk": 1, 
+    "model": "staff.genericmodelb", 
     "fields": {
-        "name": "B1",
+        "name": "B1", 
         "description": "B1"
     }
 },
 {
-    "pk": 2,
-    "model": "staff.genericmodelb",
+    "pk": 2, 
+    "model": "staff.genericmodelb", 
     "fields": {
-        "name": "B2",
+        "name": "B2", 
         "description": "B2"
     }
 },
 {
-    "pk": 3,
-    "model": "staff.genericmodelb",
+    "pk": 3, 
+    "model": "staff.genericmodelb", 
     "fields": {
-        "name": "B3",
+        "name": "B3", 
         "description": "B3"
     }
-}
-,
-{
-    "pk": 2,
-    "model": "staff.staff",
-    "fields": {
-        "first_name": "Deion",
-        "last_name": "Padberg",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
+},
+{
+    "pk": 2, 
+    "model": "staff.staff", 
+    "fields": {
+        "first_name": "Deion", 
+        "last_name": "Padberg", 
+        "object_id": 2, 
+        "department": 9, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 3,
-    "model": "staff.staff",
+    "pk": 3, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Nathen",
-        "last_name": "Homenick",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Nathen", 
+        "last_name": "Homenick", 
+        "object_id": 2, 
+        "department": 10, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 4,
-    "model": "staff.staff",
+    "pk": 4, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Lydia",
-        "last_name": "Johns",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Lydia", 
+        "last_name": "Johns", 
+        "object_id": 3, 
+        "department": 11, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 5,
-    "model": "staff.staff",
+    "pk": 5, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Cedrick",
-        "last_name": "Mann",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Cedrick", 
+        "last_name": "Mann", 
+        "object_id": 1, 
+        "department": 20, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 6,
-    "model": "staff.staff",
+    "pk": 6, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Kaleb",
-        "last_name": "Stiedemann",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Kaleb", 
+        "last_name": "Stiedemann", 
+        "object_id": 3, 
+        "department": 10, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 7,
-    "model": "staff.staff",
+    "pk": 7, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Daisy",
-        "last_name": "Hane",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Daisy", 
+        "last_name": "Hane", 
+        "object_id": 2, 
+        "department": 12, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 8,
-    "model": "staff.staff",
+    "pk": 8, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Adrien",
-        "last_name": "Bernhard",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Adrien", 
+        "last_name": "Bernhard", 
+        "object_id": 2, 
+        "department": 17, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 9,
-    "model": "staff.staff",
+    "pk": 9, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Antone",
-        "last_name": "Schoen",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Antone", 
+        "last_name": "Schoen", 
+        "object_id": 2, 
+        "department": 19, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 10,
-    "model": "staff.staff",
+    "pk": 10, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Alford",
-        "last_name": "O'Hara",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Alford", 
+        "last_name": "O'Hara", 
+        "object_id": 3, 
+        "department": 15, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 11,
-    "model": "staff.staff",
+    "pk": 11, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Laisha",
-        "last_name": "Hodkiewicz",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Laisha", 
+        "last_name": "Hodkiewicz", 
+        "object_id": 2, 
+        "department": 1, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 12,
-    "model": "staff.staff",
+    "pk": 12, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Mariana",
-        "last_name": "Moore",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Mariana", 
+        "last_name": "Moore", 
+        "object_id": 2, 
+        "department": 8, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 13,
-    "model": "staff.staff",
+    "pk": 13, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Trevion",
-        "last_name": "Bartoletti",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Trevion", 
+        "last_name": "Bartoletti", 
+        "object_id": 1, 
+        "department": 10, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 14,
-    "model": "staff.staff",
+    "pk": 14, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Bessie",
-        "last_name": "Crooks",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
+        "first_name": "Bessie", 
+        "last_name": "Crooks", 
+        "object_id": 3, 
+        "department": 17, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 15,
-    "model": "staff.staff",
+    "pk": 15, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Rylan",
-        "last_name": "Von",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Rylan", 
+        "last_name": "Von", 
+        "object_id": 1, 
+        "department": 1, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 16,
-    "model": "staff.staff",
+    "pk": 16, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Sigurd",
-        "last_name": "Bradtke",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Sigurd", 
+        "last_name": "Bradtke", 
+        "object_id": 3, 
+        "department": 19, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 17,
-    "model": "staff.staff",
+    "pk": 17, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Reyna",
-        "last_name": "Barrows",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Reyna", 
+        "last_name": "Barrows", 
+        "object_id": 1, 
+        "department": 4, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 18,
-    "model": "staff.staff",
+    "pk": 18, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Janiya",
-        "last_name": "Hickle",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Janiya", 
+        "last_name": "Hickle", 
+        "object_id": 2, 
+        "department": 19, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 19,
-    "model": "staff.staff",
+    "pk": 19, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Mariela",
-        "last_name": "White",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Mariela", 
+        "last_name": "White", 
+        "object_id": 1, 
+        "department": 9, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 20,
-    "model": "staff.staff",
+    "pk": 20, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Rosalyn",
-        "last_name": "O'Kon",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Rosalyn", 
+        "last_name": "O'Kon", 
+        "object_id": 3, 
+        "department": 2, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 21,
-    "model": "staff.staff",
+    "pk": 21, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Chelsey",
-        "last_name": "Boyer",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Chelsey", 
+        "last_name": "Boyer", 
+        "object_id": 1, 
+        "department": 8, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 22,
-    "model": "staff.staff",
+    "pk": 22, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Trinity",
-        "last_name": "Satterfield",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Trinity", 
+        "last_name": "Satterfield", 
+        "object_id": 3, 
+        "department": 10, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 23,
-    "model": "staff.staff",
+    "pk": 23, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Alfonso",
-        "last_name": "Larson",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Alfonso", 
+        "last_name": "Larson", 
+        "object_id": 2, 
+        "department": 19, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 24,
-    "model": "staff.staff",
+    "pk": 24, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Mackenzie",
-        "last_name": "Schimmel",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Mackenzie", 
+        "last_name": "Schimmel", 
+        "object_id": 3, 
+        "department": 19, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 25,
-    "model": "staff.staff",
+    "pk": 25, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Laurie",
-        "last_name": "West",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Laurie", 
+        "last_name": "West", 
+        "object_id": 3, 
+        "department": 12, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 26,
-    "model": "staff.staff",
+    "pk": 26, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Alverta",
-        "last_name": "Tremblay",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Alverta", 
+        "last_name": "Tremblay", 
+        "object_id": 3, 
+        "department": 14, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 27,
-    "model": "staff.staff",
+    "pk": 27, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Vaughn",
-        "last_name": "Waters",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
+        "first_name": "Vaughn", 
+        "last_name": "Waters", 
+        "object_id": 2, 
+        "department": 13, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 28,
-    "model": "staff.staff",
+    "pk": 28, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Delaney",
-        "last_name": "Gerlach",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Delaney", 
+        "last_name": "Gerlach", 
+        "object_id": 1, 
+        "department": 13, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 29,
-    "model": "staff.staff",
+    "pk": 29, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Sydney",
-        "last_name": "Parker",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Sydney", 
+        "last_name": "Parker", 
+        "object_id": 1, 
+        "department": 1, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 30,
-    "model": "staff.staff",
+    "pk": 30, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Vernie",
-        "last_name": "Bode",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
+        "first_name": "Vernie", 
+        "last_name": "Bode", 
+        "object_id": 3, 
+        "department": 2, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 31,
-    "model": "staff.staff",
+    "pk": 31, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Marty",
-        "last_name": "Stiedemann",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Marty", 
+        "last_name": "Stiedemann", 
+        "object_id": 2, 
+        "department": 19, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 32,
-    "model": "staff.staff",
+    "pk": 32, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Alana",
-        "last_name": "Johnston",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Alana", 
+        "last_name": "Johnston", 
+        "object_id": 3, 
+        "department": 12, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 33,
-    "model": "staff.staff",
+    "pk": 33, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Nakia",
-        "last_name": "Kulas",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Nakia", 
+        "last_name": "Kulas", 
+        "object_id": 1, 
+        "department": 8, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 34,
-    "model": "staff.staff",
+    "pk": 34, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Felix",
-        "last_name": "Fisher",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "inactive",
-        "position": 1
+        "first_name": "Felix", 
+        "last_name": "Fisher", 
+        "object_id": 2, 
+        "department": 4, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "inactive", 
+        "position": 3
     }
 },
 {
-    "pk": 35,
-    "model": "staff.staff",
+    "pk": 35, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Kira",
-        "last_name": "Reilly",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Kira", 
+        "last_name": "Reilly", 
+        "object_id": 2, 
+        "department": 8, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 36,
-    "model": "staff.staff",
+    "pk": 36, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Catherine",
-        "last_name": "Koss",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Catherine", 
+        "last_name": "Koss", 
+        "object_id": 1, 
+        "department": 14, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 37,
-    "model": "staff.staff",
+    "pk": 37, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Minerva",
-        "last_name": "O'Reilly",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Minerva", 
+        "last_name": "O'Reilly", 
+        "object_id": 2, 
+        "department": 11, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 38,
-    "model": "staff.staff",
+    "pk": 38, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Cathrine",
-        "last_name": "Kreiger",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Cathrine", 
+        "last_name": "Kreiger", 
+        "object_id": 3, 
+        "department": 17, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 39,
-    "model": "staff.staff",
+    "pk": 39, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Bart",
-        "last_name": "Pagac",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Bart", 
+        "last_name": "Pagac", 
+        "object_id": 3, 
+        "department": 17, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 40,
-    "model": "staff.staff",
+    "pk": 40, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Stephan",
-        "last_name": "Johns",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Stephan", 
+        "last_name": "Johns", 
+        "object_id": 1, 
+        "department": 7, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 41,
-    "model": "staff.staff",
+    "pk": 41, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Eleanora",
-        "last_name": "Oberbrunner",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Eleanora", 
+        "last_name": "Oberbrunner", 
+        "object_id": 3, 
+        "department": 2, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 42,
-    "model": "staff.staff",
+    "pk": 42, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Paolo",
-        "last_name": "Marvin",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Paolo", 
+        "last_name": "Marvin", 
+        "object_id": 1, 
+        "department": 13, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 43,
-    "model": "staff.staff",
+    "pk": 43, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Stanley",
-        "last_name": "Nicolas",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Stanley", 
+        "last_name": "Nicolas", 
+        "object_id": 1, 
+        "department": 14, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 44,
-    "model": "staff.staff",
+    "pk": 44, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Emmanuelle",
-        "last_name": "Johnson",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
+        "first_name": "Emmanuelle", 
+        "last_name": "Johnson", 
+        "object_id": 3, 
+        "department": 9, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 45,
-    "model": "staff.staff",
+    "pk": 45, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Emmitt",
-        "last_name": "Littel",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Emmitt", 
+        "last_name": "Littel", 
+        "object_id": 3, 
+        "department": 20, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 46,
-    "model": "staff.staff",
+    "pk": 46, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Gertrude",
-        "last_name": "Bechtelar",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Gertrude", 
+        "last_name": "Bechtelar", 
+        "object_id": 3, 
+        "department": 18, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 47,
-    "model": "staff.staff",
+    "pk": 47, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Kobe",
-        "last_name": "Murazik",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Kobe", 
+        "last_name": "Murazik", 
+        "object_id": 1, 
+        "department": 6, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 48,
-    "model": "staff.staff",
+    "pk": 48, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Tevin",
-        "last_name": "Bauch",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Tevin", 
+        "last_name": "Bauch", 
+        "object_id": 3, 
+        "department": 13, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 49,
-    "model": "staff.staff",
+    "pk": 49, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Rosario",
-        "last_name": "Schneider",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Rosario", 
+        "last_name": "Schneider", 
+        "object_id": 1, 
+        "department": 14, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 50,
-    "model": "staff.staff",
+    "pk": 50, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Otho",
-        "last_name": "Witting",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Otho", 
+        "last_name": "Witting", 
+        "object_id": 2, 
+        "department": 18, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 51,
-    "model": "staff.staff",
+    "pk": 51, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Jadon",
-        "last_name": "Johnston",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Jadon", 
+        "last_name": "Johnston", 
+        "object_id": 3, 
+        "department": 17, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 52,
-    "model": "staff.staff",
+    "pk": 52, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Kelli",
-        "last_name": "Emard",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Kelli", 
+        "last_name": "Emard", 
+        "object_id": 2, 
+        "department": 6, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 53,
-    "model": "staff.staff",
+    "pk": 53, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Flavio",
-        "last_name": "Marvin",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Flavio", 
+        "last_name": "Marvin", 
+        "object_id": 3, 
+        "department": 18, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 54,
-    "model": "staff.staff",
+    "pk": 54, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Wava",
-        "last_name": "Huels",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Wava", 
+        "last_name": "Huels", 
+        "object_id": 3, 
+        "department": 14, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 55,
-    "model": "staff.staff",
+    "pk": 55, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Cale",
-        "last_name": "Rath",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Cale", 
+        "last_name": "Rath", 
+        "object_id": 1, 
+        "department": 11, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 56,
-    "model": "staff.staff",
+    "pk": 56, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Hannah",
-        "last_name": "Eichmann",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Hannah", 
+        "last_name": "Eichmann", 
+        "object_id": 2, 
+        "department": 8, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 57,
-    "model": "staff.staff",
+    "pk": 57, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Zachary",
-        "last_name": "Baumbach",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
+        "first_name": "Zachary", 
+        "last_name": "Baumbach", 
+        "object_id": 3, 
+        "department": 19, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 58,
-    "model": "staff.staff",
+    "pk": 58, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Rico",
-        "last_name": "Kutch",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Rico", 
+        "last_name": "Kutch", 
+        "object_id": 1, 
+        "department": 19, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 59,
-    "model": "staff.staff",
+    "pk": 59, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Quinten",
-        "last_name": "Ryan",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Quinten", 
+        "last_name": "Ryan", 
+        "object_id": 1, 
+        "department": 6, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 60,
-    "model": "staff.staff",
+    "pk": 60, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Natalie",
-        "last_name": "Hills",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Natalie", 
+        "last_name": "Hills", 
+        "object_id": 3, 
+        "department": 3, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 61,
-    "model": "staff.staff",
+    "pk": 61, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Sarina",
-        "last_name": "Reinger",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Sarina", 
+        "last_name": "Reinger", 
+        "object_id": 3, 
+        "department": 5, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 62,
-    "model": "staff.staff",
+    "pk": 62, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Lamont",
-        "last_name": "Mraz",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Lamont", 
+        "last_name": "Mraz", 
+        "object_id": 2, 
+        "department": 7, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 63,
-    "model": "staff.staff",
+    "pk": 63, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Arielle",
-        "last_name": "Flatley",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Arielle", 
+        "last_name": "Flatley", 
+        "object_id": 2, 
+        "department": 14, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 64,
-    "model": "staff.staff",
+    "pk": 64, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Zion",
-        "last_name": "Wuckert",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Zion", 
+        "last_name": "Wuckert", 
+        "object_id": 3, 
+        "department": 11, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 65,
-    "model": "staff.staff",
+    "pk": 65, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Arturo",
-        "last_name": "Christiansen",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Arturo", 
+        "last_name": "Christiansen", 
+        "object_id": 2, 
+        "department": 9, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 66,
-    "model": "staff.staff",
+    "pk": 66, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Kylee",
-        "last_name": "Gutmann",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Kylee", 
+        "last_name": "Gutmann", 
+        "object_id": 2, 
+        "department": 14, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 67,
-    "model": "staff.staff",
+    "pk": 67, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Markus",
-        "last_name": "Murray",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Markus", 
+        "last_name": "Murray", 
+        "object_id": 2, 
+        "department": 16, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 68,
-    "model": "staff.staff",
+    "pk": 68, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Domingo",
-        "last_name": "Sawayn",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Domingo", 
+        "last_name": "Sawayn", 
+        "object_id": 3, 
+        "department": 9, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 69,
-    "model": "staff.staff",
+    "pk": 69, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Corine",
-        "last_name": "Jakubowski",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Corine", 
+        "last_name": "Jakubowski", 
+        "object_id": 1, 
+        "department": 12, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 70,
-    "model": "staff.staff",
+    "pk": 70, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Elinor",
-        "last_name": "Balistreri",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Elinor", 
+        "last_name": "Balistreri", 
+        "object_id": 1, 
+        "department": 16, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 71,
-    "model": "staff.staff",
+    "pk": 71, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Kennedi",
-        "last_name": "Runte",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Kennedi", 
+        "last_name": "Runte", 
+        "object_id": 3, 
+        "department": 10, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 72,
-    "model": "staff.staff",
+    "pk": 72, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Jett",
-        "last_name": "Auer",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Jett", 
+        "last_name": "Auer", 
+        "object_id": 3, 
+        "department": 12, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 73,
-    "model": "staff.staff",
+    "pk": 73, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Deron",
-        "last_name": "Paucek",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Deron", 
+        "last_name": "Paucek", 
+        "object_id": 3, 
+        "department": 8, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 74,
-    "model": "staff.staff",
+    "pk": 74, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Ibrahim",
-        "last_name": "Barrows",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
+        "first_name": "Ibrahim", 
+        "last_name": "Barrows", 
+        "object_id": 2, 
+        "department": 17, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 75,
-    "model": "staff.staff",
+    "pk": 75, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Hershel",
-        "last_name": "Morar",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Hershel", 
+        "last_name": "Morar", 
+        "object_id": 1, 
+        "department": 20, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 76,
-    "model": "staff.staff",
+    "pk": 76, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Magdalena",
-        "last_name": "Johns",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Magdalena", 
+        "last_name": "Johns", 
+        "object_id": 1, 
+        "department": 10, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 77,
-    "model": "staff.staff",
+    "pk": 77, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Nannie",
-        "last_name": "Cronin",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Nannie", 
+        "last_name": "Cronin", 
+        "object_id": 2, 
+        "department": 19, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 78,
-    "model": "staff.staff",
+    "pk": 78, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Arthur",
-        "last_name": "Schroeder",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
+        "first_name": "Arthur", 
+        "last_name": "Schroeder", 
+        "object_id": 3, 
+        "department": 12, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 79,
-    "model": "staff.staff",
+    "pk": 79, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Tillman",
-        "last_name": "Schoen",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Tillman", 
+        "last_name": "Schoen", 
+        "object_id": 2, 
+        "department": 1, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 80,
-    "model": "staff.staff",
+    "pk": 80, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Stanton",
-        "last_name": "Brekke",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Stanton", 
+        "last_name": "Brekke", 
+        "object_id": 1, 
+        "department": 6, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 81,
-    "model": "staff.staff",
+    "pk": 81, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Myrtle",
-        "last_name": "Konopelski",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Myrtle", 
+        "last_name": "Konopelski", 
+        "object_id": 1, 
+        "department": 1, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 82,
-    "model": "staff.staff",
+    "pk": 82, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Heidi",
-        "last_name": "Schneider",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Heidi", 
+        "last_name": "Schneider", 
+        "object_id": 3, 
+        "department": 4, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 83,
-    "model": "staff.staff",
+    "pk": 83, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Foster",
-        "last_name": "Klein",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Foster", 
+        "last_name": "Klein", 
+        "object_id": 3, 
+        "department": 3, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 84,
-    "model": "staff.staff",
+    "pk": 84, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Ida",
-        "last_name": "Hills",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Ida", 
+        "last_name": "Hills", 
+        "object_id": 1, 
+        "department": 4, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 85,
-    "model": "staff.staff",
+    "pk": 85, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Daisy",
-        "last_name": "Luettgen",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "inactive",
-        "position": 1
+        "first_name": "Daisy", 
+        "last_name": "Luettgen", 
+        "object_id": 3, 
+        "department": 6, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "inactive", 
+        "position": 2
     }
 },
 {
-    "pk": 86,
-    "model": "staff.staff",
+    "pk": 86, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Austen",
-        "last_name": "Treutel",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Austen", 
+        "last_name": "Treutel", 
+        "object_id": 1, 
+        "department": 14, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 87,
-    "model": "staff.staff",
+    "pk": 87, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Lynn",
-        "last_name": "Jacobs",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Lynn", 
+        "last_name": "Jacobs", 
+        "object_id": 2, 
+        "department": 15, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 88,
-    "model": "staff.staff",
+    "pk": 88, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Cali",
-        "last_name": "Reichel",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Cali", 
+        "last_name": "Reichel", 
+        "object_id": 3, 
+        "department": 17, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 89,
-    "model": "staff.staff",
+    "pk": 89, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Darron",
-        "last_name": "Gutmann",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Darron", 
+        "last_name": "Gutmann", 
+        "object_id": 3, 
+        "department": 9, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 90,
-    "model": "staff.staff",
+    "pk": 90, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Salma",
-        "last_name": "Simonis",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Salma", 
+        "last_name": "Simonis", 
+        "object_id": 1, 
+        "department": 1, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 91,
-    "model": "staff.staff",
+    "pk": 91, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Marianna",
-        "last_name": "Olson",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Marianna", 
+        "last_name": "Olson", 
+        "object_id": 3, 
+        "department": 18, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 92,
-    "model": "staff.staff",
+    "pk": 92, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Dominic",
-        "last_name": "Miller",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Dominic", 
+        "last_name": "Miller", 
+        "object_id": 1, 
+        "department": 20, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 93,
-    "model": "staff.staff",
+    "pk": 93, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Winifred",
-        "last_name": "Stehr",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Winifred", 
+        "last_name": "Stehr", 
+        "object_id": 1, 
+        "department": 13, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 94,
-    "model": "staff.staff",
+    "pk": 94, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Abbey",
-        "last_name": "Kertzmann",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Abbey", 
+        "last_name": "Kertzmann", 
+        "object_id": 1, 
+        "department": 10, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 95,
-    "model": "staff.staff",
+    "pk": 95, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Jovan",
-        "last_name": "Ferry",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Jovan", 
+        "last_name": "Ferry", 
+        "object_id": 3, 
+        "department": 17, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 96,
-    "model": "staff.staff",
+    "pk": 96, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Grayce",
-        "last_name": "Walter",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Grayce", 
+        "last_name": "Walter", 
+        "object_id": 3, 
+        "department": 19, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 97,
-    "model": "staff.staff",
+    "pk": 97, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Kayden",
-        "last_name": "Stehr",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Kayden", 
+        "last_name": "Stehr", 
+        "object_id": 1, 
+        "department": 12, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 98,
-    "model": "staff.staff",
+    "pk": 98, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Elaina",
-        "last_name": "Nader",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Elaina", 
+        "last_name": "Nader", 
+        "object_id": 3, 
+        "department": 4, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 99,
-    "model": "staff.staff",
+    "pk": 99, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Kenyon",
-        "last_name": "Ullrich",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
+        "first_name": "Kenyon", 
+        "last_name": "Ullrich", 
+        "object_id": 2, 
+        "department": 3, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 100,
-    "model": "staff.staff",
+    "pk": 100, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Juliana",
-        "last_name": "Considine",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Juliana", 
+        "last_name": "Considine", 
+        "object_id": 3, 
+        "department": 15, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 101,
-    "model": "staff.staff",
+    "pk": 101, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Lucinda",
-        "last_name": "Breitenberg",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Lucinda", 
+        "last_name": "Breitenberg", 
+        "object_id": 2, 
+        "department": 14, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 102,
-    "model": "staff.staff",
+    "pk": 102, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Jammie",
-        "last_name": "Becker",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Jammie", 
+        "last_name": "Becker", 
+        "object_id": 3, 
+        "department": 10, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 103,
-    "model": "staff.staff",
+    "pk": 103, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Ciara",
-        "last_name": "Stehr",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "inactive",
-        "position": 1
+        "first_name": "Ciara", 
+        "last_name": "Stehr", 
+        "object_id": 3, 
+        "department": 9, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "inactive", 
+        "position": 4
     }
 },
 {
-    "pk": 104,
-    "model": "staff.staff",
+    "pk": 104, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Wade",
-        "last_name": "Luettgen",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Wade", 
+        "last_name": "Luettgen", 
+        "object_id": 3, 
+        "department": 16, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 105,
-    "model": "staff.staff",
+    "pk": 105, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Jake",
-        "last_name": "Heidenreich",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Jake", 
+        "last_name": "Heidenreich", 
+        "object_id": 1, 
+        "department": 11, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 106,
-    "model": "staff.staff",
+    "pk": 106, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Christ",
-        "last_name": "Considine",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Christ", 
+        "last_name": "Considine", 
+        "object_id": 1, 
+        "department": 20, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 107,
-    "model": "staff.staff",
+    "pk": 107, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Sammy",
-        "last_name": "Aufderhar",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Sammy", 
+        "last_name": "Aufderhar", 
+        "object_id": 2, 
+        "department": 5, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 108,
-    "model": "staff.staff",
+    "pk": 108, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Lilliana",
-        "last_name": "Parisian",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Lilliana", 
+        "last_name": "Parisian", 
+        "object_id": 2, 
+        "department": 7, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 109,
-    "model": "staff.staff",
+    "pk": 109, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Alvis",
-        "last_name": "Cormier",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Alvis", 
+        "last_name": "Cormier", 
+        "object_id": 3, 
+        "department": 19, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 110,
-    "model": "staff.staff",
+    "pk": 110, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Evalyn",
-        "last_name": "Morissette",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Evalyn", 
+        "last_name": "Morissette", 
+        "object_id": 2, 
+        "department": 11, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 111,
-    "model": "staff.staff",
+    "pk": 111, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Talon",
-        "last_name": "Connelly",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
+        "first_name": "Talon", 
+        "last_name": "Connelly", 
+        "object_id": 2, 
+        "department": 18, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 112,
-    "model": "staff.staff",
+    "pk": 112, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Ansley",
-        "last_name": "Ebert",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Ansley", 
+        "last_name": "Ebert", 
+        "object_id": 3, 
+        "department": 2, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 113,
-    "model": "staff.staff",
+    "pk": 113, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Fabiola",
-        "last_name": "Kiehn",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
+        "first_name": "Fabiola", 
+        "last_name": "Kiehn", 
+        "object_id": 1, 
+        "department": 2, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 114,
-    "model": "staff.staff",
+    "pk": 114, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Meaghan",
-        "last_name": "Corkery",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Meaghan", 
+        "last_name": "Corkery", 
+        "object_id": 3, 
+        "department": 3, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 115,
-    "model": "staff.staff",
+    "pk": 115, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Glennie",
-        "last_name": "Farrell",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Glennie", 
+        "last_name": "Farrell", 
+        "object_id": 1, 
+        "department": 19, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 116,
-    "model": "staff.staff",
+    "pk": 116, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Amaya",
-        "last_name": "Schaden",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Amaya", 
+        "last_name": "Schaden", 
+        "object_id": 3, 
+        "department": 7, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 117,
-    "model": "staff.staff",
+    "pk": 117, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Nelda",
-        "last_name": "Adams",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Nelda", 
+        "last_name": "Adams", 
+        "object_id": 3, 
+        "department": 20, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 118,
-    "model": "staff.staff",
+    "pk": 118, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Arno",
-        "last_name": "Reinger",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Arno", 
+        "last_name": "Reinger", 
+        "object_id": 3, 
+        "department": 10, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 119,
-    "model": "staff.staff",
+    "pk": 119, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Kendra",
-        "last_name": "Flatley",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Kendra", 
+        "last_name": "Flatley", 
+        "object_id": 1, 
+        "department": 8, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 120,
-    "model": "staff.staff",
+    "pk": 120, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Aryanna",
-        "last_name": "Kuhn",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Aryanna", 
+        "last_name": "Kuhn", 
+        "object_id": 1, 
+        "department": 13, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 121,
-    "model": "staff.staff",
+    "pk": 121, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Beulah",
-        "last_name": "Boyle",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Beulah", 
+        "last_name": "Boyle", 
+        "object_id": 1, 
+        "department": 6, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 122,
-    "model": "staff.staff",
+    "pk": 122, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Mason",
-        "last_name": "Anderson",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Mason", 
+        "last_name": "Anderson", 
+        "object_id": 1, 
+        "department": 4, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 123,
-    "model": "staff.staff",
+    "pk": 123, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Maymie",
-        "last_name": "Kohler",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
+        "first_name": "Maymie", 
+        "last_name": "Kohler", 
+        "object_id": 2, 
+        "department": 14, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 124,
-    "model": "staff.staff",
+    "pk": 124, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Delores",
-        "last_name": "O'Keefe",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
+        "first_name": "Delores", 
+        "last_name": "O'Keefe", 
+        "object_id": 2, 
+        "department": 9, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 125,
-    "model": "staff.staff",
+    "pk": 125, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Stephan",
-        "last_name": "Franecki",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Stephan", 
+        "last_name": "Franecki", 
+        "object_id": 2, 
+        "department": 4, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 126,
-    "model": "staff.staff",
+    "pk": 126, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Verla",
-        "last_name": "Oberbrunner",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Verla", 
+        "last_name": "Oberbrunner", 
+        "object_id": 3, 
+        "department": 18, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 127,
-    "model": "staff.staff",
+    "pk": 127, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Jayden",
-        "last_name": "Keebler",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Jayden", 
+        "last_name": "Keebler", 
+        "object_id": 1, 
+        "department": 12, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 128,
-    "model": "staff.staff",
+    "pk": 128, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Rene",
-        "last_name": "Mante",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Rene", 
+        "last_name": "Mante", 
+        "object_id": 3, 
+        "department": 1, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 129,
-    "model": "staff.staff",
+    "pk": 129, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Twila",
-        "last_name": "Gutmann",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Twila", 
+        "last_name": "Gutmann", 
+        "object_id": 1, 
+        "department": 10, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 130,
-    "model": "staff.staff",
+    "pk": 130, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Westley",
-        "last_name": "Powlowski",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Westley", 
+        "last_name": "Powlowski", 
+        "object_id": 3, 
+        "department": 2, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 131,
-    "model": "staff.staff",
+    "pk": 131, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Giovanna",
-        "last_name": "Howe",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Giovanna", 
+        "last_name": "Howe", 
+        "object_id": 1, 
+        "department": 3, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 132,
-    "model": "staff.staff",
+    "pk": 132, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Arielle",
-        "last_name": "Turcotte",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Arielle", 
+        "last_name": "Turcotte", 
+        "object_id": 1, 
+        "department": 19, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 133,
-    "model": "staff.staff",
+    "pk": 133, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Kaylee",
-        "last_name": "Abbott",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
+        "first_name": "Kaylee", 
+        "last_name": "Abbott", 
+        "object_id": 3, 
+        "department": 4, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 134,
-    "model": "staff.staff",
+    "pk": 134, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Wilhelmine",
-        "last_name": "Paucek",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Wilhelmine", 
+        "last_name": "Paucek", 
+        "object_id": 2, 
+        "department": 13, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 135,
-    "model": "staff.staff",
+    "pk": 135, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Madonna",
-        "last_name": "Kreiger",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Madonna", 
+        "last_name": "Kreiger", 
+        "object_id": 2, 
+        "department": 17, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 136,
-    "model": "staff.staff",
+    "pk": 136, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Camden",
-        "last_name": "Schneider",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Camden", 
+        "last_name": "Schneider", 
+        "object_id": 2, 
+        "department": 10, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 137,
-    "model": "staff.staff",
+    "pk": 137, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Finn",
-        "last_name": "Schultz",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Finn", 
+        "last_name": "Schultz", 
+        "object_id": 3, 
+        "department": 5, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 138,
-    "model": "staff.staff",
+    "pk": 138, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Scarlett",
-        "last_name": "Lueilwitz",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Scarlett", 
+        "last_name": "Lueilwitz", 
+        "object_id": 3, 
+        "department": 20, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 139,
-    "model": "staff.staff",
+    "pk": 139, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Joannie",
-        "last_name": "Bednar",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Joannie", 
+        "last_name": "Bednar", 
+        "object_id": 3, 
+        "department": 18, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 140,
-    "model": "staff.staff",
+    "pk": 140, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Marquis",
-        "last_name": "Schumm",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Marquis", 
+        "last_name": "Schumm", 
+        "object_id": 1, 
+        "department": 5, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 141,
-    "model": "staff.staff",
+    "pk": 141, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Minnie",
-        "last_name": "Becker",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Minnie", 
+        "last_name": "Becker", 
+        "object_id": 2, 
+        "department": 19, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 142,
-    "model": "staff.staff",
+    "pk": 142, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Deja",
-        "last_name": "McCullough",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Deja", 
+        "last_name": "McCullough", 
+        "object_id": 2, 
+        "department": 16, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 143,
-    "model": "staff.staff",
+    "pk": 143, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Blaise",
-        "last_name": "Schmitt",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Blaise", 
+        "last_name": "Schmitt", 
+        "object_id": 3, 
+        "department": 3, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 144,
-    "model": "staff.staff",
+    "pk": 144, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Jonatan",
-        "last_name": "Abernathy",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Jonatan", 
+        "last_name": "Abernathy", 
+        "object_id": 2, 
+        "department": 3, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 145,
-    "model": "staff.staff",
+    "pk": 145, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Frederik",
-        "last_name": "Altenwerth",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Frederik", 
+        "last_name": "Altenwerth", 
+        "object_id": 2, 
+        "department": 12, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 146,
-    "model": "staff.staff",
+    "pk": 146, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Nicolas",
-        "last_name": "Homenick",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Nicolas", 
+        "last_name": "Homenick", 
+        "object_id": 3, 
+        "department": 8, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 147,
-    "model": "staff.staff",
+    "pk": 147, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Deron",
-        "last_name": "Ondricka",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Deron", 
+        "last_name": "Ondricka", 
+        "object_id": 3, 
+        "department": 6, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 148,
-    "model": "staff.staff",
+    "pk": 148, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Estevan",
-        "last_name": "Pacocha",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Estevan", 
+        "last_name": "Pacocha", 
+        "object_id": 3, 
+        "department": 18, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 149,
-    "model": "staff.staff",
+    "pk": 149, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Adrien",
-        "last_name": "Mosciski",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Adrien", 
+        "last_name": "Mosciski", 
+        "object_id": 3, 
+        "department": 12, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 150,
-    "model": "staff.staff",
+    "pk": 150, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Catalina",
-        "last_name": "Howell",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Catalina", 
+        "last_name": "Howell", 
+        "object_id": 3, 
+        "department": 6, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 151,
-    "model": "staff.staff",
+    "pk": 151, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Devon",
-        "last_name": "Mosciski",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Devon", 
+        "last_name": "Mosciski", 
+        "object_id": 3, 
+        "department": 12, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 152,
-    "model": "staff.staff",
+    "pk": 152, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Minerva",
-        "last_name": "Jenkins",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Minerva", 
+        "last_name": "Jenkins", 
+        "object_id": 3, 
+        "department": 7, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 153,
-    "model": "staff.staff",
+    "pk": 153, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Mercedes",
-        "last_name": "Stanton",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Mercedes", 
+        "last_name": "Stanton", 
+        "object_id": 3, 
+        "department": 3, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 154,
-    "model": "staff.staff",
+    "pk": 154, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Brenna",
-        "last_name": "Fisher",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Brenna", 
+        "last_name": "Fisher", 
+        "object_id": 1, 
+        "department": 14, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 155,
-    "model": "staff.staff",
+    "pk": 155, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Nicklaus",
-        "last_name": "Harber",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Nicklaus", 
+        "last_name": "Harber", 
+        "object_id": 2, 
+        "department": 15, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 156,
-    "model": "staff.staff",
+    "pk": 156, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Ottis",
-        "last_name": "Macejkovic",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Ottis", 
+        "last_name": "Macejkovic", 
+        "object_id": 3, 
+        "department": 11, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 157,
-    "model": "staff.staff",
+    "pk": 157, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Shanny",
-        "last_name": "Hagenes",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Shanny", 
+        "last_name": "Hagenes", 
+        "object_id": 3, 
+        "department": 5, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 158,
-    "model": "staff.staff",
+    "pk": 158, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Jonas",
-        "last_name": "Dickens",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Jonas", 
+        "last_name": "Dickens", 
+        "object_id": 3, 
+        "department": 14, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 159,
-    "model": "staff.staff",
+    "pk": 159, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Agustina",
-        "last_name": "Schmidt",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 11,
-        "active": "inactive",
-        "position": 1
+        "first_name": "Agustina", 
+        "last_name": "Schmidt", 
+        "object_id": 1, 
+        "department": 11, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "inactive", 
+        "position": 3
     }
 },
 {
-    "pk": 160,
-    "model": "staff.staff",
+    "pk": 160, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Rhiannon",
-        "last_name": "Stark",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
+        "first_name": "Rhiannon", 
+        "last_name": "Stark", 
+        "object_id": 2, 
+        "department": 9, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 161,
-    "model": "staff.staff",
+    "pk": 161, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Lysanne",
-        "last_name": "Hilll",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
+        "first_name": "Lysanne", 
+        "last_name": "Hilll", 
+        "object_id": 1, 
+        "department": 2, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 162,
-    "model": "staff.staff",
+    "pk": 162, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Mathilde",
-        "last_name": "Little",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
+        "first_name": "Mathilde", 
+        "last_name": "Little", 
+        "object_id": 2, 
+        "department": 11, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 163,
-    "model": "staff.staff",
+    "pk": 163, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Wilford",
-        "last_name": "Homenick",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Wilford", 
+        "last_name": "Homenick", 
+        "object_id": 2, 
+        "department": 9, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 164,
-    "model": "staff.staff",
+    "pk": 164, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Ned",
-        "last_name": "Graham",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "inactive",
-        "position": 1
+        "first_name": "Ned", 
+        "last_name": "Graham", 
+        "object_id": 2, 
+        "department": 2, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "inactive", 
+        "position": 3
     }
 },
 {
-    "pk": 165,
-    "model": "staff.staff",
+    "pk": 165, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Karli",
-        "last_name": "Koepp",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Karli", 
+        "last_name": "Koepp", 
+        "object_id": 3, 
+        "department": 3, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 166,
-    "model": "staff.staff",
+    "pk": 166, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Norene",
-        "last_name": "Gislason",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Norene", 
+        "last_name": "Gislason", 
+        "object_id": 2, 
+        "department": 6, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 167,
-    "model": "staff.staff",
+    "pk": 167, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Juliet",
-        "last_name": "Reynolds",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Juliet", 
+        "last_name": "Reynolds", 
+        "object_id": 2, 
+        "department": 11, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 168,
-    "model": "staff.staff",
+    "pk": 168, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Colby",
-        "last_name": "O'Reilly",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Colby", 
+        "last_name": "O'Reilly", 
+        "object_id": 1, 
+        "department": 1, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 169,
-    "model": "staff.staff",
+    "pk": 169, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Scot",
-        "last_name": "Gutkowski",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Scot", 
+        "last_name": "Gutkowski", 
+        "object_id": 3, 
+        "department": 10, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 170,
-    "model": "staff.staff",
+    "pk": 170, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Timmothy",
-        "last_name": "Schneider",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Timmothy", 
+        "last_name": "Schneider", 
+        "object_id": 2, 
+        "department": 1, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 171,
-    "model": "staff.staff",
+    "pk": 171, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Kay",
-        "last_name": "Adams",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
+        "first_name": "Kay", 
+        "last_name": "Adams", 
+        "object_id": 2, 
+        "department": 13, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 172,
-    "model": "staff.staff",
+    "pk": 172, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Jamaal",
-        "last_name": "Block",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Jamaal", 
+        "last_name": "Block", 
+        "object_id": 2, 
+        "department": 14, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 173,
-    "model": "staff.staff",
+    "pk": 173, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Miracle",
-        "last_name": "Gulgowski",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Miracle", 
+        "last_name": "Gulgowski", 
+        "object_id": 3, 
+        "department": 3, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 174,
-    "model": "staff.staff",
+    "pk": 174, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Jacinto",
-        "last_name": "Boyle",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Jacinto", 
+        "last_name": "Boyle", 
+        "object_id": 2, 
+        "department": 17, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 175,
-    "model": "staff.staff",
+    "pk": 175, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Emerald",
-        "last_name": "Smitham",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Emerald", 
+        "last_name": "Smitham", 
+        "object_id": 3, 
+        "department": 2, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 176,
-    "model": "staff.staff",
+    "pk": 176, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Murl",
-        "last_name": "Schowalter",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
+        "first_name": "Murl", 
+        "last_name": "Schowalter", 
+        "object_id": 3, 
+        "department": 15, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 177,
-    "model": "staff.staff",
+    "pk": 177, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Kiarra",
-        "last_name": "Rosenbaum",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Kiarra", 
+        "last_name": "Rosenbaum", 
+        "object_id": 2, 
+        "department": 15, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 178,
-    "model": "staff.staff",
+    "pk": 178, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Jadon",
-        "last_name": "Marquardt",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Jadon", 
+        "last_name": "Marquardt", 
+        "object_id": 2, 
+        "department": 20, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 179,
-    "model": "staff.staff",
+    "pk": 179, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Vince",
-        "last_name": "Runolfsson",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Vince", 
+        "last_name": "Runolfsson", 
+        "object_id": 1, 
+        "department": 7, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 180,
-    "model": "staff.staff",
+    "pk": 180, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Hubert",
-        "last_name": "Mueller",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Hubert", 
+        "last_name": "Mueller", 
+        "object_id": 2, 
+        "department": 13, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 181,
-    "model": "staff.staff",
+    "pk": 181, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Vaughn",
-        "last_name": "Predovic",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Vaughn", 
+        "last_name": "Predovic", 
+        "object_id": 2, 
+        "department": 1, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 182,
-    "model": "staff.staff",
+    "pk": 182, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Kirsten",
-        "last_name": "Emmerich",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Kirsten", 
+        "last_name": "Emmerich", 
+        "object_id": 3, 
+        "department": 14, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 183,
-    "model": "staff.staff",
+    "pk": 183, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Buford",
-        "last_name": "Anderson",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Buford", 
+        "last_name": "Anderson", 
+        "object_id": 2, 
+        "department": 15, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 184,
-    "model": "staff.staff",
+    "pk": 184, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Erica",
-        "last_name": "Swift",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "inactive",
-        "position": 1
+        "first_name": "Erica", 
+        "last_name": "Swift", 
+        "object_id": 2, 
+        "department": 20, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "inactive", 
+        "position": 3
     }
 },
 {
-    "pk": 185,
-    "model": "staff.staff",
+    "pk": 185, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Davin",
-        "last_name": "Okuneva",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Davin", 
+        "last_name": "Okuneva", 
+        "object_id": 3, 
+        "department": 8, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 186,
-    "model": "staff.staff",
+    "pk": 186, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Ernie",
-        "last_name": "Herman",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Ernie", 
+        "last_name": "Herman", 
+        "object_id": 1, 
+        "department": 10, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 187,
-    "model": "staff.staff",
+    "pk": 187, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Angie",
-        "last_name": "Wolf",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Angie", 
+        "last_name": "Wolf", 
+        "object_id": 2, 
+        "department": 9, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 188,
-    "model": "staff.staff",
+    "pk": 188, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Gerson",
-        "last_name": "Heathcote",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Gerson", 
+        "last_name": "Heathcote", 
+        "object_id": 2, 
+        "department": 3, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 189,
-    "model": "staff.staff",
+    "pk": 189, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Ludie",
-        "last_name": "McLaughlin",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Ludie", 
+        "last_name": "McLaughlin", 
+        "object_id": 2, 
+        "department": 3, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 190,
-    "model": "staff.staff",
+    "pk": 190, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Lucious",
-        "last_name": "Waters",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Lucious", 
+        "last_name": "Waters", 
+        "object_id": 1, 
+        "department": 2, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 191,
-    "model": "staff.staff",
+    "pk": 191, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Ubaldo",
-        "last_name": "Buckridge",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Ubaldo", 
+        "last_name": "Buckridge", 
+        "object_id": 3, 
+        "department": 6, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 192,
-    "model": "staff.staff",
+    "pk": 192, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Hailee",
-        "last_name": "Hammes",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Hailee", 
+        "last_name": "Hammes", 
+        "object_id": 3, 
+        "department": 14, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 193,
-    "model": "staff.staff",
+    "pk": 193, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Christian",
-        "last_name": "Gerhold",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Christian", 
+        "last_name": "Gerhold", 
+        "object_id": 3, 
+        "department": 15, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 194,
-    "model": "staff.staff",
+    "pk": 194, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Jolie",
-        "last_name": "Wunsch",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Jolie", 
+        "last_name": "Wunsch", 
+        "object_id": 2, 
+        "department": 16, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 },
 {
-    "pk": 195,
-    "model": "staff.staff",
+    "pk": 195, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Meagan",
-        "last_name": "Pollich",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Meagan", 
+        "last_name": "Pollich", 
+        "object_id": 1, 
+        "department": 14, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 196,
-    "model": "staff.staff",
+    "pk": 196, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Joanie",
-        "last_name": "Denesik",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Joanie", 
+        "last_name": "Denesik", 
+        "object_id": 3, 
+        "department": 6, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 197,
-    "model": "staff.staff",
+    "pk": 197, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Norma",
-        "last_name": "Koepp",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "inactive",
-        "position": 1
+        "first_name": "Norma", 
+        "last_name": "Koepp", 
+        "object_id": 2, 
+        "department": 5, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "inactive", 
+        "position": 2
     }
 },
 {
-    "pk": 198,
-    "model": "staff.staff",
+    "pk": 198, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Brant",
-        "last_name": "Beier",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
+        "first_name": "Brant", 
+        "last_name": "Beier", 
+        "object_id": 2, 
+        "department": 19, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
         "position": 1
     }
 },
 {
-    "pk": 199,
-    "model": "staff.staff",
+    "pk": 199, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Nestor",
-        "last_name": "Sanford",
-        "object_id": 1,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Nestor", 
+        "last_name": "Sanford", 
+        "object_id": 1, 
+        "department": 12, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 3
     }
 },
 {
-    "pk": 200,
-    "model": "staff.staff",
+    "pk": 200, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Kaley",
-        "last_name": "Pouros",
-        "object_id": 3,
-        "department": 1,
-        "content_type": 12,
-        "active": "active",
-        "position": 1
+        "first_name": "Kaley", 
+        "last_name": "Pouros", 
+        "object_id": 3, 
+        "department": 13, 
+        "content_type": [
+            "staff", 
+            "genericmodelb"
+        ], 
+        "active": "active", 
+        "position": 2
     }
 },
 {
-    "pk": 201,
-    "model": "staff.staff",
+    "pk": 201, 
+    "model": "staff.staff", 
     "fields": {
-        "first_name": "Kale",
-        "last_name": "Braun",
-        "object_id": 2,
-        "department": 1,
-        "content_type": 11,
-        "active": "active",
-        "position": 1
+        "first_name": "Kale", 
+        "last_name": "Braun", 
+        "object_id": 2, 
+        "department": 2, 
+        "content_type": [
+            "staff", 
+            "genericmodela"
+        ], 
+        "active": "active", 
+        "position": 4
     }
 }
 ]
