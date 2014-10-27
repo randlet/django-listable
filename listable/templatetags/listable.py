@@ -79,7 +79,7 @@ def listable(view_name, save_state=False, css_table_class="", css_input_class=""
             raise TypeError("{wt} is not a valid widget type".format(wt=widget_type))
 
     opts = {
-        "tableId": "#listable-table-"+view_name,
+        "tableId": "#listable-table-" + view_name,
         "paginationType": settings.LISTABLE_PAGINATION_TYPE,
         "stateSave": settings.LISTABLE_STATE_SAVE,
         "url": reverse(view_name),

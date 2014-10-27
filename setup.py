@@ -24,7 +24,7 @@ readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 install_requires = []
-try:
+try: # flake8: noqa
     import importlib
 except ImportError:
     install_requires.append("importlib")

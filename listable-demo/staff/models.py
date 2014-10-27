@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
-from django.utils.formats import localize
 
 
 ACTIVE = 'active'
@@ -10,9 +9,9 @@ INACTIVE = 'inactive'
 TERMINATED = 'terminated'
 
 ACTIVE_CHOICES = (
-    (ACTIVE,"Active"),
-    (INACTIVE,"Inactive"),
-    (TERMINATED,"Terminated"),
+    (ACTIVE, "Active"),
+    (INACTIVE, "Inactive"),
+    (TERMINATED, "Terminated"),
 )
 
 ACTIVE_CHOICES_DISPLAY = dict(ACTIVE_CHOICES)
@@ -21,7 +20,7 @@ ACTIVE_CHOICES_DISPLAY = dict(ACTIVE_CHOICES)
 class Business(models.Model):
 
     name = models.CharField(max_length=255)
-    business_type = models.IntegerField(choices=zip(range(5),range(5)), default=1)
+    business_type = models.IntegerField(choices=zip(range(5), range(5)), default=1)
 
     class Meta:
         verbose_name_plural = "Businesses"
@@ -59,7 +58,7 @@ class AbstractGeneric(models.Model):
     )
 
     class Meta:
-        abstract=True
+        abstract = True
 
 
 class GenericModelA(AbstractGeneric):
@@ -84,7 +83,7 @@ class Staff(models.Model):
 
     first_name = models.CharField(max_length=255, help_text=_("Enter the name of the staff being rounded"))
     last_name = models.CharField(max_length=255, help_text=_("Enter the name of the staff being rounded"))
-    active = models.CharField(max_length=10, choices = ACTIVE_CHOICES)
+    active = models.CharField(max_length=10, choices=ACTIVE_CHOICES)
 
     position = models.ForeignKey(Position)
     department = models.ForeignKey(Department)
@@ -106,5 +105,3 @@ class Staff(models.Model):
 
     def __unicode__(self):
         return self.name()
-
-

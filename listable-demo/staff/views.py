@@ -1,10 +1,8 @@
-# Create your views here.
-from django.views.generic import View
-from django.http import Http404
 from django.utils.translation import ugettext as _
-from listable.views  import BaseListableView, SELECT
+from listable.views import BaseListableView, SELECT
 
 from . import models
+
 
 class StaffList(BaseListableView):
 
@@ -62,4 +60,4 @@ class StaffList(BaseListableView):
                 THEN (SELECT name from staff_genericmodelb WHERE object_id = staff_genericmodelb.id)
          END
          """
-        return {"select":{'genericname': extraq}}
+        return {"select": {'genericname': extraq}}
