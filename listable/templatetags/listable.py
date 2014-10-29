@@ -42,7 +42,17 @@ def header(value):
     return value.replace("__", " ").replace("_", " ").title()
 
 
-def get_options(view_name, save_state=False, css_table_class="", css_input_class=""):
+def get_options(view_name, dom="", save_state=None, pagination_type="", css_table_class="", css_input_class=""):
+
+    if save_state is None:
+        save_state = settings.LISTABLE_STATE_SAVE
+
+    if dom is "":
+        dom = settings.LISTABLE_DOM
+
+    if pagination_type is "":
+        pagination_type = settings.LISTABLE_PAGINATION_TYPE
+
     cls = utils.class_for_view_name(view_name)
     mdl = cls.model
 
@@ -78,12 +88,12 @@ def get_options(view_name, save_state=False, css_table_class="", css_input_class
 
     opts = {
         "tableId": "#listable-table-" + view_name,
-        "paginationType": settings.LISTABLE_PAGINATION_TYPE,
-        "stateSave": settings.LISTABLE_STATE_SAVE,
+        "paginationType": pagination_type,
+        "stateSave": save_state,
         "url": reverse(view_name),
         "bProcessing": True,
         "autoWidth": True,
-        "DOM": settings.LISTABLE_DOM,
+        "DOM": dom,
         "columnDefs": column_defs,
         "columnFilterDefs": column_filter_defs,
         "cssTableClass": css_table_class,
@@ -94,10 +104,11 @@ def get_options(view_name, save_state=False, css_table_class="", css_input_class
 
 
 @register.simple_tag
-def listable(view_name, save_state=False, css_table_class="", css_input_class=""):
+def listable(view_name, dom="", save_state=None, pagination_type=None, css_table_class="", css_input_class=""):
     """ Generate all script tags and DataTables options for a given table"""
 
-    opts = get_options(view_name, save_state, css_table_class, css_input_class)
+
+    opts = get_options(view_name, dom, save_state, pagination_type, css_table_class, css_input_class)
 
     scripts = ['<script type="text/javascript">var Listable = {0};</script>'.format(json.dumps(opts))]
     scripts += DATATABLES_SCRIPTS
