@@ -221,7 +221,7 @@ class BaseListableView(ListView):
 
     def format_col(self, field, obj):
 
-        # first see if subclass has a formatter defined
+        # first see if view subclass has a formatter defined
         formatter = getattr(self, field, None)
         if formatter:
             return formatter(obj) if callable(formatter) else formatter
@@ -241,7 +241,7 @@ class BaseListableView(ListView):
             raise AttributeError("'%s' is not a valid format specifier" % (field))
 
         if callable(attr):
-            return attr(obj)
+            return attr()
         elif isinstance(attr, datetime.datetime):
             return formats.date_format(attr, "SHORT_DATETIME_FORMAT")
         elif isinstance(attr, datetime.date):
