@@ -1,0 +1,698 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Welcome to django-listable’s documentation! &mdash; django-listable 0.2.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="django-listable 0.2.0 documentation" href="#" />
+    <link rel="next" title="Contributing" href="contributing.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="contributing.html" title="Contributing"
+             accesskey="N">next</a> |</li>
+        <li><a href="#">django-listable 0.2.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="welcome-to-django-listable-s-documentation">
+<h1>Welcome to django-listable&#8217;s documentation!<a class="headerlink" href="#welcome-to-django-listable-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#types-of-contributions">Types of Contributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#tips">Tips</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="authors.html#development-lead">Development Lead</a></li>
+<li class="toctree-l2"><a class="reference internal" href="authors.html#contributors">Contributors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id1">0.2.0 (2014-10-29)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id2">0.1.2 (2014-07-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id3">0.1.0 (2013-08-15)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="about">
+<h2>About<a class="headerlink" href="#about" title="Permalink to this headline">¶</a></h2>
+<p>Listable is a Django package to make the integration of your Django
+models with <a class="reference external" href="https://datatables.net/">Datatables.js</a> easy.</p>
+<p>Django-listable was motivated by my repeated need to generate sortable
+and filterable tables from my Django models for CRUD apps.</p>
+<p>The idea is that you should easily be able to go from a model like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Staff</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+
+    <span class="n">first_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Enter the name of the staff being rounded&quot;</span><span class="p">))</span>
+    <span class="n">last_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Enter the name of the staff being rounded&quot;</span><span class="p">))</span>
+    <span class="n">active</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">choices</span> <span class="o">=</span> <span class="n">ACTIVE_CHOICES</span><span class="p">)</span>
+
+    <span class="n">position</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Position</span><span class="p">)</span>
+    <span class="n">department</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Department</span><span class="p">)</span>
+
+    <span class="n">limit</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Q</span><span class="p">(</span><span class="n">app_label</span><span class="o">=</span><span class="s">&#39;staff&#39;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s">&#39;genericmodela&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="n">models</span><span class="o">.</span><span class="n">Q</span><span class="p">(</span><span class="n">app_label</span><span class="o">=</span><span class="s">&#39;staff&#39;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s">&#39;genericmodelb&#39;</span><span class="p">)</span>
+    <span class="n">content_type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">ContentType</span><span class="p">,</span> <span class="n">limit_choices_to</span><span class="o">=</span><span class="n">limit</span><span class="p">)</span>
+    <span class="n">object_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">()</span>
+    <span class="n">generic_object</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">GenericForeignKey</span><span class="p">(</span><span class="s">&quot;content_type&quot;</span><span class="p">,</span> <span class="s">&quot;object_id&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>to a filterable/orderable table in a template like this with as little code as possible:</p>
+<img alt="_images/staff_table.png" src="_images/staff_table.png" />
+<p>There are a couple of other similar projects worth checking out to see if they fit your
+needs better:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://pypi.python.org/pypi/django-datatables-view">django-datatables-view</a></li>
+<li><a class="reference external" href="https://pypi.python.org/pypi/django-datatables">django-datatables</a></li>
+<li><a class="reference external" href="https://github.com/noirbizarre/django-eztables">django-eztables</a></li>
+</ul>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>$ pip install django-listable</div></blockquote>
+</div>
+<div class="section" id="settings">
+<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
+<p>Listable currently has 4 settings you can configure to be used
+as default values for your table (they can be overriden in the listable template tag).</p>
+<p><em>LISTABLE_DOM</em></p>
+<p>Default datatables sDOM parameter to use. By default listable uses the Bootstrap 3 dom below.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># bootstrap 2</span>
+<span class="c"># LISTABLE_DOM = &#39;&lt;&quot;row-fluid&quot;&lt;&quot;span6&quot;ir&gt;&lt;&quot;span6&quot;p&gt;&gt;rt&lt;&quot;row-fluid&quot;&lt;&quot;span12&quot;lp&gt;&gt;&#39;</span>
+
+<span class="c">#boostrap 3</span>
+<span class="n">LISTABLE_DOM</span> <span class="o">=</span>  <span class="s">&#39;&lt;&quot;row&quot;&lt;&quot;col-sm-6&quot;i&gt;&lt;&quot;col-sm-6&quot;rp&gt;&gt;rt&lt;&quot;row&quot;&lt;&quot;col-sm-12&quot;lp&gt;&gt;&#39;</span>
+</pre></div>
+</div>
+<p><em>LISTABLE_PAGINATION_TYPE</em></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># pagination types -&gt; bootstrap2, bootstrap3, two_button, full_numbers</span>
+<span class="n">LISTABLE_PAGINATION_TYPE</span> <span class="o">=</span> <span class="s">&quot;full_numbers&quot;</span>
+</pre></div>
+</div>
+<p><em>LISTABLE_STATE_SAVE</em></p>
+<p>Enable sticky filters by default.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">LISTABLE_STATE_SAVE</span> <span class="o">=</span> <span class="bp">True</span>
+</pre></div>
+</div>
+<p><em>LISTABLE_PAGINATE_BY</em></p>
+<p>Default page size.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">LISTABLE_PAGINATE_BY</span> <span class="o">=</span> <span class="mi">10</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>There&#8217;s four steps to using django-listable</p>
+<ol class="arabic simple">
+<li>Including <cite>listable</cite> in your settings.INSTALLED_APPS</li>
+<li>Create a view by subclassing listable.views.BaseListableView</li>
+<li>Connect the view to a url pattern in your apps urls.py</li>
+<li>Include the <cite>listable</cite> template tag in a template</li>
+</ol>
+<p>These steps will demonstrated below assuming we have
+a Django application called staff and we want to create a page on our
+site with a list of staff and the department and business they belong to.</p>
+<p>with the following models defined:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Business</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Department</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">business</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Business</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Staff</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+
+    <span class="n">first_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Enter the name of the staff being rounded&quot;</span><span class="p">))</span>
+    <span class="n">last_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Enter the name of the staff being rounded&quot;</span><span class="p">))</span>
+    <span class="n">active</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">choices</span> <span class="o">=</span> <span class="n">ACTIVE_CHOICES</span><span class="p">)</span>
+
+    <span class="n">department</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Department</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">last_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_active_display</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>A full functional example can be found in the demo app included with
+django-listable.</p>
+<div class="section" id="adding-listable-to-settings-installed-apps">
+<h3>Adding <cite>listable</cite> to settings.INSTALLED_APPS<a class="headerlink" href="#adding-listable-to-settings-installed-apps" title="Permalink to this headline">¶</a></h3>
+<p>To start using django-listable add <cite>listable</cite> to your INSTALLED_APPS:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s">&#39;django.contrib.auth&#39;</span><span class="p">,</span>
+    <span class="s">&#39;django.contrib.contenttypes&#39;</span><span class="p">,</span>
+    <span class="s">&#39;django.contrib.sessions&#39;</span><span class="p">,</span>
+    <span class="s">&#39;django.contrib.sites&#39;</span><span class="p">,</span>
+    <span class="s">&#39;django.contrib.messages&#39;</span><span class="p">,</span>
+    <span class="s">&#39;django.contrib.staticfiles&#39;</span><span class="p">,</span>
+    <span class="s">&#39;django.contrib.admin&#39;</span><span class="p">,</span>
+
+
+    <span class="s">&#39;staff&#39;</span><span class="p">,</span>
+    <span class="s">&#39;listable&#39;</span><span class="p">,</span>
+    <span class="o">...</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="defining-a-listable-view">
+<h3>Defining a Listable view<a class="headerlink" href="#defining-a-listable-view" title="Permalink to this headline">¶</a></h3>
+<p>To define a <cite>listable</cite> view, sublcass <cite>listable.views.BaseListableView</cite>
+and set the model  that is to be used as the source of data:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">listable.views</span> <span class="kn">import</span> <span class="n">BaseListableView</span>
+<span class="kn">from</span> <span class="nn">models</span> <span class="kn">import</span> <span class="n">Staff</span>
+
+
+<span class="k">class</span> <span class="nc">StaffList</span><span class="p">(</span><span class="n">BaseListableView</span><span class="p">):</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Staff</span>
+
+    <span class="o">...</span>
+</pre></div>
+</div>
+<div class="section" id="defining-columns-for-your-table">
+<h4>Defining Columns for your table<a class="headerlink" href="#defining-columns-for-your-table" title="Permalink to this headline">¶</a></h4>
+<p>Every <cite>listable</cite> view must define one or more fields to be displayed as columns in the table.
+<cite>listable</cite> fields are defined in a manner similar to ModelForms:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">StaffList</span><span class="p">(</span><span class="n">BaseListableView</span><span class="p">):</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Staff</span>
+
+
+    <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">widgets</span> <span class="o">=</span> <span class="p">{</span><span class="o">...</span><span class="p">}</span> <span class="c"># optional</span>
+    <span class="n">search_fields</span> <span class="o">=</span> <span class="p">{</span><span class="o">...</span><span class="p">}</span> <span class="c"># optional</span>
+    <span class="n">order_fields</span> <span class="o">=</span> <span class="p">{</span><span class="o">...</span><span class="p">}</span> <span class="c"># optional</span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="o">...</span><span class="p">}</span> <span class="c"># optional</span>
+    <span class="n">select_related</span> <span class="o">=</span> <span class="p">(</span><span class="o">...</span><span class="p">)</span> <span class="c"># optional</span>
+    <span class="n">prefetch_related</span> <span class="o">=</span> <span class="p">(</span><span class="o">...</span><span class="p">)</span> <span class="c"># optional</span>
+</pre></div>
+</div>
+<p><em>fields</em></p>
+<p>Fields defines an iterable of the columns that you want to display in the table,
+these fields can either be fields on your model, foreign key lookups, the name
+of a callable on your view, the name of a callable on your model or the result of an <em>extra</em>
+query.</p>
+<p><em>widgets</em></p>
+<p>Widgets is a dictionary mapping a field to a search widget type. Currently you can use
+either text (default) or select inputs. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">listable.views</span> <span class="kn">import</span> <span class="n">BaseListableView</span><span class="p">,</span> <span class="n">SELECT</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">StaffList</span><span class="p">(</span><span class="n">BaseListableView</span><span class="p">):</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Staff</span>
+
+    <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">,</span> <span class="s">&quot;name&quot;</span><span class="p">,</span> <span class="s">&quot;active&quot;</span><span class="p">,</span> <span class="s">&quot;department__name&quot;</span><span class="p">,)</span>
+
+    <span class="n">widgets</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&quot;department__name&quot;</span><span class="p">:</span> <span class="n">SELECT</span><span class="p">,</span>
+        <span class="s">&quot;active&quot;</span><span class="p">:</span> <span class="n">SELECT</span><span class="p">,</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>The choices available in a select widget are currently automatically
+populated although this will change to allow manual configuration of choices
+in the future. The choices are populated based on either the <cite>choices</cite> option
+for a model field or in the case of a foreign key all the values of the foreign
+key lookup. (<em>I hope to make this more flexible in the future</em>)</p>
+<p><em>search_fields (optional)</em></p>
+<p>Search fields are a mapping of field names to the django filter syntax that should
+be used for searching the table.  This can either be a string, an iterable of
+strings or a falsy value to disable searching on that field.  For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">search_fields</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s">&quot;first_name__icontains&quot;</span><span class="p">,</span> <span class="s">&quot;last_name__icontains&quot;</span><span class="p">,),</span>
+    <span class="s">&quot;last_name&quot;</span><span class="p">:</span> <span class="s">&quot;last_name__exact&quot;</span><span class="p">,</span>
+    <span class="s">&quot;genericname&quot;</span><span class="p">:</span> <span class="s">&quot;genericname__icontains&quot;</span><span class="p">,</span>
+    <span class="s">&quot;department__name&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>if a field is not declared in search_field&#8217;s it a filter using <cite>icontains</cite> is assumed.</p>
+<p><em>order_fields (optional)</em></p>
+<p>Order fields allows you to define how a column should be ordered (similar to
+Django&#8217;s ordering or order_by).  For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">order_fields</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s">&quot;last_name&quot;</span><span class="p">,</span> <span class="s">&quot;first_name&quot;</span><span class="p">,),</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><em>headers (optional)</em></p>
+<p>Headers is a mapping of field names to the column name to be displayed. For example by default
+a field name of <cite>department__business__name</cite> would be converted to &#8220;Department Business Name&#8221; but that
+could be overriden like so:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&quot;department__business__name&quot;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Business&quot;</span><span class="p">),</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><em>select_related</em></p>
+<p>Allows you to use Django&#8217;s queryset select_related option for reducing database queries. e.g:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">select_related</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;department&quot;</span><span class="p">,</span> <span class="s">&quot;position&quot;</span><span class="p">,</span> <span class="s">&quot;department__business&quot;</span><span class="p">,)</span>
+</pre></div>
+</div>
+<p><em>prefetch_related</em></p>
+<p>Allows you to use Django&#8217;s queryset prefetch_related option for reducing database queries. e.g:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">prefetch_related</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;some_fk__some_field&quot;</span><span class="p">,)</span>
+</pre></div>
+</div>
+<p><em>get_extra</em></p>
+<p><em>Due to a bug with pagination, using an extra query will result in your entire table being loaded into memory before
+being paginated :(</em></p>
+<p>You may define a callable <cite>get_extra</cite> method on your view that should return a dictionary suitable
+for use in the Django queryset&#8217;s <cite>extra</cite> method.  For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">get_extra</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">select</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;is_recent&#39;</span><span class="p">:</span> <span class="s">&quot;pub_date &gt; &#39;2006-01-01&#39;&quot;</span><span class="p">}}</span>
+</pre></div>
+</div>
+<p>A more complex example is given in the &#8220;Complete Example&#8221; sample below.</p>
+</div>
+<div class="section" id="formatting-fields">
+<h4>Formatting fields<a class="headerlink" href="#formatting-fields" title="Permalink to this headline">¶</a></h4>
+<p>The order in which <cite>listable</cite> tries to find a method for formatting a field for display is as follows:</p>
+<ol class="arabic">
+<li><p class="first">A method on the actual view:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">StaffList</span><span class="p">(</span><span class="n">BaseListableView</span><span class="p">):</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Staff</span>
+
+    <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="s">&quot;name&quot;</span><span class="p">,</span><span class="o">...</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">staff</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">staff</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">A <cite>get_{field}_display</cite> callable on the model.</p>
+</li>
+<li><p class="first">A callable on the model:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Staff</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">staff_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;{0} {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_name</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">StaffList</span><span class="p">(</span><span class="n">BaseListableView</span><span class="p">):</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Staff</span>
+
+    <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="s">&quot;staff_name&quot;</span><span class="p">,</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">A field on the model.</p>
+</li>
+</ol>
+<p>A <cite>listable</cite> column is defined using the <cite>listable.views.Column</cite> data structure.
+A <cite>Column</cite> is essentially a namedtuple with the following fields (detailed descriptions below):</p>
+</div>
+</div>
+<div class="section" id="including-the-listable-template-tag-in-a-template">
+<h3>Including the <cite>listable</cite> template tag in a template<a class="headerlink" href="#including-the-listable-template-tag-in-a-template" title="Permalink to this headline">¶</a></h3>
+<p>To include <cite>listable</cite> in your templates you need to load the <cite>listable</cite> template
+tags and include the <cite>listable_css</cite>, a placeholder for the listable table
+and the listable tag which tells the template the name of the view to wire the table to.:</p>
+<div class="highlight-python"><div class="highlight"><pre>{% extends &#39;base.html&#39; %}
+
+{% load listable %}
+
+{% block extra_css %}
+    {% listable_css %}
+{% endblock extra_css %}
+
+{% block content %}
+    {{listable_table}}
+{% endblock %}
+
+{% block extra_js %}
+{% listable &#39;staff-list&#39;%}
+{% endblock extra_js %}
+</pre></div>
+</div>
+<p>with the example above requiring a url something like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">&#39;staff-list/$&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">StaffList</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;staff-list&quot;</span><span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="arguments-to-the-listable-tag">
+<h4>Arguments to the listable tag<a class="headerlink" href="#arguments-to-the-listable-tag" title="Permalink to this headline">¶</a></h4>
+<p>The listable tag currently has 1 required argument and five optional keyword args.
+A full example of the listable template tag looks like:</p>
+<div class="highlight-python"><div class="highlight"><pre>{% listable &#39;staff-list&#39; dom=&quot;&quot;, save_state=False, pagination_type=&quot;&quot;, css_table_class=&quot;&quot;, css_input_class=&quot;&quot; %}
+</pre></div>
+</div>
+<p><em>dom</em></p>
+<p>Overrides the default Datatables sDOM parameter to use.</p>
+<div class="highlight-python"><div class="highlight"><pre>{% listable &#39;staff-list&#39; dom=&#39;&lt;&quot;row-fluid&quot;&lt;&quot;span6&quot;ir&gt;&lt;&quot;span6&quot;p&gt;&gt;rt&lt;&quot;row-fluid&quot;&lt;&quot;span12&quot;lp&gt;&gt;&#39; %}
+</pre></div>
+</div>
+<p><em>pagination_type</em></p>
+<p>Overrides the default Datatables sDOM parameter to use.</p>
+<div class="highlight-python"><div class="highlight"><pre>{% listable &#39;staff-list&#39; pagination_type=&#39;bootstrap3&#39; %}
+</pre></div>
+</div>
+<p><em>save_state</em></p>
+<p>Save state enables/disables sticky filters in <a class="reference external" href="Datahttp://www.datatables.net/examples/basic_init/state_save.html">DataTables</a>.:</p>
+<div class="highlight-python"><div class="highlight"><pre>{% listable &#39;staff-list&#39; save_state=False %}
+</pre></div>
+</div>
+<p><em>css_table_class</em></p>
+<p>Add a css class to your datatables table e.g.:</p>
+<div class="highlight-python"><div class="highlight"><pre>{% listable &#39;staff-list&#39; css_table_class=&quot;striped compact&quot; %}
+</pre></div>
+</div>
+<p><em>css_input_class</em></p>
+<p>Add a css class to the datatables column filter inputs e.g.:</p>
+<div class="highlight-python"><div class="highlight"><pre>{% listable &#39;staff-list&#39; css_table_class=&quot;input-sm&quot; %}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="a-complete-example">
+<h2>A Complete Example<a class="headerlink" href="#a-complete-example" title="Permalink to this headline">¶</a></h2>
+<p>This is a complete example of a <cite>django-listable</cite> table. It is included
+as a demo app under the django-listable/listable-demo/</p>
+<div class="section" id="models-py">
+<h3>models.py<a class="headerlink" href="#models-py" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ACTIVE</span> <span class="o">=</span> <span class="s">&#39;active&#39;</span>
+<span class="n">INACTIVE</span> <span class="o">=</span> <span class="s">&#39;inactive&#39;</span>
+<span class="n">TERMINATED</span> <span class="o">=</span> <span class="s">&#39;terminated&#39;</span>
+
+<span class="n">ACTIVE_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="n">ACTIVE</span><span class="p">,</span> <span class="s">&quot;Active&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">INACTIVE</span><span class="p">,</span> <span class="s">&quot;Inactive&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">TERMINATED</span><span class="p">,</span> <span class="s">&quot;Terminated&quot;</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">ACTIVE_CHOICES_DISPLAY</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">ACTIVE_CHOICES</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Business</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">business_type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">choices</span><span class="o">=</span><span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)),</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s">&quot;Businesses&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+
+<span class="k">class</span> <span class="nc">Department</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">business</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Business</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+
+<span class="k">class</span> <span class="nc">Position</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+
+<span class="k">class</span> <span class="nc">AbstractGeneric</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+
+    <span class="n">staff</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">GenericRelation</span><span class="p">(</span>
+        <span class="s">&quot;Staff&quot;</span><span class="p">,</span>
+        <span class="n">content_type_field</span><span class="o">=</span><span class="s">&quot;content_type&quot;</span><span class="p">,</span>
+        <span class="n">object_id_field</span><span class="o">=</span><span class="s">&quot;object_id&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">abstract</span> <span class="o">=</span> <span class="bp">True</span>
+
+
+<span class="k">class</span> <span class="nc">GenericModelA</span><span class="p">(</span><span class="n">AbstractGeneric</span><span class="p">):</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s">&quot;Generic Model A&#39;s&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+
+<span class="k">class</span> <span class="nc">GenericModelB</span><span class="p">(</span><span class="n">AbstractGeneric</span><span class="p">):</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s">&quot;Generic Model B&#39;s&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+
+<span class="k">class</span> <span class="nc">Staff</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+
+    <span class="n">first_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Enter the name of the staff being rounded&quot;</span><span class="p">))</span>
+    <span class="n">last_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Enter the name of the staff being rounded&quot;</span><span class="p">))</span>
+    <span class="n">active</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">ACTIVE_CHOICES</span><span class="p">)</span>
+
+    <span class="n">position</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Position</span><span class="p">)</span>
+    <span class="n">department</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Department</span><span class="p">)</span>
+
+    <span class="n">limit</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Q</span><span class="p">(</span><span class="n">app_label</span><span class="o">=</span><span class="s">&#39;staff&#39;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s">&#39;genericmodela&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="n">models</span><span class="o">.</span><span class="n">Q</span><span class="p">(</span><span class="n">app_label</span><span class="o">=</span><span class="s">&#39;staff&#39;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s">&#39;genericmodelb&#39;</span><span class="p">)</span>
+    <span class="n">content_type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">ContentType</span><span class="p">,</span> <span class="n">limit_choices_to</span><span class="o">=</span><span class="n">limit</span><span class="p">)</span>
+    <span class="n">object_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">()</span>
+    <span class="n">generic_object</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">GenericForeignKey</span><span class="p">(</span><span class="s">&quot;content_type&quot;</span><span class="p">,</span> <span class="s">&quot;object_id&quot;</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s">&quot;staff&quot;</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;last_name&quot;</span><span class="p">,</span> <span class="s">&quot;first_name&quot;</span><span class="p">,)</span>
+
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">last_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ACTIVE_CHOICES_DISPLAY</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">active</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="views-py">
+<h3>views.py<a class="headerlink" href="#views-py" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">StaffList</span><span class="p">(</span><span class="n">BaseListableView</span><span class="p">):</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Staff</span>
+
+    <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s">&quot;id&quot;</span><span class="p">,</span>
+        <span class="s">&quot;name&quot;</span><span class="p">,</span>
+        <span class="s">&quot;active&quot;</span><span class="p">,</span>
+        <span class="s">&quot;department__name&quot;</span><span class="p">,</span>
+        <span class="s">&quot;position__name&quot;</span><span class="p">,</span>
+        <span class="s">&quot;department__business__name&quot;</span><span class="p">,</span>
+        <span class="s">&quot;department__business__business_type&quot;</span><span class="p">,</span>
+        <span class="s">&quot;genericname&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">widgets</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&quot;department__business__name&quot;</span><span class="p">:</span> <span class="n">SELECT</span><span class="p">,</span>
+        <span class="s">&quot;department__business__business_type&quot;</span><span class="p">:</span> <span class="n">SELECT</span><span class="p">,</span>
+        <span class="s">&quot;position__name&quot;</span><span class="p">:</span> <span class="n">SELECT</span><span class="p">,</span>
+        <span class="s">&quot;choices&quot;</span><span class="p">:</span> <span class="n">SELECT</span><span class="p">,</span>
+        <span class="s">&quot;active&quot;</span><span class="p">:</span> <span class="n">SELECT</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">search_fields</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s">&quot;first_name__icontains&quot;</span><span class="p">,</span> <span class="s">&quot;last_name__icontains&quot;</span><span class="p">,),</span>
+        <span class="s">&quot;last_name&quot;</span><span class="p">:</span> <span class="s">&quot;last_name__exact&quot;</span><span class="p">,</span>
+        <span class="s">&quot;genericname&quot;</span><span class="p">:</span> <span class="s">&quot;genericname__icontains&quot;</span><span class="p">,</span>
+        <span class="s">&quot;department__name&quot;</span><span class="p">:</span> <span class="s">&quot;department__name__icontains&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">order_fields</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s">&quot;last_name&quot;</span><span class="p">,</span> <span class="s">&quot;first_name&quot;</span><span class="p">,),</span>
+    <span class="p">}</span>
+
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&quot;position__name&quot;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Position&quot;</span><span class="p">),</span>
+        <span class="s">&quot;department__business__name&quot;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Business&quot;</span><span class="p">),</span>
+        <span class="s">&quot;department__business__business_type&quot;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Business Type&quot;</span><span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="n">select_related</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;department&quot;</span><span class="p">,</span> <span class="s">&quot;position&quot;</span><span class="p">,</span> <span class="s">&quot;department__business&quot;</span><span class="p">,)</span>
+
+    <span class="k">def</span> <span class="nf">generic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">generic_object</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">staff</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">staff</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_extra</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cta</span> <span class="o">=</span> <span class="n">ContentType</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_for_model</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">GenericModelA</span><span class="p">)</span>
+        <span class="n">ctb</span> <span class="o">=</span> <span class="n">ContentType</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_for_model</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">GenericModelB</span><span class="p">)</span>
+
+        <span class="n">extraq</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">        CASE</span>
+<span class="s">            WHEN content_type_id = {0}</span>
+<span class="s">                THEN (SELECT name from staff_genericmodela WHERE object_id = staff_genericmodela.id)</span>
+<span class="s">            WHEN content_type_id = {1}</span>
+<span class="s">                THEN (SELECT name from staff_genericmodelb WHERE object_id = staff_genericmodelb.id)</span>
+<span class="s">        END</span>
+<span class="s">        &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cta</span><span class="o">.</span><span class="n">pk</span><span class="p">,</span> <span class="n">ctb</span><span class="o">.</span><span class="n">pk</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="s">&quot;select&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;genericname&#39;</span><span class="p">:</span> <span class="n">extraq</span><span class="p">}}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="staff-list-html">
+<h3>staff_list.html<a class="headerlink" href="#staff-list-html" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre>{% extends &#39;base.html&#39; %}
+
+{% load listable %}
+
+{% block extra_css %}
+    {% listable_css %}
+{% endblock extra_css %}
+
+{% block content %}
+    {{listable_table}}
+{% endblock %}
+
+{% block extra_js %}
+{% listable &#39;staff-list&#39; save_state=True %}
+{% endblock extra_js %}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to django-listable&#8217;s documentation!</a><ul>
+<li><a class="reference internal" href="#about">About</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#settings">Settings</a></li>
+<li><a class="reference internal" href="#usage">Usage</a><ul>
+<li><a class="reference internal" href="#adding-listable-to-settings-installed-apps">Adding <cite>listable</cite> to settings.INSTALLED_APPS</a></li>
+<li><a class="reference internal" href="#defining-a-listable-view">Defining a Listable view</a><ul>
+<li><a class="reference internal" href="#defining-columns-for-your-table">Defining Columns for your table</a></li>
+<li><a class="reference internal" href="#formatting-fields">Formatting fields</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#including-the-listable-template-tag-in-a-template">Including the <cite>listable</cite> template tag in a template</a><ul>
+<li><a class="reference internal" href="#arguments-to-the-listable-tag">Arguments to the listable tag</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#a-complete-example">A Complete Example</a><ul>
+<li><a class="reference internal" href="#models-py">models.py</a></li>
+<li><a class="reference internal" href="#views-py">views.py</a></li>
+<li><a class="reference internal" href="#staff-list-html">staff_list.html</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="contributing.html"
+                        title="next chapter">Contributing</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="contributing.html" title="Contributing"
+             >next</a> |</li>
+        <li><a href="#">django-listable 0.2.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Randle Taylor.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

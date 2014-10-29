@@ -66,6 +66,7 @@ Ready to contribute? Here's how to set up `django-listable` for local developmen
 
     $ mkvirtualenv django-listable
     $ cd django-listable/
+    $ pip install -r requirements/test.txt
     $ python setup.py develop
 
 4. Create a branch for local development::

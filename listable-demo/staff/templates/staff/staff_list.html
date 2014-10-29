@@ -7,10 +7,14 @@
 {% endblock extra_css %}
 
 {% block content %}
-    {{listable_table}}
+<div class="row">
+    <div class="col-lg-12">
+        {{listable_table}}
+    </div>
+</div>
 {% endblock %}
 
 {% block extra_js %}
-{% listable 'staff-list' save_state=True %}
+{% listable 'staff-list' save_state=True pagination_type="bootstrap3" css_input_class="input-xs " %}
 {% endblock extra_js %}
 
