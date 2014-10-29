@@ -8,7 +8,7 @@ env:
     - DJANGO=1.6
 
 install:
-    - pip install -q -e -r requirements/test.txt --use-mirrors
-    - pip install -q -e Django==$DJANGO --use-mirrors
+    - pip install -q -e -r requirements-travis.txt
+    - pip install -q -e Django==$DJANGO
 script:
   - python runtests.py
