@@ -10,5 +10,6 @@ env:
 install:
     - pip install -r requirements/test.txt
     - pip install Django==$DJANGO
+    - pip install .
 script:
   - python runtests.py
