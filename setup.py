@@ -4,14 +4,13 @@
 import os
 import sys
 
-import listable
 
 try:
     from setuptools import setup
 except ImportError:
     from distutils.core import setup
 
-version = listable.__version__
+version = '0.2.1'
 
 if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')
