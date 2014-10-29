@@ -1,4 +1,4 @@
--r base.txt
+-r demo.txt
 coverage
 mock>=1.0.1
 nose>=1.3.0
