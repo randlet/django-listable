@@ -172,7 +172,7 @@ class BaseListableView(ListView):
 
         return qs
 
-    def get_extra(self, qs):
+    def get_extra(self):
         return None
 
     def order_queryset(self, qs):
