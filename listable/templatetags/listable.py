@@ -41,6 +41,10 @@ def values_to_dt(values):
 def header(value):
     return value.replace("__", " ").replace("_", " ").title()
 
+def get_dt_ordering(cls):
+
+    return [[1,"desc"]]
+
 
 def get_options(view_name, dom="", save_state=None, pagination_type="", css_table_class="", css_input_class=""):
 
@@ -86,6 +90,7 @@ def get_options(view_name, dom="", save_state=None, pagination_type="", css_tabl
         else:
             raise TypeError("{wt} is not a valid widget type".format(wt=widget_type))
 
+
     opts = {
         "tableId": "#listable-table-" + view_name,
         "paginationType": pagination_type,
@@ -93,7 +98,9 @@ def get_options(view_name, dom="", save_state=None, pagination_type="", css_tabl
         "url": reverse(view_name),
         "bProcessing": True,
         "autoWidth": True,
+        "displayLength": cls.paginate_by,
         "DOM": dom,
+        "order": get_dt_ordering(cls),
         "columnDefs": column_defs,
         "columnFilterDefs": column_filter_defs,
         "cssTableClass": css_table_class,

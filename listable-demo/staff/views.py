@@ -45,6 +45,8 @@ class StaffList(BaseListableView):
         "department__business__business_type": _("Business Type"),
     }
 
+    order_by = ("-name",)
+
     select_related = ("department", "position", "department__business",)
 
     def generic(self, obj):

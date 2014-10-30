@@ -34,17 +34,55 @@ class BaseListableView(ListView):
     select_related = ()
     prefetch_related = ()
 
+    order_by = ()
+
+    defer = True
+
     def get(self, request, *args, **kwargs):
         """
         return regular list view on page load and then json data on
         datatables ajax request.
         """
 
+        self.search_filters = {}
+
+        # below adapted from Django list view code
+        self.object_list = self.get_queryset()
+
         if not self.request.is_ajax():
             return super(BaseListableView, self).get(request, *args, **kwargs)
 
-        # below taken from Django list view code
-        self.object_list = self.get_queryset()
+
+        self.set_query_params()
+
+        self.extra = self.get_extra()
+        if self.extra:
+            self.object_list = self.object_list.extra(**self.extra)
+
+        self.object_list = self.filter_queryset(self.object_list)
+        self.object_list = self.order_queryset(self.object_list)
+
+        if self.select_related:
+            self.object_list = self.object_list.select_related(*self.select_related)
+
+        if self.prefetch_related:
+            self.object_list = self.object_list.prefetch_related(*self.prefetch_related)
+
+
+        # Django can choke when paginating a query
+        # that has an extra clause on it (the count() call fails)
+        # so we can patch on our own count function that uses a single
+        # db call.  Not ideal but it seems to work.
+        if self.extra:
+            def count():
+                from django.db import connection
+                cursor = connection.cursor()
+                sql, params = self.object_list.query.sql_with_params()
+                count_sql =  "SELECT COUNT(*) FROM ({0})".format(sql)
+                cursor.execute(count_sql, params)
+                return cursor.fetchone()[0]
+            self.object_list.count = count
+
 
         allow_empty = self.get_allow_empty()
 
@@ -78,7 +116,7 @@ class BaseListableView(ListView):
 
         context = {
             "aaData": self.get_rows(object_list),
-            "iTotalRecords": super(BaseListableView, self).get_queryset().count(),
+            "iTotalRecords": self.get_queryset().count(),
             "iTotalDisplayRecords": self.object_list.count(),
             "sEcho": secho,
         }
@@ -117,27 +155,13 @@ class BaseListableView(ListView):
 
     def get_queryset(self):
         """ filter and order queryset based on DataTables parameters """
+
+        # wer're not displaying anything on page load
+        if self.defer and not self.request.is_ajax():
+            return self.model.objects.none()
+
         qs = super(BaseListableView, self).get_queryset()
-        self.extra = self.get_extra()
-        if self.extra:
-            qs = qs.extra(**self.extra)
 
-        self.set_query_params()
-        qs = self.filter_queryset(qs)
-        qs = self.order_queryset(qs)
-
-        if self.select_related:
-            qs = qs.select_related(*self.select_related)
-
-        if self.prefetch_related:
-            qs = qs.prefetch_related(*self.prefetch_related)
-
-        # FIXME: For some reason Django can choke when paginating a query
-        # that has an extra clause on it (the count() call fails)
-        # forcing evaluation of the  queryset with len(qs) here avoids that
-        # but loads the whole dataset in memory :(
-        if self.extra:
-            len(qs)
 
         return qs
 
@@ -174,6 +198,27 @@ class BaseListableView(ListView):
 
     def get_extra(self):
         return None
+
+    def set_default_ordering(self):
+        """
+        Set the default ordering (defined on the view). This ordering will be overridden
+        by cookies/query params if the exist
+        """
+
+        self.search_fields["iSortingCols"] = len(self.order_by)
+
+        for idx, field in enumerate(self.order_by):
+            if field[0] == '-':
+                direction = "desc"
+                field=field[1:]
+            else:
+                direction = "asc"
+
+            self.search_filters["iSortCol_{0}".format(idx)] = self.fields.index(field)
+            self.search_filters["sSortDir_{0}".format(idx)] = direction
+
+        import ipdb; ipdb.set_trace()
+        print self.search_filters
 
     def order_queryset(self, qs):
         """
@@ -258,7 +303,9 @@ class BaseListableView(ListView):
         are used.
         """
 
-        self.search_filters = self.cookie_params()
+        # self.set_default_ordering()
+
+        self.search_filters.update(self.cookie_params())
 
         # overide any cookie parameters with GET parameters
         self.search_filters.update(self.request.GET.dict())

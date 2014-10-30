@@ -5,11 +5,13 @@ $(Listable.tableId).addClass(
     bStateSave:Listable.stateSave,
     bPaginate: true,
     sPaginationType:Listable.paginationType,
+    iDisplayLength: Listable.displayLength,
     bProcessing: true,
     bServerSide: true,
     sAjaxSource: Listable.url,
     bAutoWidth: Listable.autoWidth,
     aoColumns:Listable.columnDefs,
+    aaSorting:Listable.order,
     bFilter:true,
     sDom:Listable.DOM
 }).columnFilter({
