@@ -43,7 +43,19 @@ def header(value):
 
 def get_dt_ordering(cls):
 
-    return [[1,"desc"]]
+    orderings = []
+
+    for idx, field in enumerate(cls.order_by):
+        if field[0] == '-':
+            direction = "desc"
+            field=field[1:]
+        else:
+            direction = "asc"
+
+        orderings.append([cls.fields.index(field), direction])
+
+
+    return orderings
 
 
 def get_options(view_name, dom="", save_state=None, pagination_type="", css_table_class="", css_input_class=""):

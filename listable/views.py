@@ -199,27 +199,6 @@ class BaseListableView(ListView):
     def get_extra(self):
         return None
 
-    def set_default_ordering(self):
-        """
-        Set the default ordering (defined on the view). This ordering will be overridden
-        by cookies/query params if the exist
-        """
-
-        self.search_fields["iSortingCols"] = len(self.order_by)
-
-        for idx, field in enumerate(self.order_by):
-            if field[0] == '-':
-                direction = "desc"
-                field=field[1:]
-            else:
-                direction = "asc"
-
-            self.search_filters["iSortCol_{0}".format(idx)] = self.fields.index(field)
-            self.search_filters["sSortDir_{0}".format(idx)] = direction
-
-        import ipdb; ipdb.set_trace()
-        print self.search_filters
-
     def order_queryset(self, qs):
         """
         Order the input queryset according to column ordering definitions.
@@ -302,8 +281,6 @@ class BaseListableView(ListView):
         with request values.  This is required when "Sticky" DataTables filters
         are used.
         """
-
-        # self.set_default_ordering()
 
         self.search_filters.update(self.cookie_params())
 
