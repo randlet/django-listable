@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to django-listable’s documentation! &mdash; django-listable 0.2.0 documentation</title>
+    <title>Welcome to django-listable’s documentation! &mdash; django-listable 0.2.4 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.2.0',
+        VERSION:     '0.2.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="django-listable 0.2.0 documentation" href="#" />
+    <link rel="top" title="django-listable 0.2.4 documentation" href="#" />
     <link rel="next" title="Contributing" href="contributing.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="contributing.html" title="Contributing"
              accesskey="N">next</a> |</li>
-        <li><a href="#">django-listable 0.2.0 documentation</a> &raquo;</li> 
+        <li><a href="#">django-listable 0.2.4 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -75,6 +75,7 @@
 <li class="toctree-l2"><a class="reference internal" href="history.html#id3">0.1.0 (2013-08-15)</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="todo.html">TODO</a></li>
 </ul>
 </div>
 <div class="section" id="about">
@@ -223,18 +224,19 @@ and set the model  that is to be used as the source of data:</p>
 <h4>Defining Columns for your table<a class="headerlink" href="#defining-columns-for-your-table" title="Permalink to this headline">¶</a></h4>
 <p>Every <cite>listable</cite> view must define one or more fields to be displayed as columns in the table.
 <cite>listable</cite> fields are defined in a manner similar to ModelForms:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">StaffList</span><span class="p">(</span><span class="n">BaseListableView</span><span class="p">):</span>
+<div class="highlight-python"><div class="highlight"><pre>class StaffList(BaseListableView):
 
-    <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Staff</span>
+    model = models.Staff
 
 
-    <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-    <span class="n">widgets</span> <span class="o">=</span> <span class="p">{</span><span class="o">...</span><span class="p">}</span> <span class="c"># optional</span>
-    <span class="n">search_fields</span> <span class="o">=</span> <span class="p">{</span><span class="o">...</span><span class="p">}</span> <span class="c"># optional</span>
-    <span class="n">order_fields</span> <span class="o">=</span> <span class="p">{</span><span class="o">...</span><span class="p">}</span> <span class="c"># optional</span>
-    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="o">...</span><span class="p">}</span> <span class="c"># optional</span>
-    <span class="n">select_related</span> <span class="o">=</span> <span class="p">(</span><span class="o">...</span><span class="p">)</span> <span class="c"># optional</span>
-    <span class="n">prefetch_related</span> <span class="o">=</span> <span class="p">(</span><span class="o">...</span><span class="p">)</span> <span class="c"># optional</span>
+    fields = (...)
+    widgets = {...} # optional
+    search_fields = {...} # optional
+    order_fields = {...} # optional
+    headers = {...} # optional
+    select_related = (...) # optional
+    prefetch_related = (...) # optional
+    order_by = (..) # optional
 </pre></div>
 </div>
 <p><em>fields</em></p>
@@ -316,6 +318,11 @@ for use in the Django queryset&#8217;s <cite>extra</cite> method.  For example:<
 </pre></div>
 </div>
 <p>A more complex example is given in the &#8220;Complete Example&#8221; sample below.</p>
+<p><em>order_by</em></p>
+<p>Allows you to set the default ordering for a view:</p>
+<div class="highlight-python"><div class="highlight"><pre>order_by = (&quot;position&quot;, &quot;name&quot;,,)
+</pre></div>
+</div>
 </div>
 <div class="section" id="formatting-fields">
 <h4>Formatting fields<a class="headerlink" href="#formatting-fields" title="Permalink to this headline">¶</a></h4>
@@ -687,7 +694,7 @@ as a demo app under the django-listable/listable-demo/</p>
         <li class="right" >
           <a href="contributing.html" title="Contributing"
              >next</a> |</li>
-        <li><a href="#">django-listable 0.2.0 documentation</a> &raquo;</li> 
+        <li><a href="#">django-listable 0.2.4 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
