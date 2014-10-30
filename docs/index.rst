@@ -9,6 +9,7 @@ Contents:
    contributing
    authors
    history
+   todo
 
 
 =============================
@@ -192,6 +193,7 @@ Every `listable` view must define one or more fields to be displayed as columns 
         headers = {...} # optional
         select_related = (...) # optional
         prefetch_related = (...) # optional
+        order_by = (..) # optional
 
 
 
@@ -291,6 +293,12 @@ for use in the Django queryset's `extra` method.  For example::
 
 A more complex example is given in the "Complete Example" sample below.
 
+*order_by*
+
+Allows you to set the default ordering for a view::
+
+
+    order_by = ("position", "name",,)
 
 
 Formatting fields
