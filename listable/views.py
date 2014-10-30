@@ -133,6 +133,8 @@ class BaseListableView(ListView):
 
         headers = [self.get_header_for_field(f) for f in self.fields]
         context['listable_table'] = template.render(Context({'headers': headers, 'table_id': table_id}))
+        context['args'] = self.args
+        context['kwargs'] = self.kwargs
 
         return context
 

@@ -58,7 +58,7 @@ def get_dt_ordering(cls):
     return orderings
 
 
-def get_options(view_name, dom="", save_state=None, pagination_type="", css_table_class="", css_input_class=""):
+def get_options(context, view_name, dom="", save_state=None, pagination_type="", css_table_class="", css_input_class=""):
 
     if save_state is None:
         save_state = settings.LISTABLE_STATE_SAVE
@@ -102,12 +102,13 @@ def get_options(view_name, dom="", save_state=None, pagination_type="", css_tabl
         else:
             raise TypeError("{wt} is not a valid widget type".format(wt=widget_type))
 
+    url = reverse(view_name, args=context['args'], kwargs=context['kwargs'])
 
     opts = {
         "tableId": "#listable-table-" + view_name,
         "paginationType": pagination_type,
         "stateSave": save_state,
-        "url": reverse(view_name),
+        "url": url,
         "bProcessing": True,
         "autoWidth": True,
         "displayLength": cls.paginate_by,
@@ -122,12 +123,12 @@ def get_options(view_name, dom="", save_state=None, pagination_type="", css_tabl
     return opts
 
 
-@register.simple_tag
-def listable(view_name, dom="", save_state=None, pagination_type=None, css_table_class="", css_input_class=""):
+@register.simple_tag(takes_context=True)
+def listable(context, view_name, dom="", save_state=None, pagination_type=None, css_table_class="", css_input_class=""):
     """ Generate all script tags and DataTables options for a given table"""
 
 
-    opts = get_options(view_name, dom, save_state, pagination_type, css_table_class, css_input_class)
+    opts = get_options(context, view_name, dom, save_state, pagination_type, css_table_class, css_input_class)
 
     scripts = ['<script type="text/javascript">var Listable = {0};</script>'.format(json.dumps(opts))]
     scripts += DATATABLES_SCRIPTS
