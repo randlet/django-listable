@@ -52,7 +52,10 @@ def get_dt_ordering(cls):
         else:
             direction = "asc"
 
-        orderings.append([cls.fields.index(field), direction])
+        try:
+            orderings.append([cls.fields.index(field), direction])
+        except (ValueError, IndexError):
+            raise ValueError("The field '{field}' is an invalid listable order_by value. It is not present in the listable fields definition.".format(field=field))
 
 
     return orderings
