@@ -60,6 +60,9 @@ def get_dt_ordering(cls):
 
 def get_options(context, view_name, dom="", save_state=None, pagination_type="", css_table_class="", css_input_class=""):
 
+    view_args = context.get('args', None)
+    view_kwargs = context.get('kwargs', None)
+
     if save_state is None:
         save_state = settings.LISTABLE_STATE_SAVE
 
@@ -69,7 +72,7 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
     if pagination_type is "":
         pagination_type = settings.LISTABLE_PAGINATION_TYPE
 
-    cls = utils.class_for_view_name(view_name)
+    cls = utils.class_for_view_name(view_name, args=view_args, kwargs=view_kwargs)
     mdl = cls.model
 
     column_defs = []
@@ -102,7 +105,7 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
         else:
             raise TypeError("{wt} is not a valid widget type".format(wt=widget_type))
 
-    url = reverse(view_name, args=context['args'], kwargs=context['kwargs'])
+    url = reverse(view_name, args=view_args, kwargs=view_kwargs)
 
     opts = {
         "tableId": "#listable-table-" + view_name,

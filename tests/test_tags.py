@@ -14,14 +14,14 @@ class TestTags(TestCase):
         self.assertEqual(listable.header("foo__bar_baz"), "Foo Bar Baz")
 
     def test_listable_url(self):
-        results = listable.get_options("staff-list")
+        results = listable.get_options({},"staff-list")
         self.assertEqual(results['url'], '/staff-list/')
 
     def test_css_input_class(self):
-        results = listable.get_options("staff-list", css_input_class="test-class")
+        results = listable.get_options({}, "staff-list", css_input_class="test-class")
         self.assertEqual(results['cssInputClass'], 'test-class')
 
     def test_css_table_class(self):
-        results = listable.get_options("staff-list", css_table_class="test-class")
+        results = listable.get_options({}, "staff-list", css_table_class="test-class")
         self.assertEqual(results['cssTableClass'], 'test-class')
 
