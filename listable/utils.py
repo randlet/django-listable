@@ -25,12 +25,12 @@ def lookup_dunder_prop(obj, props):
     return getattr(obj, props)
 
 
-def class_for_view_name(view_name):
+def class_for_view_name(view_name, args=None, kwargs=None):
     """ return View class for input view_name
     see http://stackoverflow.com/a/21313506/79802
     """
 
-    reverse_ = reverse(view_name, prefix="")
+    reverse_ = reverse(view_name, args=args, kwargs=kwargs, prefix="")
     if reverse_ and reverse_[0] != "/":
         reverse_ = "/%s" % reverse_
 
