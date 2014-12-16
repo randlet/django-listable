@@ -128,7 +128,11 @@ class BaseListableView(ListView):
         template = get_template("listable/_table.html")
 
         # every table needs a unique ID to play well with sticky cookies
-        current_url = resolve(self.request.path_info).url_name
+        resolve_match = resolve(self.request.path_info)
+        current_url = resolve_match.url_name
+        if resolve_match.namespace:
+            current_url = "{0}_{1}".format(resolve_match.namespace, current_url)
+
         table_id = "listable-table-" + current_url
 
         headers = [self.get_header_for_field(f) for f in self.fields]

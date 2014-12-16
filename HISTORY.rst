@@ -3,6 +3,10 @@
 History
 -------
 
+0.2.9 (2014-12-15)
+++++++++++++++++++
+* Fix issue with namespaced urls
+
 0.2.6 (2014-10-30)
 ++++++++++++++++++
 * add view args & kwargs to context to allow full reverse
