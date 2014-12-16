@@ -61,7 +61,7 @@ def get_dt_ordering(cls):
     return orderings
 
 
-def get_options(context, view_name, dom="", save_state=None, pagination_type="", css_table_class="", css_input_class=""):
+def get_options(context, view_name, dom="", save_state=None, pagination_type=None, css_table_class="", css_input_class=""):
 
     view_args = context.get('args', None)
     view_kwargs = context.get('kwargs', None)
@@ -72,7 +72,7 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
     if dom is "":
         dom = settings.LISTABLE_DOM
 
-    if pagination_type is "":
+    if not pagination_type:
         pagination_type = settings.LISTABLE_PAGINATION_TYPE
 
     cls = utils.class_for_view_name(view_name, args=view_args, kwargs=view_kwargs)
