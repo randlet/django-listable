@@ -111,7 +111,7 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
     url = reverse(view_name, args=view_args, kwargs=view_kwargs)
 
     opts = {
-        "tableId": "#listable-table-" + view_name,
+        "tableId": "#listable-table-" + view_name.replace(":","_"),
         "paginationType": pagination_type,
         "stateSave": save_state,
         "url": url,
