@@ -2,6 +2,7 @@ import os
 import sys
 from optparse import OptionParser
 sys.path.append("listable-demo")
+import django
 
 try:
     from django.conf import settings
@@ -46,6 +47,7 @@ try:
     from django_nose import NoseTestSuiteRunner
 except ImportError:
     raise ImportError("To fix this error, run: pip install -r requirements/test.txt")
+
 
 
 def run_tests(*test_args):
