@@ -52,13 +52,16 @@ def get_dt_ordering(cls):
         else:
             direction = "asc"
 
-        orderings.append([cls.fields.index(field), direction])
+        try:
+            orderings.append([cls.fields.index(field), direction])
+        except (ValueError, IndexError):
+            raise ValueError("The field '{field}' is an invalid listable order_by value. It is not present in the listable fields definition.".format(field=field))
 
 
     return orderings
 
 
-def get_options(context, view_name, dom="", save_state=None, pagination_type="", css_table_class="", css_input_class=""):
+def get_options(context, view_name, dom="", save_state=None, pagination_type=None, css_table_class="", css_input_class=""):
 
     view_args = context.get('args', None)
     view_kwargs = context.get('kwargs', None)
@@ -69,7 +72,7 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
     if dom is "":
         dom = settings.LISTABLE_DOM
 
-    if pagination_type is "":
+    if not pagination_type:
         pagination_type = settings.LISTABLE_PAGINATION_TYPE
 
     cls = utils.class_for_view_name(view_name, args=view_args, kwargs=view_kwargs)
@@ -108,7 +111,7 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
     url = reverse(view_name, args=view_args, kwargs=view_kwargs)
 
     opts = {
-        "tableId": "#listable-table-" + view_name,
+        "tableId": "#listable-table-" + view_name.replace(":","_"),
         "paginationType": pagination_type,
         "stateSave": save_state,
         "url": url,

@@ -16,6 +16,25 @@ from . import utils
 from . import settings as li_settings
 
 
+try:
+    unicode = unicode
+except (ImportError, NameError):
+    # 'unicode' is undefined, must be Python 3
+    from urllib.parse import unquote
+    from functools import reduce
+    str = str
+    unicode = str
+    bytes = bytes
+    basestring = (str,bytes)
+else:
+    from urllib import unquote
+    # 'unicode' exists, must be Python 2
+    str = str
+    unicode = unicode
+    bytes = str
+    basestring = basestring
+
+
 DT_COOKIE_NAME = "SpryMedia_DataTables"
 TEXT = "text"
 SELECT = "select"
@@ -128,7 +147,11 @@ class BaseListableView(ListView):
         template = get_template("listable/_table.html")
 
         # every table needs a unique ID to play well with sticky cookies
-        current_url = resolve(self.request.path_info).url_name
+        resolve_match = resolve(self.request.path_info)
+        current_url = resolve_match.url_name
+        if resolve_match.namespace:
+            current_url = "{0}_{1}".format(resolve_match.namespace, current_url)
+
         table_id = "listable-table-" + current_url
 
         headers = [self.get_header_for_field(f) for f in self.fields]
@@ -326,6 +349,6 @@ class BaseListableView(ListView):
         cookie_name = "{0}_listable-table-{1}_".format(DT_COOKIE_NAME, current_url)
         for k, v in self.request.COOKIES.items():
             if k == cookie_name and v:
-                cookie_dt_params = json.loads(urllib.unquote(v))
+                cookie_dt_params = json.loads(unquote(v))
 
         return cookie_dt_params
