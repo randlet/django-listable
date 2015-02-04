@@ -127,7 +127,7 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
 
 
 @register.simple_tag(takes_context=True)
-def listable(context, view_name, dom="", save_state=None, pagination_type=None, css_table_class="", css_input_class=""):
+def listable(context, view_name, dom="", save_state=None, pagination_type="", css_table_class="", css_input_class=""):
     """ Generate all script tags and DataTables options for a given table"""
 
 
