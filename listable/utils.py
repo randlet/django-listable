@@ -1,7 +1,9 @@
 import importlib
 
 from django.core.urlresolvers import reverse, resolve
+import django.db.models.fields
 
+BOOL_TYPE = django.db.models.fields.BooleanField().get_internal_type()
 
 def unique(seq):
     seen = set()
@@ -37,3 +39,33 @@ def class_for_view_name(view_name, args=None, kwargs=None):
     view_func = resolve(reverse_).func
     module = importlib.import_module(view_func.__module__)
     return getattr(module, view_func.__name__)
+
+
+
+def find_field(cls, lookup):
+    """Take a root class and a field lookup string
+    and return the model field if it exists or raise
+    a django.db.models.fields.FieldDoesNotExist if the
+    field is not found."""
+
+    lookups = list(reversed(lookup.split("__")))
+
+    field = None
+
+    while lookups:
+
+        f = lookups.pop()
+
+        # will raise FieldDoesNotExist exception if not found
+        field = cls._meta.get_field(f)
+
+        try:
+            cls = field.rel.to
+        except AttributeError:
+            if lookups:
+                # not all lookup fields were used
+                # must be an incorrect lookup
+                raise django.db.models.fields.FieldDoesNotExist(lookup)
+
+    return field
+

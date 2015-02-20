@@ -5,6 +5,7 @@ import urllib
 from django.core.exceptions import FieldError
 from django.core.urlresolvers import resolve
 from django.db.models import Q
+import django.db.models.fields
 from django.http import HttpResponse, Http404
 from django.template import Context
 from django.template.loader import get_template
@@ -191,12 +192,21 @@ class BaseListableView(ListView):
         return qs
 
     def filter_queryset(self, qs):
-        """ filter the input queryset according to column definitions.  """
+        """ filter the input queryset according to column definitions.
+
+        This method is awful :(
+        """
 
         for col_num, field in enumerate(self.fields):
 
             search_term = self.search_filters.get("sSearch_%d" % col_num, None)
             filtering = self.search_fields.get(field, True)
+
+            try:
+                mdl_field = utils.find_field(self.model, field)
+            except django.db.models.fields.FieldDoesNotExist:
+                mdl_field = None
+
 
             if filtering and search_term:
                 if isinstance(filtering, basestring):
@@ -205,14 +215,27 @@ class BaseListableView(ListView):
                     else:
                         qs = qs.filter(**{filtering: search_term})
                 else:
+
                     try:
-                        # iterable of search fields e.g. order_fields = {"name": ("first_name", "last_name",)}
+                        # iterable of search fields e.g. search_fields = {"name": ("first_name", "last_name",)}
                         queries = reduce(lambda q, f: q | Q(**{f: search_term}), filtering, Q())
                         qs = qs.filter(queries)
 
                     except TypeError:
-                        # fall back to default search (e.g order_fields ={"first_name": True})
-                        filtering = "{0}__icontains".format(field)
+
+                        if mdl_field and mdl_field.get_internal_type() == utils.BOOL_TYPE:
+                            import ipdb; ipdb.set_trace()
+
+                            filtering = field
+                            if search_term == "False":
+                                search_term = False
+                            elif search_term == "True":
+                                search_term = True
+                            else:
+                                search_term = None
+                        else:
+                            # fall back to default search (e.g order_fields ={"first_name": True})
+                            filtering = "{0}__icontains".format(field)
                         try:
                             qs = qs.filter(**{filtering: search_term})
                         except FieldError:

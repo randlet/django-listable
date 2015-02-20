@@ -18,6 +18,7 @@ class StaffList(BaseListableView):
         "department__business__name",
         "department__business__business_type",
         "genericname",
+        "is_manager",
     )
 
     widgets = {
@@ -26,6 +27,7 @@ class StaffList(BaseListableView):
         "position__name": SELECT,
         "choices": SELECT,
         "active": SELECT,
+        "is_manager": SELECT
     }
 
     search_fields = {

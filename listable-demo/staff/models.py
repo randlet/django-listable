@@ -85,6 +85,8 @@ class Staff(models.Model):
     last_name = models.CharField(max_length=255, help_text=_("Enter the name of the staff being rounded"))
     active = models.CharField(max_length=10, choices=ACTIVE_CHOICES)
 
+    is_manager = models.BooleanField(default=False)
+
     position = models.ForeignKey(Position)
     department = models.ForeignKey(Department)
 
