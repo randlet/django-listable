@@ -3,6 +3,10 @@
 History
 -------
 
+0.3.1 (2015-02-25)
+++++++++++++++++++
+* Fix issue with boolean field filtering
+
 0.2.10 (2014-12-16)
 ++++++++++++++++++
 * Fix issue with pagination type
