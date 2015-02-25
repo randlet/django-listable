@@ -1,6 +1,9 @@
 Welcome to django-listable's documentation!
 =================================================================
 
+.. image:: https://travis-ci.org/randlet/django-listable.svg?branch=master
+    :target: https://travis-ci.org/randlet/django-listable
+
 Contents:
 
 .. toctree::
