@@ -1,7 +1,9 @@
 import json
 
+from django.db.models import BooleanField
 from django import template
 from django.core.urlresolvers import reverse
+import django.db.models.fields
 from django.templatetags.static import static
 
 from .. import utils
@@ -61,7 +63,7 @@ def get_dt_ordering(cls):
     return orderings
 
 
-def get_options(context, view_name, dom="", save_state=None, pagination_type=None, css_table_class="", css_input_class=""):
+def get_options(context, view_name, dom="", save_state=None, pagination_type="", css_table_class="", css_input_class=""):
 
     view_args = context.get('args', None)
     view_kwargs = context.get('kwargs', None)
@@ -69,7 +71,7 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type=Non
     if save_state is None:
         save_state = settings.LISTABLE_STATE_SAVE
 
-    if dom is "":
+    if not dom:
         dom = settings.LISTABLE_DOM
 
     if not pagination_type:
@@ -83,9 +85,15 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type=Non
 
     for field in cls.fields:
 
+        try:
+            mdl_field = utils.find_field(mdl, field)
+        except django.db.models.fields.FieldDoesNotExist:
+            mdl_field = None
+
         # column ordering def for datatablse
         order_allowed = cls.order_fields.get(field, True)
         column_defs.append({"bSortable": False} if not order_allowed else None)
+
 
         # column filters
         filter_allowed = cls.search_fields.get(field, True)
@@ -95,15 +103,22 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type=Non
             column_filter_defs.append(None)
         elif widget_type == TEXT:
             column_filter_defs.append({"type": "text"})
-        elif widget_type == SELECT:
-            is_local = field in [f.name for f in mdl._meta.fields]
-            choices = cls.model._meta.get_field(field).choices if is_local else None
+        elif widget_type == SELECT and mdl_field:
+            #is_local = field in [f.name for f in mdl._meta.fields]
 
-            if is_local and choices:
-                # local field with choices defined
+            if mdl_field.get_internal_type() == utils.BOOL_TYPE:
+                choices = ((False, "False"), (True, "True"),)
+            else:
+                choices = mdl_field.choices
+
+            if mdl_field.null:
+                choices = [(None, None)] + choices
+
+            if choices:
                 values = values_to_dt(choices)
             else:
                 values = values_to_dt(cls.model.objects.values_list(field, field).order_by(field))
+
             column_filter_defs.append({"type": "select", "values": values})
         else:
             raise TypeError("{wt} is not a valid widget type".format(wt=widget_type))
