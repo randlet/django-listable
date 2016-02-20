@@ -224,12 +224,11 @@ class BaseListableView(ListView):
                     except TypeError:
 
                         if mdl_field and mdl_field.get_internal_type() == utils.BOOL_TYPE:
-                            import ipdb; ipdb.set_trace()
 
                             filtering = field
-                            if search_term == "False":
+                            if search_term.lower() == "false":
                                 search_term = False
-                            elif search_term == "True":
+                            elif search_term.lower() == "true":
                                 search_term = True
                             else:
                                 search_term = None
