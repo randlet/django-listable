@@ -10,3 +10,4 @@ LISTABLE_DOM = getattr(settings, "LISTABLE_DOM", '<"row"<"col-sm-6"i><"col-sm-6"
 LISTABLE_PAGINATION_TYPE = getattr(settings, "LISTABLE_PAGINATION_TYPE", "full_numbers")
 LISTABLE_STATE_SAVE = getattr(settings, "LISTABLE_STATE_SAVE", True)
 LISTABLE_PAGINATE_BY = getattr(settings, "LISTABLE_PAGINATE_BY", 10)
+LISTABLE_LANGUAGE = getattr(settings, "LISTABLE_LANGUAGE", False)
