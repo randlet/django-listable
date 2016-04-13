@@ -232,6 +232,12 @@ class BaseListableView(ListView):
                                 search_term = True
                             else:
                                 search_term = None
+                        elif mdl_field and self.widgets.get(field) == SELECT:
+                            if mdl_field.null and search_term.lower() == "none":
+                                filtering = field
+                                search_term = None
+                            else:
+                                filtering = "{0}__icontains".format(field)
                         else:
                             # fall back to default search (e.g order_fields ={"first_name": True})
                             filtering = "{0}__icontains".format(field)

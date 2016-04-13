@@ -3,6 +3,10 @@
 History
 -------
 
+0.3.3 (2015-04-12)
+++++++++++++++++++
+* Fix filtering of None values for SELECT fields
+
 0.3.1 (2015-02-25)
 ++++++++++++++++++
 * Fix issue with boolean field filtering

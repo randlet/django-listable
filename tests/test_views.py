@@ -14,6 +14,7 @@ from mock import Mock
 from staff.views import StaffList
 from staff.models import Staff, INACTIVE, GenericModelA, GenericModelB
 from listable import utils
+from listable import settings as lisettings
 
 import codecs
 _reader = codecs.getreader("utf-8")
@@ -112,7 +113,7 @@ class TestViews(TestCase):
 
         payload = json.loads(response.content.decode('utf-8'))
         data = payload.pop("aaData")
-        pks = Staff.objects.filter(position__name__icontains=search_term).order_by('-pk').values_list("pk", flat=True)[:settings.LISTABLE_PAGINATE_BY]
+        pks = Staff.objects.filter(position__name__icontains=search_term).order_by('-pk').values_list("pk", flat=True)[:lisettings.LISTABLE_PAGINATE_BY]
         payload_pks= [int(x[0]) for x in data]
 
         self.assertListEqual(list(pks), payload_pks)
@@ -129,7 +130,7 @@ class TestViews(TestCase):
 
         payload = json.loads(response.content.decode('utf-8'))
         data = payload.pop("aaData")
-        staff = Staff.objects.filter(position__name__icontains=search_term).order_by('last_name',"first_name")[:settings.LISTABLE_PAGINATE_BY]
+        staff = Staff.objects.filter(position__name__icontains=search_term).order_by('last_name',"first_name")[:lisettings.LISTABLE_PAGINATE_BY]
         names = [s.name() for s in staff]
 
         payload_names = [x[1] for x in data]

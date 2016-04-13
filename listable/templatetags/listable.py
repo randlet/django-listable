@@ -36,7 +36,7 @@ def listable_js(): #pragma: nocover
 
 
 def values_to_dt(values):
-    return [{"value": str(x[0]), "label": x[1]} for x in utils.unique(values)]
+    return [{"value": str(x[0]), "label": str(x[1])} for x in utils.unique(values)]
 
 
 @register.filter(name="header")
