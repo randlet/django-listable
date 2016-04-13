@@ -13,7 +13,8 @@ $(Listable.tableId).addClass(
     aoColumns:Listable.columnDefs,
     aaSorting:Listable.order,
     bFilter:true,
-    sDom:Listable.DOM
+    sDom:Listable.DOM,
+    oLanguage: {sUrl: Listable.language},
 }).columnFilter({
     sPlaceHolder: "head:after",
     aoColumns: Listable.columnFilterDefs,
