@@ -222,7 +222,7 @@ class BaseListableView(ListView):
             if filtering and search_term:
                 if isinstance(filtering, basestring):
                     if 'select' in self.extra and field in self.extra['select']:
-                        qs = qs.extra(where=["{0} LIKE %s".format(field)], params=["%{0}%".format(search_term)])
+                        qs = qs.extra(where=["{0} LIKE %s".format(self.extra['select'][field])], params=["%{0}%".format(search_term)])
                     else:
                         qs = qs.filter(**{filtering: search_term})
                 else:
