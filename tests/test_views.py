@@ -22,7 +22,7 @@ _reader = codecs.getreader("utf-8")
 
 class TestViews(TestCase):
 
-    fixtures = ["initial_data.json"]
+    fixtures = ["staff_data.json"]
 
     def test_basic_get(self):
         client = Client()
