@@ -89,18 +89,29 @@ class BaseListableView(ListView):
             self.object_list = self.object_list.prefetch_related(*self.prefetch_related)
 
 
-        # Django can choke when paginating a query
+        # Some Django backends can choke when paginating a query
         # that has an extra clause on it (the count() call fails)
-        # so we can patch on our own count function that uses a single
-        # db call.  Not ideal but it seems to work.
+        # so we can patch on our own count function that first tries the
+        # native count method and then falls back on a query that uses a single
+        # db call and if all else fails just iterate the queryset and count it.
+        # Not ideal but it seems to work.
         if self.extra:
+            orig_count = self.object_list.count
             def count():
-                from django.db import connection
-                cursor = connection.cursor()
-                sql, params = self.object_list.query.sql_with_params()
-                count_sql =  "SELECT COUNT(*) FROM ({0})".format(sql)
-                cursor.execute(count_sql, params)
-                return cursor.fetchone()[0]
+                try:
+                    # works ok on mssql
+                    return orig_count()
+                except:
+                    try:
+                        from django.db import connection
+                        cursor = connection.cursor()
+                        sql, params = self.object_list.query.sql_with_params()
+                        count_sql =  "SELECT COUNT(*) FROM ({0})".format(sql)
+                        cursor.execute(count_sql, params)
+                        return cursor.fetchone()[0]
+                    except:
+                        # fall back to iterating and counting :(
+                        return len(_ for x in self.object_list.values_list("pk"))
             self.object_list.count = count
 
 
