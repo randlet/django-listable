@@ -16,7 +16,7 @@ install:
     - pip install Django==$DJANGO
     - pip install .
 script:
-  - python manage.py syncdb
+  - cd listable_demo && python manage.py syncdb
   - python runtests.py
 
 matrix:
