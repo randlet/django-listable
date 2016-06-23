@@ -3,6 +3,10 @@
 History
 -------
 
+0.3.5 (2016-06-22)
+++++++++++++++++++
+Fix filtering and count queries for django-mssql
+
 0.3.3 (2015-04-12)
 ++++++++++++++++++
 * Fix filtering of None values for SELECT fields
