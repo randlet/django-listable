@@ -11,3 +11,6 @@ LISTABLE_PAGINATION_TYPE = getattr(settings, "LISTABLE_PAGINATION_TYPE", "full_n
 LISTABLE_STATE_SAVE = getattr(settings, "LISTABLE_STATE_SAVE", True)
 LISTABLE_PAGINATE_BY = getattr(settings, "LISTABLE_PAGINATE_BY", 10)
 LISTABLE_LANGUAGE = getattr(settings, "LISTABLE_LANGUAGE", False)
+
+DT_COOKIE_NAME = "SpryMedia_DataTables"
+

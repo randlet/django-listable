@@ -45,3 +45,5 @@ output/*/index.html
 docs/_build
 
 local_settings.py
+
+.idea/

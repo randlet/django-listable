@@ -1,13 +1,12 @@
 import json
+import importlib
 
-from django.db.models import BooleanField
 from django import template
-from django.core.urlresolvers import reverse
-import django.db.models.fields
+from django.core.urlresolvers import reverse, resolve
 from django.templatetags.static import static
 
 from .. import utils
-from .. views import SELECT, TEXT
+from .. views import SELECT, TEXT, SELECT_MULTI, DATE
 from .. import settings
 
 
@@ -19,6 +18,7 @@ DATATABLES_SCRIPTS = [
     '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.searchPlugins.js'),
     '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.bootstrap.js'),
     '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.sort.js'),
+    '<script src="%s" type="text/javascript"></script>' % static('listable/js/bootstrap.multiselect.js')
 ]
 
 
@@ -26,7 +26,9 @@ DATATABLES_SCRIPTS = [
 def listable_css():
     return '\n'.join([
         '<link href="{0}" rel="stylesheet">'.format(static('listable/css/jquery.dataTables.css')),
-        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/jquery.dataTables.bootstrap.css'))
+        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/jquery.dataTables.bootstrap.css')),
+        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/bootstrap.multiselect.css'))
+
     ])
 
 
@@ -43,6 +45,7 @@ def values_to_dt(values):
 def header(value):
     return value.replace("__", " ").replace("_", " ").title()
 
+
 def get_dt_ordering(cls):
 
     orderings = []
@@ -50,7 +53,7 @@ def get_dt_ordering(cls):
     for idx, field in enumerate(cls.order_by):
         if field[0] == '-':
             direction = "desc"
-            field=field[1:]
+            field = field[1:]
         else:
             direction = "asc"
 
@@ -59,7 +62,6 @@ def get_dt_ordering(cls):
         except (ValueError, IndexError):
             raise ValueError("The field '{field}' is an invalid listable order_by value. It is not present in the listable fields definition.".format(field=field))
 
-
     return orderings
 
 
@@ -67,6 +69,9 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
 
     view_args = context.get('args', None)
     view_kwargs = context.get('kwargs', None)
+    view_instance = context.get('view', None)
+
+    qs = view_instance.get_queryset()
 
     if save_state is None:
         save_state = settings.LISTABLE_STATE_SAVE
@@ -85,15 +90,14 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
 
     for field in cls.fields:
 
-        try:
-            mdl_field = utils.find_field(mdl, field)
-        except django.db.models.fields.FieldDoesNotExist:
-            mdl_field = None
+        # try:
+        #     mdl_field = utils.find_field(mdl, field)
+        # except django.db.models.fields.FieldDoesNotExist:
+        #     mdl_field = None
 
         # column ordering def for datatablse
         order_allowed = cls.order_fields.get(field, True)
         column_defs.append({"bSortable": False} if not order_allowed else None)
-
 
         # column filters
         filter_allowed = cls.search_fields.get(field, True)
@@ -101,32 +105,43 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
 
         if not filter_allowed:
             column_filter_defs.append(None)
+
         elif widget_type == TEXT:
             column_filter_defs.append({"type": "text"})
-        elif widget_type == SELECT and mdl_field:
-            #is_local = field in [f.name for f in mdl._meta.fields]
 
-            if mdl_field.get_internal_type() == utils.BOOL_TYPE:
-                choices = ((False, "False"), (True, "True"),)
-            else:
-                choices = mdl_field.choices
+        # elif widget_type == SELECT and mdl_field:
+        elif widget_type == SELECT:
+            is_local = field in [f.name for f in mdl._meta.fields]
+            choices = cls.model._meta.get_field(field).choices if is_local else None
 
-            if mdl_field.null:
-                choices = [(None, None)] + choices
-
-            if choices:
+            if is_local and choices:
+                # local field with choices defined
                 values = values_to_dt(choices)
             else:
-                values = values_to_dt(cls.model.objects.values_list(field, field).order_by(field))
+                values = values_to_dt(view_instance.get_filters(field, queryset=qs))
 
-            column_filter_defs.append({"type": "select", "values": values})
+            column_filter_defs.append({'type': 'select', 'values': values, 'label': '-----'})
+
+        elif widget_type == SELECT_MULTI:
+            is_local = field in [f.name for f in mdl._meta.fields]
+            choices = cls.model._meta.get_field(field).choices if is_local else None
+
+            if is_local and choices:
+                # local field with choices defined
+                values = values_to_dt(choices)
+            else:
+                values = values_to_dt(view_instance.get_filters(field, queryset=qs))
+            column_filter_defs.append({'type': 'select', 'values': values, 'multiple': 'multiple'})
+
+        elif widget_type == DATE:
+            column_filter_defs.append({'type': 'date'})
         else:
             raise TypeError("{wt} is not a valid widget type".format(wt=widget_type))
 
     url = reverse(view_name, args=view_args, kwargs=view_kwargs)
 
     opts = {
-        "tableId": "#listable-table-" + view_name.replace(":","_"),
+        "tableId": "#listable-table-" + view_name.replace(":", "_"),
         "paginationType": pagination_type,
         "stateSave": save_state,
         "url": url,
@@ -139,17 +154,19 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
         "columnFilterDefs": column_filter_defs,
         "cssTableClass": css_table_class,
         "cssInputClass": css_input_class,
+        "cookie": "{0}_listable-table-{1}_".format(settings.DT_COOKIE_NAME, view_name)
     }
 
-    if settings.LISTABLE_LANGUAGE: opts.update(language=settings.LISTABLE_LANGUAGE)
+    if settings.LISTABLE_LANGUAGE:
+        opts.update(language=settings.LISTABLE_LANGUAGE)
 
     return opts
 
 
 @register.simple_tag(takes_context=True)
-def listable(context, view_name, dom="", save_state=None, pagination_type="", css_table_class="", css_input_class=""):
+def listable(context, view_name, dom="", save_state=None, pagination_type="", css_table_class="",
+             css_input_class=""):
     """ Generate all script tags and DataTables options for a given table"""
-
 
     opts = get_options(context, view_name, dom, save_state, pagination_type, css_table_class, css_input_class)
 

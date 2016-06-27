@@ -1,9 +1,11 @@
 import datetime
 import json
 import urllib
+import re
 
 from django.core.exceptions import FieldError
 from django.core.urlresolvers import resolve
+from django.db import DatabaseError, connection
 from django.db.models import Q
 import django.db.models.fields
 from django.http import HttpResponse, Http404
@@ -26,7 +28,7 @@ except (ImportError, NameError):
     str = str
     unicode = str
     bytes = bytes
-    basestring = (str,bytes)
+    basestring = (str, bytes)
 else:
     from urllib import unquote
     # 'unicode' exists, must be Python 2
@@ -39,6 +41,10 @@ else:
 DT_COOKIE_NAME = "SpryMedia_DataTables"
 TEXT = "text"
 SELECT = "select"
+SELECT_MULTI = "selectmulti"
+DATE = "date"
+
+NONEORNULL = 'noneornull'
 
 
 class BaseListableView(ListView):
@@ -58,6 +64,17 @@ class BaseListableView(ListView):
 
     defer = True
 
+    def __init__(self, *args, **kwargs):
+
+        super(BaseListableView, self).__init__(**kwargs)
+
+        for field in self.fields:
+            if field not in self.widgets:
+                if field in self.search_fields and not self.search_fields[field]:
+                    self.widgets[field] = None
+                else:
+                    self.widgets[field] = TEXT
+
     def get(self, request, *args, **kwargs):
         """
         return regular list view on page load and then json data on
@@ -71,7 +88,6 @@ class BaseListableView(ListView):
 
         if not self.request.is_ajax():
             return super(BaseListableView, self).get(request, *args, **kwargs)
-
 
         self.set_query_params()
 
@@ -89,31 +105,20 @@ class BaseListableView(ListView):
             self.object_list = self.object_list.prefetch_related(*self.prefetch_related)
 
 
-        # Some Django backends can choke when paginating a query
+        # Django can choke when paginating a query
         # that has an extra clause on it (the count() call fails)
-        # so we can patch on our own count function that first tries the
-        # native count method and then falls back on a query that uses a single
-        # db call and if all else fails just iterate the queryset and count it.
-        # Not ideal but it seems to work.
-        if self.extra:
-            orig_count = self.object_list.count
-            def count():
-                try:
-                    # works ok on mssql
-                    return orig_count()
-                except:
-                    try:
-                        from django.db import connection
-                        cursor = connection.cursor()
-                        sql, params = self.object_list.query.sql_with_params()
-                        count_sql =  "SELECT COUNT(*) FROM ({0})".format(sql)
-                        cursor.execute(count_sql, params)
-                        return cursor.fetchone()[0]
-                    except:
-                        # fall back to iterating and counting :(
-                        return len(_ for x in self.object_list.values_list("pk"))
-            self.object_list.count = count
+        # so we can patch on our own count function that uses a single
+        # db call.  Not ideal but it seems to work.
 
+        # if self.extra:
+        #     def count():
+        #         from django.db import connection
+        #         cursor = connection.cursor()
+        #         sql, params = self.object_list.query.sql_with_params()
+        #         count_sql = "SELECT COUNT(*) FROM ({0})".format(sql)
+        #         cursor.execute(count_sql, params)
+        #         return cursor.fetchone()[0]
+        #     self.object_list.count = count
 
         allow_empty = self.get_allow_empty()
 
@@ -190,17 +195,33 @@ class BaseListableView(ListView):
         """ Get page size requested by DataTables if available else default value"""
         return int(self.search_filters.get("iDisplayLength", self.paginate_by))
 
-    def get_queryset(self):
-        """ filter and order queryset based on DataTables parameters """
+    qs_count = 0
 
-        # wer're not displaying anything on page load
-        if self.defer and not self.request.is_ajax():
-            return self.model.objects.none()
+    # def get_queryset(self):
+    #     """ filter and order queryset based on DataTables parameters """
+    #
+    #     # wer're not displaying anything on page load
+    #     # if self.defer and not self.request.is_ajax():
+    #     #     return self.model.objects.none()
+    #     self.qs_count += 1
+    #     print self.qs_count
+    #
+    #     qs = super(BaseListableView, self).get_queryset()
+    #
+    #     return qs
 
-        qs = super(BaseListableView, self).get_queryset()
+    def get_filters(self, field, queryset=None):
+        """Populates options for SELECT and SELECT_MULTI filters based on values in the initial queryset"""
 
+        if not queryset or len(queryset) == 0:
+            queryset = self.get_queryset()
 
-        return qs
+        if 'select' in self.get_extra() and field in self.get_extra()['select']:
+            queryset = queryset.extra(select=self.get_extra()['select'])
+
+        filters = [f if f != (None, None) else (NONEORNULL, 'None') for f in queryset.values_list(field, field).order_by(field)]
+
+        return filters
 
     def filter_queryset(self, qs):
         """ filter the input queryset according to column definitions.
@@ -212,51 +233,70 @@ class BaseListableView(ListView):
 
             search_term = self.search_filters.get("sSearch_%d" % col_num, None)
             filtering = self.search_fields.get(field, True)
+            widget = self.widgets[field]
 
-            try:
-                mdl_field = utils.find_field(self.model, field)
-            except django.db.models.fields.FieldDoesNotExist:
-                mdl_field = None
+            # would like to use __regex here, but mssql doesn't come standard with __regex functionaliy
+            # instead of installing regex_clr, some logic is used
+            if widget is None:
+                continue
 
+            if widget == SELECT and search_term:
+                search_term = [urllib.unquote(search_term).replace('\\', '')]
+
+            if widget == SELECT_MULTI:
+                if search_term == '^(.*)$':
+                    search_term = ''
+                else:
+                    search_term = urllib.unquote(search_term[2:-2]).replace('\\', '').split('|')
+
+            has_none = True if NONEORNULL in search_term else False
 
             if filtering and search_term:
+
+                if isinstance(filtering, bool):
+                    filtering = field
+
                 if isinstance(filtering, basestring):
-                    if 'select' in self.extra and field in self.extra['select']:
-                        qs = qs.extra(where=["{0} LIKE %s".format(self.extra['select'][field])], params=["%{0}%".format(search_term)])
+                    if self.extra and 'select' in self.extra and field in self.extra['select']:
+
+                        if widget == TEXT:
+                            qs = qs.extra(where=["{0} LIKE %s".format(self.extra['select'][field])], params=["%{0}%".format(search_term)])
+
+                        elif widget in [SELECT, SELECT_MULTI]:
+                            search_term_string = "("
+                            for st in search_term:
+                                search_term_string = search_term_string + "'" + st + "',"
+                            search_term_string = search_term_string[:-1] + ")"
+
+                            qs = qs.extra(where=["{0} IN {1}".format(self.extra['select'][field], search_term_string)])
                     else:
-                        qs = qs.filter(**{filtering: search_term})
+                        if widget in [SELECT, SELECT_MULTI]:
+                            filtering = '{0}__in'.format(filtering)
+
+                        elif widget == TEXT:
+                            filtering = '{0}__icontains'.format(filtering)
+
+                        if has_none:
+                            qs = qs.filter(Q(**{"{0}__isnull".format(field): True}) | Q(**{filtering: search_term}))
+                        else:
+                            qs = qs.filter(**{filtering: search_term})
+
                 else:
 
                     try:
-                        # iterable of search fields e.g. search_fields = {"name": ("first_name", "last_name",)}
-                        queries = reduce(lambda q, f: q | Q(**{f: search_term}), filtering, Q())
-                        qs = qs.filter(queries)
+                        if widget in [SELECT, SELECT_MULTI]:
+                            filterings = ()
+                            for i in range(len(filtering)):
+                                filterings = filterings + ('{0}__in'.format(filtering[i]),)
+                            queries = reduce(lambda q, f: q | Q(**{f: search_term}), filterings, Q())
+                            qs = qs.filter(queries)
+                        elif widget == TEXT:
+                            queries = reduce(lambda q, f: q | Q(**{f: search_term}), filtering, Q())
+                            qs = qs.filter(queries)
 
-                    except TypeError:
-
-                        if mdl_field and mdl_field.get_internal_type() == utils.BOOL_TYPE:
-
-                            filtering = field
-                            if search_term.lower() == "false":
-                                search_term = False
-                            elif search_term.lower() == "true":
-                                search_term = True
-                            else:
-                                search_term = None
-                        elif mdl_field and self.widgets.get(field) == SELECT:
-                            if mdl_field.null and search_term.lower() == "none":
-                                filtering = field
-                                search_term = None
-                            else:
-                                filtering = "{0}__icontains".format(field)
-                        else:
-                            # fall back to default search (e.g order_fields ={"first_name": True})
-                            filtering = "{0}__icontains".format(field)
-                        try:
-                            qs = qs.filter(**{filtering: search_term})
-                        except FieldError:
-                            raise TypeError("You can not filter on the '{field}' field. Filtering on"
-                                " GenericForeignKey's and callables must be explicitly disabled in `search_fields`".format(field=field))
+                    except Exception as e:
+                        # TODO
+                        print e
 
         return qs
 
@@ -391,3 +431,4 @@ class BaseListableView(ListView):
                 cookie_dt_params = json.loads(unquote(v))
 
         return cookie_dt_params
+
