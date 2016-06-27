@@ -41,7 +41,6 @@ def class_for_view_name(view_name, args=None, kwargs=None):
     return getattr(module, view_func.__name__)
 
 
-
 def find_field(cls, lookup):
     """Take a root class and a field lookup string
     and return the model field if it exists or raise

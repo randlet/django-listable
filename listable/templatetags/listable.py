@@ -18,7 +18,9 @@ DATATABLES_SCRIPTS = [
     '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.searchPlugins.js'),
     '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.bootstrap.js'),
     '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.sort.js'),
-    '<script src="%s" type="text/javascript"></script>' % static('listable/js/bootstrap.multiselect.js')
+    '<script src="%s" type="text/javascript"></script>' % static('listable/js/bootstrap.multiselect.js'),
+    '<script src="%s" type="text/javascript"></script>' % static('listable/js/bootstrap-datepicker.min.js')
+
 ]
 
 
@@ -27,8 +29,8 @@ def listable_css():
     return '\n'.join([
         '<link href="{0}" rel="stylesheet">'.format(static('listable/css/jquery.dataTables.css')),
         '<link href="{0}" rel="stylesheet">'.format(static('listable/css/jquery.dataTables.bootstrap.css')),
-        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/bootstrap.multiselect.css'))
-
+        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/bootstrap.multiselect.css')),
+        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/bootstrap-datepicker.min.css'))
     ])
 
 

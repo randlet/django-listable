@@ -216,7 +216,7 @@ class BaseListableView(ListView):
         if not queryset or len(queryset) == 0:
             queryset = self.get_queryset()
 
-        if 'select' in self.get_extra() and field in self.get_extra()['select']:
+        if self.get_extra() and 'select' in self.get_extra() and field in self.get_extra()['select']:
             queryset = queryset.extra(select=self.get_extra()['select'])
 
         filters = [f if f != (None, None) else (NONEORNULL, 'None') for f in queryset.values_list(field, field).order_by(field)]
@@ -240,16 +240,27 @@ class BaseListableView(ListView):
             if widget is None:
                 continue
 
-            if widget == SELECT and search_term:
-                search_term = [urllib.unquote(search_term).replace('\\', '')]
+            if search_term:
+                if widget == SELECT:
+                    search_term = [urllib.unquote(search_term).replace('\\', '')]
 
-            if widget == SELECT_MULTI:
-                if search_term == '^(.*)$':
-                    search_term = ''
-                else:
-                    search_term = urllib.unquote(search_term[2:-2]).replace('\\', '').split('|')
+                if widget == SELECT_MULTI:
+                    if search_term == '^(.*)$':
+                        search_term = ''
+                    else:
+                        search_term = urllib.unquote(search_term[2:-2]).replace('\\', '').split('|')
 
-            has_none = True if NONEORNULL in search_term else False
+                if widget == DATE:
+                    try:
+                        start = datetime.datetime.strptime(search_term.split('-')[0], '%a %b %d %Y %H:%M:%S %Z').replace(hour=0, minute=0, second=0)
+                        end = datetime.datetime.strptime(search_term.split('-')[0], '%a %b %d %Y %H:%M:%S %Z').replace(hour=23, minute=59, second=59)
+                        search_term = (start, end)
+                    except ValueError:
+                        start = datetime.datetime.strptime(search_term, '%d %b %Y').replace(hour=0, minute=0, second=0)
+                        end = datetime.datetime.strptime(search_term, '%d %b %Y').replace(hour=23, minute=59, second=59)
+                        search_term = (start, end)
+
+            has_none = False
 
             if filtering and search_term:
 
@@ -257,12 +268,16 @@ class BaseListableView(ListView):
                     filtering = field
 
                 if isinstance(filtering, basestring):
-                    if self.extra and 'select' in self.extra and field in self.extra['select']:
+                    if self.get_extra() and 'select' in self.get_extra() and field in self.get_extra()['select']:
+
+                        if widget == DATE:
+                            raise ValueError('DATE widget not configurable with extra query')
 
                         if widget == TEXT:
                             qs = qs.extra(where=["{0} LIKE %s".format(self.extra['select'][field])], params=["%{0}%".format(search_term)])
 
                         elif widget in [SELECT, SELECT_MULTI]:
+
                             search_term_string = "("
                             for st in search_term:
                                 search_term_string = search_term_string + "'" + st + "',"
@@ -270,11 +285,16 @@ class BaseListableView(ListView):
 
                             qs = qs.extra(where=["{0} IN {1}".format(self.extra['select'][field], search_term_string)])
                     else:
+
                         if widget in [SELECT, SELECT_MULTI]:
+                            has_none = True if NONEORNULL in search_term else False
                             filtering = '{0}__in'.format(filtering)
 
                         elif widget == TEXT:
                             filtering = '{0}__icontains'.format(filtering)
+
+                        elif widget == DATE:
+                            filtering = '{0}__range'.format(filtering)
 
                         if has_none:
                             qs = qs.filter(Q(**{"{0}__isnull".format(field): True}) | Q(**{filtering: search_term}))
@@ -283,20 +303,22 @@ class BaseListableView(ListView):
 
                 else:
 
-                    try:
-                        if widget in [SELECT, SELECT_MULTI]:
-                            filterings = ()
-                            for i in range(len(filtering)):
-                                filterings = filterings + ('{0}__in'.format(filtering[i]),)
-                            queries = reduce(lambda q, f: q | Q(**{f: search_term}), filterings, Q())
-                            qs = qs.filter(queries)
-                        elif widget == TEXT:
-                            queries = reduce(lambda q, f: q | Q(**{f: search_term}), filtering, Q())
-                            qs = qs.filter(queries)
+                    if self.get_extra() and 'select' in self.get_extra() and field in self.get_extra()['select']:
+                        raise ValueError('Multiple filters on field not configurable with extra.')
 
-                    except Exception as e:
-                        # TODO
-                        print e
+                    if widget in [SELECT, SELECT_MULTI]:
+                        filterings = ()
+                        for i in range(len(filtering)):
+                            filterings = filterings + ('{0}__in'.format(filtering[i]),)
+                        queries = reduce(lambda q, f: q | Q(**{f: search_term}), filterings, Q())
+                        qs = qs.filter(queries)
+
+                    elif widget == TEXT:
+                        queries = reduce(lambda q, f: q | Q(**{f: search_term}), filtering, Q())
+                        qs = qs.filter(queries)
+
+                    elif widget == DATE:
+                        raise ValueError('DATE widget not configurable for multiple filters.')
 
         return qs
 

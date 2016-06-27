@@ -71,88 +71,30 @@ for (var col in Listable.columnFilterDefs) {
                     .attr('multiple', 'multiple')
                     .multiselect({
                         includeSelectAllOption: true,
-                        buttonWidth: '100px',
+                        buttonWidth: '125px',
                         numberDisplayed: 1,
                         nonSelectedText: '------'
                     });
             } else {
                 $(select).attr('multiple', false).multiselect({
-                    buttonWidth: '100px'
+                    buttonWidth: '125px'
                 });
             }
             $(select).multiselect();
+
         } else if (Listable.columnFilterDefs[col].type == 'date') {
             var c = parseInt(col) + 1;
             var date = $("thead > tr > th:nth-child(" + c + ") input");
-            $(date).hide().val('').trigger('keyup');
-            var dateGroup = $("<div id=date-group-" + col + " class='btn-group' style='width: 70px;'></div>").insertAfter(date);
-            var fromGroup = $('<span id="from-' + col + '" class="input-group from"><input type="text" class="form-control from" style="display:none;"><span class="input-group-addon btn btn-sm" style="font-size: 12px; padding: 4px 6px;">From</span> </span>');
-            var toGroup = $('<span id="to-' + col + '" class="input-group to"><input type="text" class="form-control to" style="display:none;"><span class="input-group-addon btn btn-sm" style="font-size: 12px; padding: 4px 6px;">To</span> </span>');
 
-            //var from = $("<input type='text' class='datepicker from'>");
-            //var to = $("<input type='text' class='datepicker to'>");
-            $(fromGroup).appendTo(dateGroup).datepicker({
-                showOn: 'button',
+            $(date).datepicker({
                 orientation: 'bottom left',
-                format: 'yyyy-mm-dd',
+                format: 'dd M yyyy',
                 autoclose: true,
-                endDate: '0d'
+                clearBtn: true,
+                toggleActive: true,
+
             }).on('changeDate', function(x) {
-                var date = $(this).parent().parent().children('input:not(".from"):not(".to")');
-                console.log($(date));
-                var currDate = $(date).val();
-                var newFrom = x.format();
-                $(this).children("span.btn").html("<i class='icon-check'></i>");
-                if (currDate != '' && currDate.charAt(0) == '*') {
-                    var sub = currDate.substring(0, 4);
-                    var currTo = '';
-                    if (sub == '*f-*') {
-                        currDate = '*f-*' + newFrom;
-                    } else if (sub == '*ft*') {
-                        currTo = currDate.substring(15, 25);
-                        currDate = '*ft*' + newFrom + '|' + currTo;
-                    } else if (sub == '*-t*') {
-                        currTo = currDate.substring(5, 15);
-                        currDate = '*ft*' + newFrom + '|' + currTo;
-                    } else {
-                        console.log('ErRor');
-                    }
-                } else {
-                    currDate = '*f-*' + newFrom;
-                }
-                $(date).val(currDate).trigger('keyup');
-                $(this).parent().children(".input-group.to").data('datepicker').setStartDate(newFrom);
-            });
-            $(toGroup).appendTo(dateGroup).datepicker({
-                showOn: 'button',
-                orientation: 'bottom left',
-                format: 'yyyy-mm-dd',
-                autoclose: true,
-                endDate: '0d'
-            }).on('changeDate', function(x) {
-                var date = $(this).parent().parent().children('input:not(".from"):not(".to")');
-                var currDate = $(date).val();
-                var newTo = x.format();
-                $(this).children("span.btn").html("<i class='icon-check'></i>");
-                if (currDate != '' && currDate.charAt(0) == '*') {
-                    var sub = currDate.substring(0, 4);
-                    var currFrom = '';
-                    if (sub == '*f-*') {
-                        currFrom = currDate.substring(4, 14);
-                        currDate = '*ft*' + currFrom + '|' + newTo;
-                    } else if (sub == '*ft*') {
-                        currFrom = currDate.substring(4, 14);
-                        currDate = '*ft*' + currFrom + '|' + newTo;
-                    } else if (sub == '*-t*') {
-                        currDate = '*-t*|' + newTo;
-                    } else {
-                        console.log('ErRor');
-                    }
-                } else {
-                    currDate = '*-t*|' + newTo;
-                }
-                $(date).val(currDate).trigger('keyup');
-                $(this).parent().children(".input-group.from").data('datepicker').setEndDate(newTo);
+                $(this).trigger('keyup');
             });
         }
     }
