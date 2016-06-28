@@ -226,7 +226,7 @@ class BaseListableView(ListView):
         if not queryset or len(queryset) == 0:
             queryset = self.get_queryset()
 
-        if 'select' in self.extra and field in self.extra['select']:
+        if self.get_extra() and 'select' in self.get_extra() and field in self.get_extra()['select']:
             queryset = queryset.extra(select=self.get_extra()['select'])
 
         filters = [f if f != (None, None) else (NONEORNULL, 'None') for f in queryset.values_list(field, field).order_by(field)]
@@ -279,7 +279,7 @@ class BaseListableView(ListView):
 
                 if isinstance(filtering, basestring):
 
-                    if 'select' in self.extra and field in self.extra['select']:
+                    if self.get_extra() and 'select' in self.get_extra() and field in self.get_extra()['select']:
 
                         if widget == DATE:
                             raise ValueError('DATE widget not configurable with extra query')
@@ -315,7 +315,7 @@ class BaseListableView(ListView):
 
                 else:
 
-                    if 'select' in self.extra and field in self.extra['select']:
+                    if self.get_extra() and 'select' in self.get_extra() and field in self.get_extra()['select']:
                         raise ValueError('Multiple filters on field not configurable with extra.')
 
                     if widget in [SELECT, SELECT_MULTI]:
