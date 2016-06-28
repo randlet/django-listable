@@ -105,20 +105,30 @@ class BaseListableView(ListView):
             self.object_list = self.object_list.prefetch_related(*self.prefetch_related)
 
 
-        # Django can choke when paginating a query
+        # Some Django backends can choke when paginating a query
         # that has an extra clause on it (the count() call fails)
-        # so we can patch on our own count function that uses a single
-        # db call.  Not ideal but it seems to work.
-
-        # if self.extra:
-        #     def count():
-        #         from django.db import connection
-        #         cursor = connection.cursor()
-        #         sql, params = self.object_list.query.sql_with_params()
-        #         count_sql = "SELECT COUNT(*) FROM ({0})".format(sql)
-        #         cursor.execute(count_sql, params)
-        #         return cursor.fetchone()[0]
-        #     self.object_list.count = count
+        # so we can patch on our own count function that first tries the
+        # native count method and then falls back on a query that uses a single
+        # db call and if all else fails just iterate the queryset and count it.
+        # Not ideal but it seems to work.
+        if self.extra:
+            orig_count = self.object_list.count
+            def count():
+                try:
+                    # works ok on mssql
+                    return orig_count()
+                except:
+                    try:
+                        from django.db import connection
+                        cursor = connection.cursor()
+                        sql, params = self.object_list.query.sql_with_params()
+                        count_sql =  "SELECT COUNT(*) FROM ({0})".format(sql)
+                        cursor.execute(count_sql, params)
+                        return cursor.fetchone()[0]
+                    except:
+                        # fall back to iterating and counting :(
+                        return len(_ for x in self.object_list.values_list("pk"))
+            self.object_list.count = count
 
         allow_empty = self.get_allow_empty()
 
@@ -216,7 +226,7 @@ class BaseListableView(ListView):
         if not queryset or len(queryset) == 0:
             queryset = self.get_queryset()
 
-        if self.get_extra() and 'select' in self.get_extra() and field in self.get_extra()['select']:
+        if 'select' in self.extra and field in self.extra['select']:
             queryset = queryset.extra(select=self.get_extra()['select'])
 
         filters = [f if f != (None, None) else (NONEORNULL, 'None') for f in queryset.values_list(field, field).order_by(field)]
@@ -268,7 +278,8 @@ class BaseListableView(ListView):
                     filtering = field
 
                 if isinstance(filtering, basestring):
-                    if self.get_extra() and 'select' in self.get_extra() and field in self.get_extra()['select']:
+
+                    if 'select' in self.extra and field in self.extra['select']:
 
                         if widget == DATE:
                             raise ValueError('DATE widget not configurable with extra query')
@@ -284,6 +295,7 @@ class BaseListableView(ListView):
                             search_term_string = search_term_string[:-1] + ")"
 
                             qs = qs.extra(where=["{0} IN {1}".format(self.extra['select'][field], search_term_string)])
+
                     else:
 
                         if widget in [SELECT, SELECT_MULTI]:
@@ -303,7 +315,7 @@ class BaseListableView(ListView):
 
                 else:
 
-                    if self.get_extra() and 'select' in self.get_extra() and field in self.get_extra()['select']:
+                    if 'select' in self.extra and field in self.extra['select']:
                         raise ValueError('Multiple filters on field not configurable with extra.')
 
                     if widget in [SELECT, SELECT_MULTI]:
