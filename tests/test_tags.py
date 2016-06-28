@@ -14,7 +14,7 @@ class TestTags(TestCase):
         self.assertEqual(listable.header("foo__bar_baz"), "Foo Bar Baz")
 
     def test_listable_url(self):
-        results = listable.get_options({},"staff-list")
+        results = listable.get_options({}, "staff-list")
         self.assertEqual(results['url'], '/staff-list/')
 
     def test_css_input_class(self):

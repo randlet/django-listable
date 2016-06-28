@@ -31,10 +31,10 @@ class StaffList(BaseListableView):
     }
 
     search_fields = {
-        "name": ("first_name__icontains", "last_name__icontains",),
+        "name": ("first_name", "last_name",),
         "last_name": "last_name__exact",
-        "genericname": "genericname__icontains",
-        "department__name": "department__name__icontains",
+        "genericname": "genericname",
+        "department__name": "department__name",
     }
 
     order_fields = {
@@ -64,9 +64,9 @@ class StaffList(BaseListableView):
         extraq = """
          CASE
             WHEN content_type_id = {0}
-                THEN (SELECT name from staff_genericmodela WHERE object_id = staff_genericmodela.id)
+                THEN (SELECT name AS genericname from staff_genericmodela WHERE object_id = staff_genericmodela.id)
             WHEN content_type_id = {1}
-                THEN (SELECT name from staff_genericmodelb WHERE object_id = staff_genericmodelb.id)
+                THEN (SELECT name AS genericname from staff_genericmodelb WHERE object_id = staff_genericmodelb.id)
          END
          """.format(cta.pk, ctb.pk)
 

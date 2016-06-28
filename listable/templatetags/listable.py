@@ -73,8 +73,6 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
     view_kwargs = context.get('kwargs', None)
     view_instance = context.get('view', None)
 
-    qs = view_instance.get_queryset()
-
     if save_state is None:
         save_state = settings.LISTABLE_STATE_SAVE
 
@@ -90,55 +88,58 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
     column_defs = []
     column_filter_defs = []
 
-    for field in cls.fields:
+    if view_instance:
+        qs = view_instance.get_queryset()
 
-        # try:
-        #     mdl_field = utils.find_field(mdl, field)
-        # except django.db.models.fields.FieldDoesNotExist:
-        #     mdl_field = None
+        for field in cls.fields:
 
-        # column ordering def for datatablse
-        order_allowed = cls.order_fields.get(field, True)
-        column_defs.append({"bSortable": False} if not order_allowed else None)
+            # try:
+            #     mdl_field = utils.find_field(mdl, field)
+            # except django.db.models.fields.FieldDoesNotExist:
+            #     mdl_field = None
 
-        # column filters
-        filter_allowed = cls.search_fields.get(field, True)
-        widget_type = cls.widgets.get(field, TEXT)
+            # column ordering def for datatablse
+            order_allowed = cls.order_fields.get(field, True)
+            column_defs.append({"bSortable": False} if not order_allowed else None)
 
-        if not filter_allowed:
-            column_filter_defs.append(None)
+            # column filters
+            filter_allowed = cls.search_fields.get(field, True)
+            widget_type = cls.widgets.get(field, TEXT)
 
-        elif widget_type == TEXT:
-            column_filter_defs.append({"type": "text"})
+            if not filter_allowed:
+                column_filter_defs.append(None)
 
-        # elif widget_type == SELECT and mdl_field:
-        elif widget_type == SELECT:
-            is_local = field in [f.name for f in mdl._meta.fields]
-            choices = cls.model._meta.get_field(field).choices if is_local else None
+            elif widget_type == TEXT:
+                column_filter_defs.append({"type": "text"})
 
-            if is_local and choices:
-                # local field with choices defined
-                values = values_to_dt(choices)
+            # elif widget_type == SELECT and mdl_field:
+            elif widget_type == SELECT:
+                is_local = field in [f.name for f in mdl._meta.fields]
+                choices = cls.model._meta.get_field(field).choices if is_local else None
+
+                if is_local and choices:
+                    # local field with choices defined
+                    values = values_to_dt(choices)
+                else:
+                    values = values_to_dt(view_instance.get_filters(field, queryset=qs))
+
+                column_filter_defs.append({'type': 'select', 'values': values, 'label': '-----'})
+
+            elif widget_type == SELECT_MULTI:
+                is_local = field in [f.name for f in mdl._meta.fields]
+                choices = cls.model._meta.get_field(field).choices if is_local else None
+
+                if is_local and choices:
+                    # local field with choices defined
+                    values = values_to_dt(choices)
+                else:
+                    values = values_to_dt(view_instance.get_filters(field, queryset=qs))
+                column_filter_defs.append({'type': 'select', 'values': values, 'multiple': 'multiple'})
+
+            elif widget_type == DATE:
+                column_filter_defs.append({'type': 'date'})
             else:
-                values = values_to_dt(view_instance.get_filters(field, queryset=qs))
-
-            column_filter_defs.append({'type': 'select', 'values': values, 'label': '-----'})
-
-        elif widget_type == SELECT_MULTI:
-            is_local = field in [f.name for f in mdl._meta.fields]
-            choices = cls.model._meta.get_field(field).choices if is_local else None
-
-            if is_local and choices:
-                # local field with choices defined
-                values = values_to_dt(choices)
-            else:
-                values = values_to_dt(view_instance.get_filters(field, queryset=qs))
-            column_filter_defs.append({'type': 'select', 'values': values, 'multiple': 'multiple'})
-
-        elif widget_type == DATE:
-            column_filter_defs.append({'type': 'date'})
-        else:
-            raise TypeError("{wt} is not a valid widget type".format(wt=widget_type))
+                raise TypeError("{wt} is not a valid widget type".format(wt=widget_type))
 
     url = reverse(view_name, args=view_args, kwargs=view_kwargs)
 
