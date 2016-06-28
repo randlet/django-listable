@@ -3,6 +3,10 @@
 History
 -------
 
+0.3.6 (2016-06-29)
+++++++++++++++++++
+Add multi select and date select widgets (thanks to @ryanbottema)
+
 0.3.5 (2016-06-22)
 ++++++++++++++++++
 Fix filtering and count queries for django-mssql

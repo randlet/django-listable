@@ -1,6 +1,6 @@
 from django.utils.translation import ugettext as _
 from django.contrib.contenttypes.models import ContentType
-from listable.views import BaseListableView, SELECT
+from listable.views import BaseListableView, SELECT, SELECT_MULTI, DATE
 
 from . import models
 
@@ -19,6 +19,8 @@ class StaffList(BaseListableView):
         "department__business__business_type",
         "genericname",
         "is_manager",
+        "contract_type__name",
+        "date_hired"
     )
 
     widgets = {
@@ -27,7 +29,9 @@ class StaffList(BaseListableView):
         "position__name": SELECT,
         "choices": SELECT,
         "active": SELECT,
-        "is_manager": SELECT
+        "is_manager": SELECT,
+        "contract_type__name": SELECT_MULTI,
+        "date_hired": DATE
     }
 
     search_fields = {
@@ -35,6 +39,7 @@ class StaffList(BaseListableView):
         "last_name": "last_name__exact",
         "genericname": "genericname",
         "department__name": "department__name",
+        "contract_type__name": "contract_type__name"
     }
 
     order_fields = {
@@ -45,11 +50,12 @@ class StaffList(BaseListableView):
         "position__name": _("Position"),
         "department__business__name": _("Business"),
         "department__business__business_type": _("Business Type"),
+        "contract_type__name": _("Contract Type")
     }
 
     order_by = ("-name",)
 
-    select_related = ("department", "position", "department__business",)
+    select_related = ("department", "position", "department__business", "contract_type")
 
     def generic(self, obj):
         return obj.generic_object.name

@@ -1,3 +1,5 @@
+import random
+
 from django.db import models
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
@@ -46,6 +48,14 @@ class Position(models.Model):
         return self.name
 
 
+class ContractType(models.Model):
+
+    name = models.CharField(max_length=32)
+
+    def __unicode__(self):
+        return self.name
+
+
 class AbstractGeneric(models.Model):
 
     name = models.CharField(max_length=255)
@@ -79,6 +89,14 @@ class GenericModelB(AbstractGeneric):
         return self.name
 
 
+years = ['200' + str(i) if i < 10 else '20' + str(i) for i in range(0, 15)]
+
+
+def add_a_date():
+
+    return random.choice(years) + '-' + str(random.choice(range(1, 13))) + '-' + str(random.choice(range(1, 29))) + ' ' + str(random.choice(range(0, 24))) + ':' + str(random.choice(range(0, 60))) + ':' + str(random.choice(range(0, 60)))
+
+
 class Staff(models.Model):
 
     first_name = models.CharField(max_length=255, help_text=_("Enter the name of the staff being rounded"))
@@ -89,6 +107,9 @@ class Staff(models.Model):
 
     position = models.ForeignKey(Position)
     department = models.ForeignKey(Department)
+    contract_type = models.ForeignKey(ContractType)
+
+    date_hired = models.DateTimeField(default=add_a_date)
 
     limit = models.Q(app_label='staff', model='genericmodela') | models.Q(app_label='staff', model='genericmodelb')
     content_type = models.ForeignKey(ContentType, limit_choices_to=limit)
