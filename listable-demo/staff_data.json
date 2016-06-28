@@ -278,7 +278,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 1
     }
@@ -294,7 +295,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 2
     }
@@ -310,7 +312,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 5,
         "active": "active", 
         "position": 4
     }
@@ -326,7 +329,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 5,
         "active": "active", 
         "position": 3
     }
@@ -342,7 +346,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 5,
         "active": "active", 
         "position": 2
     }
@@ -358,7 +363,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 4,
         "active": "active", 
         "position": 4
     }
@@ -374,7 +380,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 4,
         "active": "active", 
         "position": 3
     }
@@ -390,7 +397,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 4,
         "active": "active", 
         "position": 2
     }
@@ -406,7 +414,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 2
     }
@@ -422,7 +431,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 2
     }
@@ -438,7 +448,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 3
     }
@@ -454,7 +465,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 4
     }
@@ -470,7 +482,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 1
     }
@@ -486,7 +499,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 4
     }
@@ -502,7 +516,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 3
     }
@@ -518,7 +533,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 2
     }
@@ -534,7 +550,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 1
     }
@@ -550,7 +567,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -566,7 +584,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -582,7 +601,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -598,7 +618,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 1
     }
@@ -614,7 +635,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 2
     }
@@ -630,7 +652,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -646,7 +669,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 2
     }
@@ -662,7 +686,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 2
     }
@@ -678,7 +703,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 1
     }
@@ -694,7 +720,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -710,7 +737,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 5,
         "active": "active", 
         "position": 1
     }
@@ -726,7 +754,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 5,
         "active": "active", 
         "position": 1
     }
@@ -742,7 +771,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 5,
         "active": "active", 
         "position": 2
     }
@@ -758,7 +788,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 3
     }
@@ -774,7 +805,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 2
     }
@@ -790,7 +822,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "inactive", 
         "position": 3
     }
@@ -806,7 +839,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -822,7 +856,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -838,7 +873,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 3
     }
@@ -854,7 +890,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 2
     }
@@ -870,7 +907,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 4,
         "active": "active", 
         "position": 2
     }
@@ -886,7 +924,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 4,
         "active": "active", 
         "position": 2
     }
@@ -902,7 +941,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 4,
         "active": "active", 
         "position": 4
     }
@@ -918,7 +958,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 4,
         "active": "active", 
         "position": 2
     }
@@ -934,7 +975,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 4,
         "active": "active", 
         "position": 4
     }
@@ -950,7 +992,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 4,
         "active": "active", 
         "position": 1
     }
@@ -966,7 +1009,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 4,
         "active": "active", 
         "position": 4
     }
@@ -982,7 +1026,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 4,
         "active": "active", 
         "position": 3
     }
@@ -998,7 +1043,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 4
     }
@@ -1014,7 +1060,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 3
     }
@@ -1030,7 +1077,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 2
     }
@@ -1046,7 +1094,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 4
     }
@@ -1062,7 +1111,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 4
     }
@@ -1078,7 +1128,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 2
     }
@@ -1094,7 +1145,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 3
     }
@@ -1110,7 +1162,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 2
     }
@@ -1126,7 +1179,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 3
     }
@@ -1142,7 +1196,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -1158,7 +1213,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 1
     }
@@ -1174,7 +1230,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 3
     }
@@ -1190,7 +1247,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -1206,7 +1264,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 2
     }
@@ -1222,7 +1281,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 2
     }
@@ -1238,7 +1298,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 2
     }
@@ -1254,7 +1315,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 2
     }
@@ -1270,7 +1332,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 2
     }
@@ -1286,7 +1349,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 2
     }
@@ -1302,7 +1366,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 3
     }
@@ -1318,7 +1383,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 3
     }
@@ -1334,7 +1400,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 3
     }
@@ -1350,7 +1417,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 3
     }
@@ -1366,7 +1434,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 1
     }
@@ -1382,7 +1451,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 4
     }
@@ -1398,7 +1468,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 3
     }
@@ -1414,7 +1485,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 3
     }
@@ -1430,7 +1502,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 1
     }
@@ -1446,7 +1519,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 2
     }
@@ -1462,7 +1536,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 2
     }
@@ -1478,7 +1553,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 3
     }
@@ -1494,7 +1570,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 1
     }
@@ -1510,7 +1587,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 3
     }
@@ -1526,7 +1604,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -1542,7 +1621,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -1558,7 +1638,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 1
     }
@@ -1574,7 +1655,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 1
     }
@@ -1590,7 +1672,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -1606,7 +1689,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "inactive", 
         "position": 2
     }
@@ -1622,7 +1706,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 3
     }
@@ -1638,7 +1723,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 5,
         "active": "active", 
         "position": 2
     }
@@ -1654,7 +1740,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 5,
         "active": "active", 
         "position": 4
     }
@@ -1670,7 +1757,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 5,
         "active": "active", 
         "position": 4
     }
@@ -1686,7 +1774,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 5,
         "active": "active", 
         "position": 2
     }
@@ -1702,7 +1791,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 4,
         "active": "active", 
         "position": 1
     }
@@ -1718,7 +1808,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 4,
         "active": "active", 
         "position": 4
     }
@@ -1734,7 +1825,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 4,
         "active": "active", 
         "position": 1
     }
@@ -1750,7 +1842,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 4,
         "active": "active", 
         "position": 3
     }
@@ -1766,7 +1859,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 4,
         "active": "active", 
         "position": 1
     }
@@ -1782,7 +1876,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 3
     }
@@ -1798,7 +1893,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 1
     }
@@ -1814,7 +1910,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 2
     }
@@ -1830,7 +1927,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 1
     }
@@ -1846,7 +1944,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 1
     }
@@ -1862,7 +1961,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 1
     }
@@ -1878,7 +1978,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 2
     }
@@ -1894,7 +1995,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "inactive", 
         "position": 4
     }
@@ -1910,7 +2012,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 2
     }
@@ -1926,7 +2029,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 2
     }
@@ -1942,7 +2046,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 2
     }
@@ -1958,7 +2063,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 2
     }
@@ -1974,7 +2080,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -1990,7 +2097,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -2006,7 +2114,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 3
     }
@@ -2022,7 +2131,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 1
     }
@@ -2038,7 +2148,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 2
     }
@@ -2054,7 +2165,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 1
     }
@@ -2070,7 +2182,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 3
     }
@@ -2086,7 +2199,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -2102,7 +2216,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -2118,7 +2233,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -2134,7 +2250,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -2150,7 +2267,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -2166,7 +2284,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 5,
         "active": "active", 
         "position": 3
     }
@@ -2182,7 +2301,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 5,
         "active": "active", 
         "position": 4
     }
@@ -2198,7 +2318,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 5,
         "active": "active", 
         "position": 2
     }
@@ -2214,7 +2335,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 5,
         "active": "active", 
         "position": 1
     }
@@ -2230,7 +2352,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 5,
         "active": "active", 
         "position": 1
     }
@@ -2246,7 +2369,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 4,
         "active": "active", 
         "position": 1
     }
@@ -2262,7 +2386,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 4,
         "active": "active", 
         "position": 3
     }
@@ -2278,7 +2403,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 4,
         "active": "active", 
         "position": 2
     }
@@ -2294,7 +2420,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 4,
         "active": "active", 
         "position": 2
     }
@@ -2310,7 +2437,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 4
     }
@@ -2326,7 +2454,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 2
     }
@@ -2342,7 +2471,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 3
     }
@@ -2358,7 +2488,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 2
     }
@@ -2374,7 +2505,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 1
     }
@@ -2390,7 +2522,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 2
     }
@@ -2406,7 +2539,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 3
     }
@@ -2422,7 +2556,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 3
     }
@@ -2438,7 +2573,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 1
     }
@@ -2454,7 +2590,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 2
     }
@@ -2470,7 +2607,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 1
     }
@@ -2486,7 +2624,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 4
     }
@@ -2502,7 +2641,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 4
     }
@@ -2518,7 +2658,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 3
     }
@@ -2534,7 +2675,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 1
     }
@@ -2550,7 +2692,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 3
     }
@@ -2566,7 +2709,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 3
     }
@@ -2582,7 +2726,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 1
     }
@@ -2598,7 +2743,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 1
     }
@@ -2614,7 +2760,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 3
     }
@@ -2630,7 +2777,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -2646,7 +2794,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 1
     }
@@ -2662,7 +2811,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 1
     }
@@ -2678,7 +2828,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -2694,7 +2845,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 5,
         "active": "active", 
         "position": 2
     }
@@ -2710,7 +2862,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 1
     }
@@ -2726,7 +2879,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 1
     }
@@ -2742,7 +2896,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 4,
         "active": "active", 
         "position": 3
     }
@@ -2758,7 +2913,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 3
     }
@@ -2774,7 +2930,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 3
     }
@@ -2790,7 +2947,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "inactive", 
         "position": 3
     }
@@ -2806,7 +2964,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 1
     }
@@ -2822,7 +2981,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 1
     }
@@ -2838,7 +2998,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 1
     }
@@ -2854,7 +3015,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 5,
         "active": "active", 
         "position": 2
     }
@@ -2870,7 +3032,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "inactive", 
         "position": 3
     }
@@ -2886,7 +3049,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 3
     }
@@ -2902,7 +3066,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -2918,7 +3083,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 4,
         "active": "active", 
         "position": 2
     }
@@ -2934,7 +3100,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 3
     }
@@ -2950,7 +3117,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 2
     }
@@ -2966,7 +3134,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -2982,7 +3151,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 1
     }
@@ -2998,7 +3168,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -3014,7 +3185,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 2
     }
@@ -3030,7 +3202,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 1
     }
@@ -3046,7 +3219,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 5,
         "active": "active", 
         "position": 1
     }
@@ -3062,7 +3236,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 1
     }
@@ -3078,7 +3253,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 4
     }
@@ -3094,7 +3270,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 3
     }
@@ -3110,7 +3287,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 3
     }
@@ -3126,7 +3304,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -3142,7 +3321,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -3158,7 +3338,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 4,
         "active": "active", 
         "position": 4
     }
@@ -3174,7 +3355,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -3190,7 +3372,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "inactive", 
         "position": 3
     }
@@ -3206,7 +3389,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -3222,7 +3406,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 3
     }
@@ -3238,7 +3423,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 3
     }
@@ -3254,7 +3440,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -3270,7 +3457,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 3,
         "active": "active", 
         "position": 4
     }
@@ -3286,7 +3474,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 4
     }
@@ -3302,7 +3491,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 4
     }
@@ -3318,7 +3508,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 2
     }
@@ -3334,7 +3525,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 2
     }
@@ -3350,7 +3542,8 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
     }
@@ -3366,7 +3559,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 3
     }
@@ -3382,7 +3576,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 2
     }
@@ -3398,7 +3593,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "inactive", 
         "position": 2
     }
@@ -3414,7 +3610,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 2,
         "active": "active", 
         "position": 1
     }
@@ -3430,7 +3627,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 3
     }
@@ -3446,7 +3644,8 @@
         "content_type": [
             "staff", 
             "genericmodelb"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 2
     }
@@ -3462,9 +3661,45 @@
         "content_type": [
             "staff", 
             "genericmodela"
-        ], 
+        ],
+        "contract_type": 1,
         "active": "active", 
         "position": 4
+    }
+},
+{
+    "pk": 1,
+    "model": "staff.contracttype",
+    "fields": {
+        "name": "Full Time Permanent"
+    }
+},
+{
+    "pk": 2,
+    "model": "staff.contracttype",
+    "fields": {
+        "name": "Part Time Permanent"
+    }
+},
+{
+    "pk": 3,
+    "model": "staff.contracttype",
+    "fields": {
+        "name": "Full Time Contract"
+    }
+},
+{
+    "pk": 4,
+    "model": "staff.contracttype",
+    "fields": {
+        "name": "Part Time Contract"
+    }
+},
+{
+    "pk": 5,
+    "model": "staff.contracttype",
+    "fields": {
+        "name": "Other"
     }
 }
 ]
