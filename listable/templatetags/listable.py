@@ -168,13 +168,14 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
 
 @register.simple_tag(takes_context=True)
 def listable(context, view_name, dom="", save_state=None, pagination_type="", css_table_class="",
-             css_input_class=""):
+             css_input_class="", requirejs=False):
     """ Generate all script tags and DataTables options for a given table"""
 
     opts = get_options(context, view_name, dom, save_state, pagination_type, css_table_class, css_input_class)
 
     scripts = ['<script type="text/javascript">var Listable = {0};</script>'.format(json.dumps(opts))]
-    scripts += DATATABLES_SCRIPTS
-    scripts += ['<script src="{0}" type="text/javascript"></script>'.format(static('listable/js/listable.js'))]
+    if not requirejs:
+        scripts += DATATABLES_SCRIPTS
+        scripts += ['<script src="{0}" type="text/javascript"></script>'.format(static('listable/js/listable.js'))]
 
     return "\n".join(scripts)
