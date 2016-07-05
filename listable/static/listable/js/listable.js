@@ -98,6 +98,6 @@ for (var col in Listable.columnFilterDefs) {
     }
 }
 
-$(table).find("input, select, button").addClass(
+$(table).find("input:not(:checkbox, :radio), select, button").addClass(
     Listable.cssInputClass
 );
