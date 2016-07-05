@@ -35,9 +35,7 @@ var table = $(Listable.tableId).addClass(
     sPlaceHolder: "head:after",
     aoColumns: Listable.columnFilterDefs,
     iFilteringDelay:250
-}).find("input, select").addClass(
-    Listable.cssInputClass
-);
+});
 
 var cookie_obj = JSON.parse(window.getCookie(Listable.cookie));
 
@@ -99,3 +97,7 @@ for (var col in Listable.columnFilterDefs) {
         }
     }
 }
+
+$(table).find("input, select, button").addClass(
+    Listable.cssInputClass
+);
