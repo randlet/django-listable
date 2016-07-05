@@ -69,13 +69,11 @@ for (var col in Listable.columnFilterDefs) {
                     .attr('multiple', 'multiple')
                     .multiselect({
                         includeSelectAllOption: true,
-                        buttonWidth: '125px',
                         numberDisplayed: 1,
                         nonSelectedText: '------'
                     });
             } else {
                 $(select).attr('multiple', false).multiselect({
-                    buttonWidth: '125px'
                 });
             }
             $(select).multiselect();

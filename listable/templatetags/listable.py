@@ -67,7 +67,7 @@ def get_dt_ordering(cls):
     return orderings
 
 
-def get_options(context, view_name, dom="", save_state=None, pagination_type="", css_table_class="", css_input_class=""):
+def get_options(context, view_name, dom="", save_state=None, pagination_type="", css_table_class="", css_input_class="", auto_width=True):
 
     view_args = context.get('args', None)
     view_kwargs = context.get('kwargs', None)
@@ -149,7 +149,7 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
         "stateSave": save_state,
         "url": url,
         "bProcessing": True,
-        "autoWidth": True,
+        "autoWidth": auto_width,
         "displayLength": cls.paginate_by,
         "DOM": dom,
         "order": get_dt_ordering(cls),
@@ -168,10 +168,10 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
 
 @register.simple_tag(takes_context=True)
 def listable(context, view_name, dom="", save_state=None, pagination_type="", css_table_class="",
-             css_input_class="", requirejs=False):
+             css_input_class="", auto_width=True, requirejs=False):
     """ Generate all script tags and DataTables options for a given table"""
 
-    opts = get_options(context, view_name, dom, save_state, pagination_type, css_table_class, css_input_class)
+    opts = get_options(context, view_name, dom, save_state, pagination_type, css_table_class, css_input_class, auto_width)
 
     scripts = ['<script type="text/javascript">var Listable = {0};</script>'.format(json.dumps(opts))]
     if not requirejs:
