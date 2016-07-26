@@ -43,6 +43,31 @@ TEXT = "text"
 SELECT = "select"
 SELECT_MULTI = "selectmulti"
 DATE = "date"
+DATE_RANGE = "daterange"
+
+TODAY = "Today"
+YESTERDAY = "Yesterday"
+TOMORROW = "Tomorrow"
+LAST_7_DAYS = "Last 7 Days"
+LAST_14_DAYS = "Last 14 Days"
+LAST_30_DAYS = "Last 30 Days"
+LAST_365_DAYS = "Last 365 Days"
+THIS_WEEK = "This Week"
+THIS_MONTH = "This Month"
+THIS_QUARTER = "This Quarter"
+THIS_YEAR = "This Year"
+LAST_WEEK = "Last Week"
+LAST_MONTH = "Last Month"
+LAST_QUARTER = "Last Quarter"
+LAST_YEAR = "Last Year"
+WEEK_TO_DATE = "Week To Date"
+MONTH_TO_DATE = "Month To Date"
+QUARTER_TO_DATE = "Quarter To Date"
+YEAR_TO_DATE = "Year To Date"
+NEXT_WEEK = "Next Week"
+NEXT_MONTH = "Next Month"
+NEXT_QUARTER = "Next Quarter"
+NEXT_YEAR = "Next Year"
 
 NONEORNULL = 'noneornull'
 
@@ -254,13 +279,18 @@ class BaseListableView(ListView):
                 if widget == SELECT:
                     search_term = [urllib.unquote(search_term).replace('\\', '')]
 
-                if widget == SELECT_MULTI:
+                elif widget == SELECT_MULTI:
                     if search_term == '^(.*)$':
                         search_term = ''
                     else:
                         search_term = urllib.unquote(search_term[2:-2]).replace('\\', '').split('|')
 
-                if widget == DATE:
+                elif widget == DATE_RANGE:
+                    start = datetime.datetime.strptime(search_term.split(' - ')[0], '%d %b %Y').replace(hour=0, minute=0, second=0)
+                    end = datetime.datetime.strptime(search_term.split(' - ')[1], '%d %b %Y').replace(hour=23, minute=59, second=59)
+                    search_term = (start, end)
+
+                elif widget == DATE:
                     try:
                         start = datetime.datetime.strptime(search_term.split('-')[0], '%a %b %d %Y %H:%M:%S %Z').replace(hour=0, minute=0, second=0)
                         end = datetime.datetime.strptime(search_term.split('-')[0], '%a %b %d %Y %H:%M:%S %Z').replace(hour=23, minute=59, second=59)
@@ -281,7 +311,7 @@ class BaseListableView(ListView):
 
                     if self.get_extra() and 'select' in self.get_extra() and field in self.get_extra()['select']:
 
-                        if widget == DATE:
+                        if widget in [DATE, DATE_RANGE]:
                             raise ValueError('DATE widget not configurable with extra query')
 
                         if widget == TEXT:
@@ -305,7 +335,7 @@ class BaseListableView(ListView):
                         elif widget == TEXT:
                             filtering = '{0}__icontains'.format(filtering)
 
-                        elif widget == DATE:
+                        elif widget in [DATE, DATE_RANGE]:
                             filtering = '{0}__range'.format(filtering)
 
                         if has_none:
@@ -329,7 +359,7 @@ class BaseListableView(ListView):
                         queries = reduce(lambda q, f: q | Q(**{f: search_term}), filtering, Q())
                         qs = qs.filter(queries)
 
-                    elif widget == DATE:
+                    elif widget in [DATE, DATE_RANGE]:
                         raise ValueError('DATE widget not configurable for multiple filters.')
 
         return qs

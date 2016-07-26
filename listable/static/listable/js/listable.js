@@ -59,6 +59,136 @@ if (cookie_obj) {
 
 $("option.search_init").text('-----');
 
+var available_ranges = {
+    "Today": [
+        moment(),
+        moment()
+    ],
+    "Yesterday": [
+        moment().subtract(1, 'days'),
+        moment().subtract(1, 'days')
+    ],
+    "Tomorrow": [
+        moment().add(1, 'days'),
+        moment().add(1, 'days')
+    ],
+    "Last 7 Days": [
+        moment().subtract(7, 'days'),
+        moment()
+    ],
+    "Last 14 Days": [
+        moment().subtract(14, 'days'),
+        moment()
+    ],
+    "Last 30 Days": [
+        moment().subtract(30, 'days'),
+        moment()
+    ],
+    "Last 365 Days": [
+        moment().subtract(365, 'days'),
+        moment()
+    ],
+    "This Week": [
+        moment().startOf('week'),
+        moment().endOf('week')
+    ],
+    "This Month": [
+        moment().startOf('month'),
+        moment().endOf('month')
+    ],
+    "This Quarter": [
+        moment().startOf('quarter'),
+        moment().endOf('quarter')
+    ],
+    "This Year": [
+        moment().startOf('year'),
+        moment().endOf('year')
+    ],
+    "Last Week": [
+        moment().subtract(1, 'weeks').startOf('week'),
+        moment().subtract(1, 'weeks').endOf('week')
+    ],
+    "Last Month": [
+        moment().subtract(1, 'months').startOf('month'),
+        moment().subtract(1, 'months').endOf('month')
+    ],
+    "Last Quarter": [
+        moment().subtract({ months: (moment().month() % 3) + 1 }).subtract({ months: 3 }).startOf('month'),
+        moment().subtract({ months: (moment().month() % 3) + 1 }).endOf('month')
+    ],
+    "Last Year": [
+        moment().subtract(1, 'years').startOf('year'),
+        moment().subtract(1, 'years').endOf('year')
+    ],
+    "Week To Date": [
+        moment().startOf('week'),
+        moment()
+    ],
+    "Month To Date": [
+        moment().startOf('month'),
+        moment()
+    ],
+    "Quarter To Date": [
+        moment().startOf('quarter'),
+        moment()
+    ],
+    "Year To Date": [
+        moment().startOf('year'),
+        moment()
+    ],
+    "Next Week": [
+        moment().add(1, 'weeks').startOf('week'),
+        moment().add(1, 'weeks').endOf('week')
+    ],
+    "Next Month": [
+        moment().add(1, 'months').startOf('month'),
+        moment().add(1, 'months').endOf('month')
+    ],
+    "Next Quarter": [
+        moment().add({ months: (moment().month() % 3) + 1 }).subtract({ months: 3 }).startOf('month'),
+        moment().add({ months: (moment().month() % 3) + 1 }).endOf('month')
+    ],
+    "Next Year": [
+        moment().add(1, 'years').startOf('year'),
+        moment().add(1, 'years').endOf('year')
+    ]
+};
+
+var date_range_locale = {
+    "format": "DD MMM YYYY",
+    "separator": " - ",
+    "applyLabel": "Apply",
+    "cancelLabel": "Clear",
+    "fromLabel": "From",
+    "toLabel": "To",
+    "customRangeLabel": "Custom",
+    "weekLabel": "W",
+    "daysOfWeek": [
+        "Su",
+        "Mo",
+        "Tu",
+        "We",
+        "Th",
+        "Fr",
+        "Sa"
+    ],
+    "monthNames": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    ],
+    "firstDay": 1
+};
+
 for (var col in Listable.columnFilterDefs) {
     if (Listable.columnFilterDefs[col]) {
         if (Listable.columnFilterDefs[col].type == 'select') {
@@ -73,12 +203,49 @@ for (var col in Listable.columnFilterDefs) {
                         nonSelectedText: '------'
                     });
             } else {
-                $(select).attr('multiple', false).multiselect({
-                });
+                $(select).attr('multiple', false).multiselect({});
             }
-            $(select).multiselect();
+            // $(select).multiselect();
+        }
+        else if (Listable.columnFilterDefs[col].type == 'daterange') {
 
-        } else if (Listable.columnFilterDefs[col].type == 'date') {
+            var c = parseInt(col) + 1;
+            var date_range = $("thead > tr > th:nth-child(" + c + ") input");
+
+            var opens = 'right';
+            if ($(date_range).offset().left > 750) {
+                opens = 'left';
+            }
+
+            var ranges = {};
+            for (var r in Listable.columnFilterDefs[col].ranges) {
+                var range = Listable.columnFilterDefs[col].ranges[r];
+                ranges[range] = available_ranges[range]
+            }
+
+            $(date_range).daterangepicker({
+                autoUpdateInput: false,
+                "ranges": ranges,
+                "showDropdowns": true,
+                "linkedCalendars": false,
+                "locale": date_range_locale,
+                "opens": opens
+
+            }, function(start_date, end_date) {
+                $(this.element).val(start_date.format('DD MMM YYYY') + ' - ' + end_date.format('DD MMM YYYY'));
+            }).on('apply.daterangepicker', function(ev, picker) {
+                if (!picker.startDate.isSame(picker.oldStartDate) || !picker.endDate.isSame(picker.oldEndDate)) {
+                    $(picker.element).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
+                    $(this).trigger('keyup');
+                }
+            }).on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('');
+                $(this).trigger('keyup');
+                picker.startDate = moment();
+                picker.endDate = moment();
+            });
+        }
+        else if (Listable.columnFilterDefs[col].type == 'date') {
             var c = parseInt(col) + 1;
             var date = $("thead > tr > th:nth-child(" + c + ") input");
 
@@ -87,7 +254,7 @@ for (var col in Listable.columnFilterDefs) {
                 format: 'dd M yyyy',
                 autoclose: true,
                 clearBtn: true,
-                toggleActive: true,
+                toggleActive: true
 
             }).on('changeDate', function(x) {
                 $(this).trigger('keyup');

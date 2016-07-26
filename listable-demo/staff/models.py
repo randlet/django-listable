@@ -89,12 +89,18 @@ class GenericModelB(AbstractGeneric):
         return self.name
 
 
-years = ['200' + str(i) if i < 10 else '20' + str(i) for i in range(0, 15)]
+years = [str(i) for i in range(2000, 2015)]
+incident_years = [str(i) for i in range(2014, 2017)]
+
+
+def add_a_datetime():
+
+    return random.choice(years) + '-' + str(random.choice(range(1, 13))) + '-' + str(random.choice(range(1, 29))) + ' ' + str(random.choice(range(0, 24))) + ':' + str(random.choice(range(0, 60))) + ':' + str(random.choice(range(0, 60)))
 
 
 def add_a_date():
 
-    return random.choice(years) + '-' + str(random.choice(range(1, 13))) + '-' + str(random.choice(range(1, 29))) + ' ' + str(random.choice(range(0, 24))) + ':' + str(random.choice(range(0, 60))) + ':' + str(random.choice(range(0, 60)))
+    return random.choice(incident_years) + '-' + str(random.choice(range(1, 13))) + '-' + str(random.choice(range(1, 29)))
 
 
 class Staff(models.Model):
@@ -109,7 +115,8 @@ class Staff(models.Model):
     department = models.ForeignKey(Department)
     contract_type = models.ForeignKey(ContractType)
 
-    date_hired = models.DateTimeField(default=add_a_date)
+    date_hired = models.DateTimeField(default=add_a_datetime)
+    last_incident = models.DateField(default=add_a_date)
 
     limit = models.Q(app_label='staff', model='genericmodela') | models.Q(app_label='staff', model='genericmodelb')
     content_type = models.ForeignKey(ContentType, limit_choices_to=limit)

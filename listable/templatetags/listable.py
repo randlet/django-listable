@@ -1,14 +1,16 @@
 import json
 import importlib
 
+from datetime import datetime
 from django import template
 from django.core.urlresolvers import reverse, resolve
+from django.db.models import FieldDoesNotExist
 from django.templatetags.static import static
 
 from .. import utils
-from .. views import SELECT, TEXT, SELECT_MULTI, DATE
+from .. views import SELECT, TEXT, SELECT_MULTI, DATE, DATE_RANGE
+from .. views import TODAY, THIS_WEEK, THIS_MONTH, THIS_QUARTER, THIS_YEAR
 from .. import settings
-
 
 register = template.Library()
 
@@ -19,8 +21,9 @@ DATATABLES_SCRIPTS = [
     '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.bootstrap.js'),
     '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.sort.js'),
     '<script src="%s" type="text/javascript"></script>' % static('listable/js/bootstrap.multiselect.js'),
-    '<script src="%s" type="text/javascript"></script>' % static('listable/js/bootstrap-datepicker.min.js')
-
+    '<script src="%s" type="text/javascript"></script>' % static('listable/js/bootstrap-datepicker.min.js'),
+    '<script src="%s" type="text/javascript"></script>' % static('listable/js/moment.min.js'),
+    '<script src="%s" type="text/javascript"></script>' % static('listable/js/daterangepicker.js')
 ]
 
 
@@ -30,7 +33,9 @@ def listable_css():
         '<link href="{0}" rel="stylesheet">'.format(static('listable/css/jquery.dataTables.css')),
         '<link href="{0}" rel="stylesheet">'.format(static('listable/css/jquery.dataTables.bootstrap.css')),
         '<link href="{0}" rel="stylesheet">'.format(static('listable/css/bootstrap.multiselect.css')),
-        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/bootstrap-datepicker.min.css'))
+        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/bootstrap-datepicker.min.css')),
+        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/daterangepicker.css')),
+        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/font-awesome.min.css'))
     ])
 
 
@@ -136,8 +141,18 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
                     values = values_to_dt(view_instance.get_filters(field, queryset=qs))
                 column_filter_defs.append({'type': 'select', 'values': values, 'multiple': 'multiple'})
 
+            elif widget_type == DATE_RANGE:
+
+                ranges = cls.date_ranges.get(field, [TODAY, THIS_WEEK, THIS_MONTH, THIS_QUARTER, THIS_YEAR])
+
+                column_filter_defs.append({
+                    'type': 'daterange',
+                    'ranges': ranges
+                })
+
             elif widget_type == DATE:
                 column_filter_defs.append({'type': 'date'})
+
             else:
                 raise TypeError("{wt} is not a valid widget type".format(wt=widget_type))
 

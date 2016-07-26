@@ -1,6 +1,7 @@
 from django.utils.translation import ugettext as _
 from django.contrib.contenttypes.models import ContentType
-from listable.views import BaseListableView, SELECT, SELECT_MULTI, DATE
+from listable.views import BaseListableView, SELECT, SELECT_MULTI, DATE, DATE_RANGE
+from listable.views import TODAY, YESTERDAY, TOMORROW, LAST_7_DAYS, LAST_14_DAYS, LAST_30_DAYS, LAST_365_DAYS, THIS_WEEK, THIS_MONTH, THIS_QUARTER, THIS_YEAR, LAST_WEEK, LAST_MONTH, LAST_QUARTER, LAST_YEAR, WEEK_TO_DATE, MONTH_TO_DATE, QUARTER_TO_DATE, YEAR_TO_DATE, NEXT_WEEK, NEXT_MONTH, NEXT_QUARTER, NEXT_YEAR
 
 from . import models
 
@@ -20,7 +21,8 @@ class StaffList(BaseListableView):
         "genericname",
         "is_manager",
         "contract_type__name",
-        "date_hired"
+        "date_hired",
+        "last_incident"
     )
 
     widgets = {
@@ -31,7 +33,13 @@ class StaffList(BaseListableView):
         "active": SELECT,
         "is_manager": SELECT,
         "contract_type__name": SELECT_MULTI,
-        "date_hired": DATE
+        "date_hired": DATE,
+        "last_incident": DATE_RANGE
+    }
+
+    date_ranges = {
+        "last_incident": [TODAY, YESTERDAY, TOMORROW, THIS_WEEK, WEEK_TO_DATE, LAST_WEEK, NEXT_WEEK, THIS_MONTH,
+                          MONTH_TO_DATE, LAST_MONTH, NEXT_MONTH, THIS_YEAR, LAST_YEAR, NEXT_YEAR, YEAR_TO_DATE]
     }
 
     search_fields = {
