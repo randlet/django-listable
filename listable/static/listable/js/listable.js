@@ -223,10 +223,9 @@ function listable(moment) {
                 var c = parseInt(col) + 1;
                 var date_range = $("thead > tr > th:nth-child(" + c + ") input");
 
-                var opens = 'right';
-                if ($(date_range).offset().left > 750) {
-                    opens = 'left';
-                }
+                var opens;
+                var left_offset = $(date_range).offset().left;
+                left_offset > 800 ? opens = 'left' : left_offset > 400 ? opens = 'center' : opens = 'right';
 
                 var ranges = {};
                 for (var r in Listable.columnFilterDefs[col].ranges) {
@@ -245,8 +244,8 @@ function listable(moment) {
                 }, function (start_date, end_date) {
                     $(this.element).val(start_date.format('DD MMM YYYY') + ' - ' + end_date.format('DD MMM YYYY'));
                 }).on('apply.daterangepicker', function (ev, picker) {
+                    $(picker.element).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
                     if (!picker.startDate.isSame(picker.oldStartDate) || !picker.endDate.isSame(picker.oldEndDate)) {
-                        $(picker.element).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
                         $(this).trigger('keyup');
                     }
                 }).on('cancel.daterangepicker', function (ev, picker) {
