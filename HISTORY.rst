@@ -3,6 +3,11 @@
 History
 -------
 
+0.3.7 (2016-08-25)
+++++++++++++++++++
+Add date range picker
+
+
 0.3.6 (2016-06-29)
 ++++++++++++++++++
 Add multi select and date select widgets (thanks to @ryanbottema)
