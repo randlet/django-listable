@@ -45,8 +45,8 @@ try:
     )
 
     from django_nose import NoseTestSuiteRunner
-except ImportError:
-    raise ImportError("To fix this error, run: pip install -r requirements/test.txt")
+except ImportError, e:
+    raise ImportError("Missing import:\n%s\n To fix this error, run: pip install -r requirements/test.txt" % e)
 
 
 
