@@ -3,6 +3,11 @@
 History
 -------
 
+0.3.8 (2016-09-27)
+++++++++++++++++++
+Fix unicode encoding error
+
+
 0.3.6 (2016-06-29)
 ++++++++++++++++++
 Add multi select and date select widgets (thanks to @ryanbottema)
