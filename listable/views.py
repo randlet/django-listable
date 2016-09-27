@@ -438,10 +438,12 @@ class BaseListableView(ListView):
             return formats.date_format(attr, "SHORT_DATETIME_FORMAT")
         elif isinstance(attr, datetime.date):
             return formats.date_format(attr, "SHORT_DATE_FORMAT")
+        elif isinstance(attr, six.string_types):
+            attr.encode("UTF-8")
         elif attr is None:
             return ""
 
-        return attr.encode("UTF-8")
+        return "%s" % attr
 
     def set_query_params(self):
         """
