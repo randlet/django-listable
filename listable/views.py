@@ -441,7 +441,7 @@ class BaseListableView(ListView):
         elif attr is None:
             return ""
 
-        return str(attr)
+        return attr.encode("UTF-8")
 
     def set_query_params(self):
         """
