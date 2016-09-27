@@ -278,13 +278,13 @@ class BaseListableView(ListView):
 
             if search_term:
                 if widget == SELECT:
-                    search_term = [urllib.unquote(search_term).replace('\\', '')]
+                    search_term = [unquote(search_term).replace('\\', '')]
 
                 elif widget == SELECT_MULTI:
                     if search_term == '^(.*)$':
                         search_term = ''
                     else:
-                        search_term = urllib.unquote(search_term[2:-2]).replace('\\', '').split('|')
+                        search_term = unquote(search_term[2:-2]).replace('\\', '').split('|')
 
                 elif widget == DATE_RANGE:
                     start = datetime.datetime.strptime(search_term.split(' - ')[0], '%d %b %Y').replace(hour=0, minute=0, second=0)
