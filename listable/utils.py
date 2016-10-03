@@ -32,7 +32,7 @@ def class_for_view_name(view_name, args=None, kwargs=None):
     see http://stackoverflow.com/a/21313506/79802
     """
 
-    reverse_ = reverse(view_name, args=args, kwargs=kwargs, prefix="")
+    reverse_ = reverse(view_name, args=args, kwargs=kwargs)
     if reverse_ and reverse_[0] != "/":
         reverse_ = "/%s" % reverse_
 
