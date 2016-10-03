@@ -4,6 +4,11 @@ History
 -------
 
 =======
+0.4.0 (2016-10-02)
+++++++++++++++++++
+Update to support Django 1.8-1.10 and Python 2.7-3.5
+
+=======
 0.3.9 (2016-09-27)
 ++++++++++++++++++
 Fix formatting bug introduced by 0.3.8
