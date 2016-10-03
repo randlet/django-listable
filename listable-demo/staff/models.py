@@ -2,7 +2,15 @@ import datetime
 import random
 
 from django.db import models
-from django.contrib.contenttypes import generic
+try:
+    from django.contrib.contenttypes.generic import GenericRelation, GenericForeignKey
+except:
+
+    from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
+
+
+
+
 from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
 from django.utils.translation import ugettext as _
@@ -64,7 +72,7 @@ class AbstractGeneric(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
 
-    staff = generic.GenericRelation(
+    staff = GenericRelation(
         "Staff",
         content_type_field="content_type",
         object_id_field="object_id",
@@ -124,7 +132,7 @@ class Staff(models.Model):
     limit = models.Q(app_label='staff', model='genericmodela') | models.Q(app_label='staff', model='genericmodelb')
     content_type = models.ForeignKey(ContentType, limit_choices_to=limit)
     object_id = models.PositiveIntegerField()
-    generic_object = generic.GenericForeignKey("content_type", "object_id")
+    generic_object = GenericForeignKey("content_type", "object_id")
 
     class Meta:
         verbose_name_plural = "staff"

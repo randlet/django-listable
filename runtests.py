@@ -7,6 +7,7 @@ import django
 try:
     from django.conf import settings
 
+    import ipdb; ipdb.set_trace()
     settings.configure(
         DEBUG=True,
         USE_TZ=True,
@@ -26,23 +27,45 @@ try:
             "listable",
             "staff",
         ],
+        LANGUAGE_CODE = "en",
 
         STATIC_URL = '/static/',
-        TEMPLATE_LOADERS=(
-            'django.template.loaders.app_directories.Loader',
-            'django.template.loaders.filesystem.Loader',
-            # 'django.template.loaders.eggs.Loader',
-        ),
+        #TEMPLATE_LOADERS=(
+        #    'django.template.loaders.app_directories.Loader',
+        #    'django.template.loaders.filesystem.Loader',
+        #    # 'django.template.loaders.eggs.Loader',
+        #),
 
-        TEMPLATE_DIRS = (
-            os.path.join("listable-demo", "listable_demo", 'templates'),
-            os.path.join("listable-demo", "staff", 'templates'),
-        ),
+        TEMPLATES = [
+            {
+                'BACKEND': 'django.template.backends.django.DjangoTemplates',
+                'DIRS': [
+                    os.path.join("listable-demo", "listable_demo", 'templates'),
+                    os.path.join("listable-demo", "staff", 'templates'),
+                ],
+                'APP_DIRS': True,
+                'OPTIONS': {
+                    'context_processors': [
+                        # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
+                        # list if you haven't customized them:
+                        'django.contrib.auth.context_processors.auth',
+                        'django.template.context_processors.debug',
+                        'django.template.context_processors.i18n',
+                        'django.template.context_processors.media',
+                        'django.template.context_processors.request',
+                        'django.template.context_processors.static',
+                        'django.template.context_processors.tz',
+                        'django.contrib.messages.context_processors.messages',
+                    ],
+                },
+            },
+        ],
         LISTABLE_PAGINATE_BY=10,
         FIXTURE_DIRS=("listable-demo",),
         SITE_ID=1,
         NOSE_ARGS=['-s', '--with-coverage', '--cover-package=listable'],
     )
+
 
     from django_nose import NoseTestSuiteRunner
 except ImportError as e:

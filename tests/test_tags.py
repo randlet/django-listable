@@ -1,4 +1,3 @@
-from django.conf.urls import patterns, url
 from django.views.generic import View
 from django.test import TestCase
 from django.test.utils import override_settings
