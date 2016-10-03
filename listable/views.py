@@ -2,6 +2,7 @@ import datetime
 import json
 import urllib
 import re
+import six
 
 from django.core.exceptions import FieldError
 from django.core.urlresolvers import resolve
@@ -277,13 +278,13 @@ class BaseListableView(ListView):
 
             if search_term:
                 if widget == SELECT:
-                    search_term = [urllib.unquote(search_term).replace('\\', '')]
+                    search_term = [unquote(search_term).replace('\\', '')]
 
                 elif widget == SELECT_MULTI:
                     if search_term == '^(.*)$':
                         search_term = ''
                     else:
-                        search_term = urllib.unquote(search_term[2:-2]).replace('\\', '').split('|')
+                        search_term = unquote(search_term[2:-2]).replace('\\', '').split('|')
 
                 elif widget == DATE_RANGE:
                     start = datetime.datetime.strptime(search_term.split(' - ')[0], '%d %b %Y').replace(hour=0, minute=0, second=0)
@@ -438,10 +439,12 @@ class BaseListableView(ListView):
             return formats.date_format(attr, "SHORT_DATETIME_FORMAT")
         elif isinstance(attr, datetime.date):
             return formats.date_format(attr, "SHORT_DATE_FORMAT")
+        elif isinstance(attr, six.string_types):
+            attr.encode("UTF-8")
         elif attr is None:
             return ""
 
-        return str(attr)
+        return "%s" % attr
 
     def set_query_params(self):
         """

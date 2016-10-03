@@ -1,9 +1,12 @@
+import datetime
 import random
 
 from django.db import models
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
+from django.utils import timezone
 from django.utils.translation import ugettext as _
+import radar
 
 
 ACTIVE = 'active'
@@ -94,13 +97,13 @@ incident_years = [str(i) for i in range(2014, 2017)]
 
 
 def add_a_datetime():
-
-    return random.choice(years) + '-' + str(random.choice(range(1, 13))) + '-' + str(random.choice(range(1, 29))) + ' ' + str(random.choice(range(0, 24))) + ':' + str(random.choice(range(0, 60))) + ':' + str(random.choice(range(0, 60)))
+    start = timezone.datetime(year=2000, month=1, day=1, tzinfo=timezone.utc)
+    stop = timezone.datetime(year=2016, month=12, day=31, tzinfo=timezone.utc)
+    return radar.random_datetime(start=start, stop=stop)
 
 
 def add_a_date():
-
-    return random.choice(incident_years) + '-' + str(random.choice(range(1, 13))) + '-' + str(random.choice(range(1, 29)))
+    return add_a_datetime().date()
 
 
 class Staff(models.Model):
