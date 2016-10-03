@@ -1,3 +1,2 @@
 django>=1.5.1,<1.7
-
-# Additional requirements go here
+six
