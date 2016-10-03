@@ -7,7 +7,6 @@ import django
 try:
     from django.conf import settings
 
-    import ipdb; ipdb.set_trace()
     settings.configure(
         DEBUG=True,
         USE_TZ=True,
