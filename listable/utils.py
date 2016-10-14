@@ -1,6 +1,6 @@
 import importlib
 
-from django.core.urlresolvers import reverse, resolve
+from django.core.urlresolvers import reverse, resolve, get_script_prefix
 import django.db.models.fields
 
 BOOL_TYPE = django.db.models.fields.BooleanField().get_internal_type()
@@ -36,7 +36,8 @@ def class_for_view_name(view_name, args=None, kwargs=None):
     if reverse_ and reverse_[0] != "/":
         reverse_ = "/%s" % reverse_
 
-    view_func = resolve(reverse_).func
+    prefix = get_script_prefix()
+    view_func = resolve(reverse_.replace(prefix, "/", 1)).func
     module = importlib.import_module(view_func.__module__)
     return getattr(module, view_func.__name__)
 

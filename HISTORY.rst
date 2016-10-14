@@ -4,6 +4,11 @@ History
 -------
 
 =======
+0.4.1 (2016-10-14)
+++++++++++++++++++
+Add fix for when using FORCE_SCRIPT_NAME setting
+
+=======
 0.4.0 (2016-10-02)
 ++++++++++++++++++
 Update to support Django 1.8-1.10 and Python 2.7-3.5
