@@ -3,10 +3,14 @@
 History
 -------
 
+0.3.10 (2016-11-08)
+++++++++++++++++++
+Cast search term to lower case if case insensitive search requested to allow
+easier filtering with extra queries.
+
 0.3.9 (2016-09-27)
 ++++++++++++++++++
 Fix formatting bug introduced by 0.3.8
-
 
 0.3.8 (2016-09-27)
 ++++++++++++++++++

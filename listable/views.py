@@ -310,6 +310,9 @@ class BaseListableView(ListView):
 
                 if isinstance(filtering, basestring):
 
+                    if '__icontains' in filtering:
+                        search_term = search_term.lower()
+
                     if self.get_extra() and 'select' in self.get_extra() and field in self.get_extra()['select']:
 
                         if widget in [DATE, DATE_RANGE]:
