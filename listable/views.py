@@ -281,7 +281,7 @@ class BaseListableView(ListView):
                     search_term = [unquote(search_term).replace('\\', '')]
 
                 elif widget == SELECT_MULTI:
-                    if search_term == '^(.*)$':
+                    if search_term in ['^(.*)$', '^()$']:
                         search_term = ''
                     else:
                         search_term = unquote(search_term[2:-2]).replace('\\', '').split('|')
