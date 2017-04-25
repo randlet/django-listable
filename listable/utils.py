@@ -18,13 +18,14 @@ def lookup_dunder_prop(obj, props):
 
     For example if Obj.a.b.c == "foo" then lookup_dunder (Obj, "a__b__c") == "foo"
     """
-
-    if "__" in props:
-        head, tail = props.split("__", 1)
-        obj = getattr(obj, head)
-        return lookup_dunder_prop(obj, tail)
-
-    return getattr(obj, props)
+    try:
+        if "__" in props:
+            head, tail = props.split("__", 1)
+            obj = getattr(obj, head)
+            return lookup_dunder_prop(obj, tail)
+        return getattr(obj, props)
+    except AttributeError:
+        return None
 
 
 def class_for_view_name(view_name, args=None, kwargs=None):

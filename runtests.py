@@ -26,16 +26,16 @@ try:
             "listable",
             "staff",
         ],
-        LANGUAGE_CODE = "en",
+        LANGUAGE_CODE="en",
 
-        STATIC_URL = '/static/',
+        STATIC_URL='/static/',
         #TEMPLATE_LOADERS=(
         #    'django.template.loaders.app_directories.Loader',
         #    'django.template.loaders.filesystem.Loader',
         #    # 'django.template.loaders.eggs.Loader',
         #),
 
-        TEMPLATES = [
+        TEMPLATES=[
             {
                 'BACKEND': 'django.template.backends.django.DjangoTemplates',
                 'DIRS': [
