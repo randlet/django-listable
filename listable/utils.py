@@ -5,13 +5,14 @@ import django.db.models.fields
 
 BOOL_TYPE = django.db.models.fields.BooleanField().get_internal_type()
 
+
 def unique(seq):
     seen = set()
     seen_add = seen.add
     return [x for x in seq if x not in seen and not seen_add(x)]
 
 
-def lookup_dunder_prop(obj, props):
+def lookup_dunder_prop(obj, props, multi=False):
     """
     Take an obj and lookup the value of a related attribute
     using __ notation.
@@ -22,7 +23,9 @@ def lookup_dunder_prop(obj, props):
         if "__" in props:
             head, tail = props.split("__", 1)
             obj = getattr(obj, head)
-            return lookup_dunder_prop(obj, tail)
+            return lookup_dunder_prop(obj, tail, multi=multi)
+        if multi:
+            return [getattr(o, props) for o in obj.all()]
         return getattr(obj, props)
     except AttributeError:
         return None

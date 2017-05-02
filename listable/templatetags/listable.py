@@ -9,7 +9,7 @@ from django.db.models import FieldDoesNotExist
 from django.templatetags.static import static
 
 from .. import utils
-from .. views import SELECT, TEXT, SELECT_MULTI, DATE, DATE_RANGE
+from .. views import SELECT, TEXT, SELECT_MULTI, DATE, DATE_RANGE, SELECT_MULTI_FROM_MULTI
 from .. views import TODAY, THIS_WEEK, THIS_MONTH, THIS_QUARTER, THIS_YEAR
 from .. import settings
 
@@ -134,7 +134,7 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
 
                 column_filter_defs.append({'type': 'select', 'values': values, 'label': '-----'})
 
-            elif widget_type == SELECT_MULTI:
+            elif widget_type in [SELECT_MULTI, SELECT_MULTI_FROM_MULTI]:
                 is_local = field in [f.name for f in mdl._meta.fields]
                 choices = cls.model._meta.get_field(field).choices if is_local else None
 
