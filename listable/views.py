@@ -343,9 +343,9 @@ class BaseListableView(ListView):
                             filtering = '{0}__range'.format(filtering)
 
                         if has_none:
-                            qs = qs.filter(Q(**{"{0}__isnull".format(field): True}) | Q(**{filtering: search_term}))
+                            qs = qs.filter(Q(**{"{0}__isnull".format(field): True}) | Q(**{filtering: search_term})).distinct()
                         else:
-                            qs = qs.filter(**{filtering: search_term})
+                            qs = qs.filter(**{filtering: search_term}).distinct()
 
                 else:
 
