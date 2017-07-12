@@ -10,7 +10,6 @@ from django.db import DatabaseError, connection
 from django.db.models import Q
 import django.db.models.fields
 from django.http import HttpResponse, Http404
-from django.template import Context
 from django.template.loader import get_template
 from django.utils import formats
 from django.utils.translation import ugettext as _
@@ -18,6 +17,11 @@ from django.views.generic import ListView
 
 from . import utils
 from . import settings as li_settings
+
+d_version = django.get_version().split('.')
+d_version_old = d_version[0] == '1' and int(d_version[1]) < 8
+if d_version_old:
+    from django.template import Context
 
 try:
     unicode = unicode
@@ -211,7 +215,10 @@ class BaseListableView(ListView):
         table_id = "listable-table-" + current_url
 
         headers = [self.get_header_for_field(f) for f in self.fields]
-        context['listable_table'] = template.render(Context({'headers': headers, 'table_id': table_id}))
+        if d_version_old:
+            context['listable_table'] = template.render(Context({'headers': headers, 'table_id': table_id}))
+        else:
+            context['listable_table'] = template.render({'headers': headers, 'table_id': table_id})
         context['args'] = self.args
         context['kwargs'] = self.kwargs
 
