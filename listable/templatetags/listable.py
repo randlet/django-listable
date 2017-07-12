@@ -11,6 +11,7 @@ from django.templatetags.static import static
 from .. import utils
 from .. views import SELECT, TEXT, SELECT_MULTI, DATE, DATE_RANGE, SELECT_MULTI_FROM_MULTI
 from .. views import TODAY, THIS_WEEK, THIS_MONTH, THIS_QUARTER, THIS_YEAR
+from .. views import basestring, bytes, str, unicode
 from .. import settings
 
 register = template.Library()
@@ -49,7 +50,7 @@ def listable_js(): #pragma: nocover
 
 
 def values_to_dt(values):
-    return [{"value": str(x[0]), "label": str(x[1])} for x in utils.unique(values)]
+    return [{"value": unicode(x[0]), "label": unicode(x[1])} for x in utils.unique(values)]
 
 
 @register.filter(name="header")

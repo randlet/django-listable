@@ -4,6 +4,12 @@ History
 -------
 
 =======
+0.4.3 (2017-05-11)
+++++++++++++++++++
+Fix values_to_dt to allow unicode
+
+
+=======
 0.4.1 (2016-10-14)
 ++++++++++++++++++
 Add fix for when using FORCE_SCRIPT_NAME setting
