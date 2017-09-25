@@ -1,0 +1,17 @@
+.suppress-active > div.ranges > ul > li.active {
+    border-color: #f5f5f5 !important;
+    background-color: #f5f5f5 !important;
+    color: #08c !important;
+}
+.suppress-active > div.ranges > ul > li.active:hover {
+    border-color: #08c !important;
+    background-color: #08c !important;
+    color: #fff !important;
+}
+.daterange-div {
+    position: relative;
+    background: #fff;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    width: 100%
+}

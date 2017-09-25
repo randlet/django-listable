@@ -222,6 +222,18 @@ function listable(moment) {
 
                 var c = parseInt(col) + 1;
                 var date_range = $("thead > tr > th:nth-child(" + c + ") input");
+                date_range.hide();
+                var inital_display = date_range.val();
+                if (date_range.hasClass('search_init')) {
+                    date_range.val('');
+                    inital_display = '------';
+                }
+                var $input_div = $(
+                    '<div id="daterange-div-' + c + '" class="btn-group daterange-div">\n' +
+                    '    <button class="daterange-inner btn btn-default"><span class="daterange-val-display">' + inital_display + '</span> <b class="caret"></b></button>\n' +
+                    '</div>'
+                );
+                date_range.after($input_div);
 
                 var opens;
                 var left_offset = $(date_range).offset().left;
@@ -233,31 +245,49 @@ function listable(moment) {
                     ranges[range] = available_ranges[range]
                 }
 
-                $(date_range).daterangepicker({
+                $($input_div).daterangepicker({
                     autoUpdateInput: false,
                     "ranges": ranges,
                     "showDropdowns": true,
                     "linkedCalendars": false,
                     "locale": date_range_locale,
                     "opens": opens
-
                 }, function (start_date, end_date) {
-                    $(this.element).val(start_date.format('DD MMM YYYY') + ' - ' + end_date.format('DD MMM YYYY'));
+                    var div = $(this.element).find('.daterange-val-display');
+                    var dates = start_date.format('DD MMM YYYY') + ' - ' + end_date.format('DD MMM YYYY');
+                    var input = $(this.element).siblings('input');
+                    input.val(dates);
+                    div.html(dates);
                 }).on('apply.daterangepicker', function (ev, picker) {
-                    $(picker.element).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
-                    if (!picker.startDate.isSame(picker.oldStartDate) || !picker.endDate.isSame(picker.oldEndDate)) {
-                        $(this).trigger('keyup');
+                    var div = $(picker.element).find('.daterange-val-display');
+                    var dates = picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY');
+                    var input = $(picker.element).siblings('input');
+                    var started_null = input.val() === '';
+                    input.val(dates);
+                    div.html(dates);
+                    if (!picker.startDate.isSame(picker.oldStartDate) || !picker.endDate.isSame(picker.oldEndDate) || started_null) {
+                        input.trigger('keyup');
                     }
+                    $('.suppress-active').removeClass('suppress-active');
                 }).on('cancel.daterangepicker', function (ev, picker) {
-                    $(this).val('');
-                    $(this).trigger('keyup');
+                    var div = $(picker.element).find('.daterange-val-display');
+                    var input = $(picker.element).siblings('input');
+                    div.html('------');
+                    input.val('');
+                    input.trigger('keyup');
                     picker.startDate = moment();
                     picker.endDate = moment();
+                    $(picker.container).addClass('suppress-active');
                 });
+
+                if ($(date_range).val() === '') {
+                    $($input_div.data('daterangepicker').container).addClass('suppress-active');
+                }
+
             }
             else if (Listable.columnFilterDefs[col].type == 'date') {
                 var c = parseInt(col) + 1;
-                var date = $("thead > tr > th:nth-child(" + c + ") input");
+                var date = $('thead > tr > th:nth-child(' + c + ') input');
 
                 $(date).datepicker({
                     orientation: 'bottom left',
@@ -276,4 +306,5 @@ function listable(moment) {
     $(table).find("input:not(:checkbox, :radio), select, button").addClass(
         Listable.cssInputClass
     );
+
 }

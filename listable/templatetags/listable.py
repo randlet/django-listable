@@ -35,7 +35,8 @@ DATATABLES_CSS = [
     '<link href="{0}" rel="stylesheet">'.format(static('listable/css/bootstrap.multiselect.css')),
     '<link href="{0}" rel="stylesheet">'.format(static('listable/css/bootstrap-datepicker.min.css')),
     '<link href="{0}" rel="stylesheet">'.format(static('listable/css/daterangepicker.css')),
-    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/font-awesome.min.css'))
+    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/font-awesome.min.css')),
+    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/listable.css'))
 ]
 
 
