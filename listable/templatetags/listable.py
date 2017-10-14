@@ -178,7 +178,8 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
         "columnFilterDefs": column_filter_defs,
         "cssTableClass": css_table_class,
         "cssInputClass": css_input_class,
-        "cookie": "{0}_listable-table-{1}_".format(settings.DT_COOKIE_NAME, view_name)
+        "cookie": settings.cookie_name(context['request'], view_name),
+        "cookiePrefix": settings.cookie_prefix(context['request']),
     }
 
     if settings.LISTABLE_LANGUAGE:

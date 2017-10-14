@@ -42,7 +42,6 @@ else:
     basestring = basestring
 
 
-DT_COOKIE_NAME = "SpryMedia_DataTables"
 TEXT = "text"
 SELECT = "select"
 SELECT_MULTI = "selectmulti"
@@ -508,7 +507,7 @@ class BaseListableView(ListView):
         cookie_dt_params = None
 
         current_url = resolve(self.request.path_info).url_name
-        cookie_name = "{0}_listable-table-{1}_".format(DT_COOKIE_NAME, current_url)
+        cookie_name = li_settings.cookie_name(self.request, current_url)
         for k, v in self.request.COOKIES.items():
             if k == cookie_name and v:
                 cookie_dt_params = json.loads(unquote(v))
