@@ -49,6 +49,8 @@ function listable(moment) {
         iFilteringDelay: 250
     });
 
+    $(Listable.tableId).find("input.search_init").val("").removeClass("search_init");
+
     var cookie_obj = JSON.parse(/*window.*/getCookie(Listable.cookie));
 
     if (cookie_obj) {
