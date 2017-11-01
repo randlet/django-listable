@@ -1,7 +1,9 @@
 Django>=1.8.1,<2.0
-django-devserver
 coverage>=3.7
+django-devserver
 mock>=1.0.1
-radar==0.3
 pytest
 pytest-django
+pytest-cov
+pytz
+radar==0.3
