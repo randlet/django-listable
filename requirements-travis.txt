@@ -1,4 +1,4 @@
-Django>=1.8.1,<2.0
+Django>=1.10,<=1.12
 coverage>=3.7
 django-devserver
 mock>=1.0.1
