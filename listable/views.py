@@ -1,12 +1,9 @@
 import datetime
 import json
-import urllib
-import re
 import six
 
-from django.core.exceptions import FieldError
+from django.conf import settings
 from django.core.urlresolvers import resolve
-from django.db import DatabaseError, connection
 from django.db.models import Q
 import django.db.models.fields
 from django.http import HttpResponse, Http404
@@ -14,9 +11,13 @@ from django.template.loader import get_template
 from django.utils import formats
 from django.utils.translation import ugettext as _
 from django.views.generic import ListView
+from pytz import timezone
 
 from . import utils
 from . import settings as li_settings
+
+
+cur_tz = timezone(settings.TIME_ZONE)
 
 d_version = django.get_version().split('.')
 d_version_old = d_version[0] == '1' and int(d_version[1]) < 8
@@ -135,7 +136,6 @@ class BaseListableView(ListView):
         if self.prefetch_related:
             self.object_list = self.object_list.prefetch_related(*self.prefetch_related)
 
-
         # Some Django backends can choke when paginating a query
         # that has an extra clause on it (the count() call fails)
         # so we can patch on our own count function that first tries the
@@ -168,8 +168,8 @@ class BaseListableView(ListView):
             # When pagination is enabled and object_list is a queryset,
             # it's better to do a cheap query than to load the unpaginated
             # queryset in memory.
-            if (self.get_paginate_by(self.object_list) is not None
-                    and hasattr(self.object_list, 'exists')):
+            if (self.get_paginate_by(self.object_list) is not None and
+                    hasattr(self.object_list, 'exists')):
                 is_empty = not self.object_list.exists()
             else:
                 is_empty = len(self.object_list) == 0
@@ -214,10 +214,15 @@ class BaseListableView(ListView):
         table_id = "listable-table-" + current_url
 
         headers = [self.get_header_for_field(f) for f in self.fields]
+        table_context = {
+            'headers': headers,
+            'table_id': table_id,
+            'request': self.request,
+        }
         if d_version_old:
-            context['listable_table'] = template.render(Context({'headers': headers, 'table_id': table_id}))
-        else:
-            context['listable_table'] = template.render({'headers': headers, 'table_id': table_id})
+            table_context = Context(table_context)
+
+        context['listable_table'] = template.render(table_context)
         context['args'] = self.args
         context['kwargs'] = self.kwargs
 
@@ -298,16 +303,22 @@ class BaseListableView(ListView):
                 elif widget == DATE_RANGE:
                     start = datetime.datetime.strptime(search_term.split(' - ')[0], '%d %b %Y').replace(hour=0, minute=0, second=0)
                     end = datetime.datetime.strptime(search_term.split(' - ')[1], '%d %b %Y').replace(hour=23, minute=59, second=59)
+                    start = start.replace(tzinfo=cur_tz)
+                    end = end.replace(tzinfo=cur_tz)
                     search_term = (start, end)
 
                 elif widget == DATE:
                     try:
                         start = datetime.datetime.strptime(search_term.split('-')[0], '%a %b %d %Y %H:%M:%S %Z').replace(hour=0, minute=0, second=0)
                         end = datetime.datetime.strptime(search_term.split('-')[0], '%a %b %d %Y %H:%M:%S %Z').replace(hour=23, minute=59, second=59)
+                        start = start.replace(tzinfo=cur_tz)
+                        end = end.replace(tzinfo=cur_tz)
                         search_term = (start, end)
                     except ValueError:
                         start = datetime.datetime.strptime(search_term, '%d %b %Y').replace(hour=0, minute=0, second=0)
                         end = datetime.datetime.strptime(search_term, '%d %b %Y').replace(hour=23, minute=59, second=59)
+                        start = start.replace(tzinfo=cur_tz)
+                        end = end.replace(tzinfo=cur_tz)
                         search_term = (start, end)
 
             has_none = False
@@ -406,7 +417,7 @@ class BaseListableView(ListView):
                     orderings.append("%s%s" % (direction, ordering))
                 else:
                     try:
-                        #eg ordering=("last_name","first_name", )
+                        # eg ordering=("last_name","first_name", )
                         for o in ordering:
                             orderings.append("%s%s" % (direction, o))
                     except TypeError:
@@ -490,7 +501,7 @@ class BaseListableView(ListView):
         # columns to sort on
         params["iSortingCols"] = 0  # tally of number of colums to sort on
 
-        for idx, (col, dir_, _) in enumerate(dt_cookie_params["aaSorting"]):
+        for idx, (col, dir_, __) in enumerate(dt_cookie_params["aaSorting"]):
             params["iSortCol_%d" % (idx)] = col
             params["sSortDir_%d" % (idx)] = dir_
             params["iSortingCols"] += 1
@@ -513,4 +524,3 @@ class BaseListableView(ListView):
                 cookie_dt_params = json.loads(unquote(v))
 
         return cookie_dt_params
-

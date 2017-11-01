@@ -1,8 +1,8 @@
 -r demo.txt
 coverage>=3.7
 mock>=1.0.1
-nose==1.3.7
 radar==0.3
-django-nose==1.4.4
 six
+pytest
+pytest-django
 

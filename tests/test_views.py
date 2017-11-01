@@ -6,20 +6,17 @@ import datetime
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
-from django.views.generic import View
-from django.test import Client, TestCase
-from django.test.utils import override_settings
 from django.db.models import Q
+from django.test import Client, TestCase
+import pytz
 
-from mock import Mock
-
-from staff.views import StaffList
-from staff.models import Staff, INACTIVE, GenericModelA, GenericModelB
-from listable import utils
+from staff.models import Staff, INACTIVE
 from listable import settings as lisettings
 
 import codecs
 _reader = codecs.getreader("utf-8")
+
+cur_tz = pytz.timezone(settings.TIME_ZONE)
 
 
 class TestViews(TestCase):
@@ -87,7 +84,7 @@ class TestViews(TestCase):
 
         test_date = '2010-06-10 12:34:56'
         test_staff = Staff.objects.get(pk=10)
-        test_date_obj = datetime.datetime.strptime(test_date, '%Y-%m-%d %H:%M:%S')
+        test_date_obj = datetime.datetime.strptime(test_date, '%Y-%m-%d %H:%M:%S').replace(tzinfo=cur_tz)
         test_staff.date_hired = test_date_obj
         test_staff.save()
 
@@ -120,7 +117,7 @@ class TestViews(TestCase):
         """Test filtering based on a plain text input"""
 
         client = Client()
-        search_term =  "Abbott"
+        search_term = "Abbott"
         url = reverse("staff-list")+"?sEcho=19&iColumns=8&sColumns=&iDisplayStart=0&iDisplayLength=10&mDataProp_0=0&mDataProp_1=1&mDataProp_2=2&mDataProp_3=3&mDataProp_4=4&mDataProp_5=5&mDataProp_6=6&mDataProp_7=7&sSearch=&bRegex=false&sSearch_0=&bRegex_0=false&bSearchable_0=true&sSearch_1={search_term}&bRegex_1=false&bSearchable_1=true&sSearch_2=&bRegex_2=false&bSearchable_2=true&sSearch_3=&bRegex_3=false&bSearchable_3=true&sSearch_4=&bRegex_4=false&bSearchable_4=true&sSearch_5=&bRegex_5=false&bSearchable_5=true&sSearch_6=&bRegex_6=false&bSearchable_6=true&sSearch_7=&bRegex_7=false&bSearchable_7=true&iSortingCols=0&bSortable_0=true&bSortable_1=true&bSortable_2=true&bSortable_3=true&bSortable_4=true&bSortable_5=true&bSortable_6=true&bSortable_7=true&sRangeSeparator=~&_=1414439607645".format(search_term=search_term)
 
         response = client.get(url, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
@@ -152,17 +149,16 @@ class TestViews(TestCase):
         """Test that filtering fails"""
 
         client = Client()
-        search_term =  "Maiores"
+        search_term = "Maiores"
         url = reverse("staff-list")+"?sEcho=19&iColumns=8&sColumns=&iDisplayStart=0&iDisplayLength=10&mDataProp_0=0&mDataProp_1=1&mDataProp_2=2&mDataProp_3=3&mDataProp_4=4&mDataProp_5=5&mDataProp_6=6&mDataProp_7=7&sSearch=&bRegex=false&sSearch_0=&bRegex_0=false&bSearchable_0=true&sSearch_1=&bRegex_1=false&bSearchable_1=true&sSearch_2=&bRegex_2=false&bSearchable_2=true&sSearch_3=&bRegex_3=false&bSearchable_3=true&sSearch_4={search_term}&bRegex_4=false&bSearchable_4=true&sSearch_5=&bRegex_5=false&bSearchable_5=true&sSearch_6=&bRegex_6=false&bSearchable_6=true&sSearch_7=&bRegex_7=false&bSearchable_7=true&iSortingCols=1&iSortCol_0=1&sSortDir_0=asc&bSortable_0=true&bSortable_1=true&bSortable_2=true&bSortable_3=true&bSortable_4=true&bSortable_5=true&bSortable_6=true&bSortable_7=true&sRangeSeparator=~&_=1414439607645".format(search_term=search_term)
 
         response = client.get(url, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
         payload = json.loads(response.content.decode('utf-8'))
         data = payload.pop("aaData")
-        staff = Staff.objects.filter(position__name=search_term).order_by('last_name',"first_name")[:lisettings.LISTABLE_PAGINATE_BY]
+        staff = Staff.objects.filter(position__name=search_term).order_by('last_name', "first_name")[:lisettings.LISTABLE_PAGINATE_BY]
         names = [s.name() for s in staff]
 
         payload_names = [x[1] for x in data]
-
 
         self.assertListEqual(names, payload_names)
