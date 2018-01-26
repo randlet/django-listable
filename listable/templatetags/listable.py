@@ -4,12 +4,14 @@ import importlib
 from datetime import datetime
 from django import template
 from django.core.urlresolvers import reverse, resolve
+from django.utils.safestring import mark_safe
 from django.db.models import FieldDoesNotExist
 from django.templatetags.static import static
 
 from .. import utils
-from .. views import SELECT, TEXT, SELECT_MULTI, DATE, DATE_RANGE
+from .. views import SELECT, TEXT, SELECT_MULTI, DATE, DATE_RANGE, SELECT_MULTI_FROM_MULTI
 from .. views import TODAY, THIS_WEEK, THIS_MONTH, THIS_QUARTER, THIS_YEAR
+from .. views import basestring, bytes, str, unicode
 from .. import settings
 
 register = template.Library()
@@ -27,25 +29,29 @@ DATATABLES_SCRIPTS = [
 ]
 
 
+DATATABLES_CSS = [
+    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/jquery.dataTables.css')),
+    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/jquery.dataTables.bootstrap.css')),
+    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/bootstrap.multiselect.css')),
+    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/bootstrap-datepicker.min.css')),
+    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/daterangepicker.css')),
+    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/font-awesome.min.css')),
+    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/listable.css'))
+]
+
+
 @register.simple_tag
 def listable_css():
-    return '\n'.join([
-        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/jquery.dataTables.css')),
-        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/jquery.dataTables.bootstrap.css')),
-        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/bootstrap.multiselect.css')),
-        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/bootstrap-datepicker.min.css')),
-        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/daterangepicker.css')),
-        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/font-awesome.min.css'))
-    ])
+    return mark_safe('\n'.join(DATATABLES_CSS))
 
 
 @register.simple_tag
 def listable_js(): #pragma: nocover
-    return '\n'.join(DATATABLES_SCRIPTS)
+    return mark_safe('\n'.join(DATATABLES_SCRIPTS))
 
 
 def values_to_dt(values):
-    return [{"value": str(x[0]), "label": str(x[1])} for x in utils.unique(values)]
+    return [{"value": unicode(x[0]), "label": unicode(x[1])} for x in utils.unique(values)]
 
 
 @register.filter(name="header")
@@ -130,7 +136,7 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
 
                 column_filter_defs.append({'type': 'select', 'values': values, 'label': '-----'})
 
-            elif widget_type == SELECT_MULTI:
+            elif widget_type in [SELECT_MULTI, SELECT_MULTI_FROM_MULTI]:
                 is_local = field in [f.name for f in mdl._meta.fields]
                 choices = cls.model._meta.get_field(field).choices if is_local else None
 
@@ -193,4 +199,4 @@ def listable(context, view_name, dom="", save_state=None, pagination_type="", cs
         scripts += DATATABLES_SCRIPTS
         scripts += ['<script src="{0}" type="text/javascript"></script>'.format(static('listable/js/listable.js'))]
 
-    return "\n".join(scripts)
+    return mark_safe("\n".join(scripts))

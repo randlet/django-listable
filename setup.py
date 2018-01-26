@@ -4,13 +4,12 @@
 import os
 import sys
 
-
 try:
     from setuptools import setup
 except ImportError:
     from distutils.core import setup
 
-version = '0.3.10'
+version = '0.4.3'
 
 if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')

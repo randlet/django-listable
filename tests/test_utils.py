@@ -1,4 +1,3 @@
-from django.conf.urls import patterns, url
 from django.test import TestCase
 from mock import Mock
 

@@ -3,6 +3,18 @@
 History
 -------
 
+0.4.3 (2017-05-11)
+++++++++++++++++++
+Fix values_to_dt to allow unicode
+
+0.4.1 (2016-10-14)
+++++++++++++++++++
+Add fix for when using FORCE_SCRIPT_NAME setting
+
+0.4.0 (2016-10-02)
+++++++++++++++++++
+Update to support Django 1.8-1.10 and Python 2.7-3.5
+
 0.3.10 (2016-11-08)
 ++++++++++++++++++
 Cast search term to lower case if case insensitive search requested to allow
@@ -15,6 +27,10 @@ Fix formatting bug introduced by 0.3.8
 0.3.8 (2016-09-27)
 ++++++++++++++++++
 Fix unicode encoding error
+
+0.3.7 (2016-08-25)
+++++++++++++++++++
+Add date range picker
 
 0.3.6 (2016-06-29)
 ++++++++++++++++++

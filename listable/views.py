@@ -10,7 +10,6 @@ from django.db import DatabaseError, connection
 from django.db.models import Q
 import django.db.models.fields
 from django.http import HttpResponse, Http404
-from django.template import Context
 from django.template.loader import get_template
 from django.utils import formats
 from django.utils.translation import ugettext as _
@@ -19,6 +18,10 @@ from django.views.generic import ListView
 from . import utils
 from . import settings as li_settings
 
+d_version = django.get_version().split('.')
+d_version_old = d_version[0] == '1' and int(d_version[1]) < 8
+if d_version_old:
+    from django.template import Context
 
 try:
     unicode = unicode
@@ -45,6 +48,7 @@ SELECT = "select"
 SELECT_MULTI = "selectmulti"
 DATE = "date"
 DATE_RANGE = "daterange"
+SELECT_MULTI_FROM_MULTI = "selectmultifrommulti"
 
 TODAY = "Today"
 YESTERDAY = "Yesterday"
@@ -80,6 +84,8 @@ class BaseListableView(ListView):
     order_fields = {}
     search_fields = {}
     headers = {}
+
+    multi_separator = ', '
 
     paginate_by = li_settings.LISTABLE_PAGINATE_BY
 
@@ -139,6 +145,7 @@ class BaseListableView(ListView):
         # Not ideal but it seems to work.
         if self.extra:
             orig_count = self.object_list.count
+
             def count():
                 try:
                     # works ok on mssql
@@ -148,7 +155,7 @@ class BaseListableView(ListView):
                         from django.db import connection
                         cursor = connection.cursor()
                         sql, params = self.object_list.query.sql_with_params()
-                        count_sql =  "SELECT COUNT(*) FROM ({0})".format(sql)
+                        count_sql = "SELECT COUNT(*) FROM ({0})".format(sql)
                         cursor.execute(count_sql, params)
                         return cursor.fetchone()[0]
                     except:
@@ -208,7 +215,10 @@ class BaseListableView(ListView):
         table_id = "listable-table-" + current_url
 
         headers = [self.get_header_for_field(f) for f in self.fields]
-        context['listable_table'] = template.render(Context({'headers': headers, 'table_id': table_id}))
+        if d_version_old:
+            context['listable_table'] = template.render(Context({'headers': headers, 'table_id': table_id}))
+        else:
+            context['listable_table'] = template.render({'headers': headers, 'table_id': table_id})
         context['args'] = self.args
         context['kwargs'] = self.kwargs
 
@@ -280,8 +290,8 @@ class BaseListableView(ListView):
                 if widget == SELECT:
                     search_term = [unquote(search_term).replace('\\', '')]
 
-                elif widget == SELECT_MULTI:
-                    if search_term == '^(.*)$':
+                elif widget in [SELECT_MULTI, SELECT_MULTI_FROM_MULTI]:
+                    if search_term in ['^(.*)$', '^()$']:
                         search_term = ''
                     else:
                         search_term = unquote(search_term[2:-2]).replace('\\', '').split('|')
@@ -315,8 +325,8 @@ class BaseListableView(ListView):
 
                     if self.get_extra() and 'select' in self.get_extra() and field in self.get_extra()['select']:
 
-                        if widget in [DATE, DATE_RANGE]:
-                            raise ValueError('DATE widget not configurable with extra query')
+                        if widget in [DATE, DATE_RANGE, SELECT_MULTI_FROM_MULTI]:
+                            raise ValueError('%s widget not configurable with extra query' % widget)
 
                         if widget == TEXT:
                             qs = qs.extra(where=["{0} LIKE %s".format(self.extra['select'][field])], params=["%{0}%".format(search_term)])
@@ -332,7 +342,7 @@ class BaseListableView(ListView):
 
                     else:
 
-                        if widget in [SELECT, SELECT_MULTI]:
+                        if widget in [SELECT, SELECT_MULTI, SELECT_MULTI_FROM_MULTI]:
                             has_none = True if NONEORNULL in search_term else False
                             filtering = '{0}__in'.format(filtering)
 
@@ -343,9 +353,9 @@ class BaseListableView(ListView):
                             filtering = '{0}__range'.format(filtering)
 
                         if has_none:
-                            qs = qs.filter(Q(**{"{0}__isnull".format(field): True}) | Q(**{filtering: search_term}))
+                            qs = qs.filter(Q(**{"{0}__isnull".format(field): True}) | Q(**{filtering: search_term})).distinct()
                         else:
-                            qs = qs.filter(**{filtering: search_term})
+                            qs = qs.filter(**{filtering: search_term}).distinct()
 
                 else:
 
@@ -363,8 +373,8 @@ class BaseListableView(ListView):
                         queries = reduce(lambda q, f: q | Q(**{f: search_term}), filtering, Q())
                         qs = qs.filter(queries)
 
-                    elif widget in [DATE, DATE_RANGE]:
-                        raise ValueError('DATE widget not configurable for multiple filters.')
+                    elif widget in [DATE, DATE_RANGE, SELECT_MULTI_FROM_MULTI]:
+                        raise ValueError('%s widget not configurable for multiple filters.' % widget)
 
         return qs
 
@@ -417,6 +427,8 @@ class BaseListableView(ListView):
 
     def format_col(self, field, obj):
 
+        is_multi = self.widgets[field] == SELECT_MULTI_FROM_MULTI
+
         # first see if view subclass has a formatter defined
         formatter = getattr(self, field, None)
         if formatter:
@@ -424,7 +436,11 @@ class BaseListableView(ListView):
 
         # fk property
         if "__" in field:
+            if is_multi:
+                return self.multi_separator.join(utils.lookup_dunder_prop(obj, field, multi=True))
             return utils.lookup_dunder_prop(obj, field)
+        elif is_multi:
+            raise AttributeError("Must specify field to display for many to many field (ie: %s__id)" % field)
 
         try:
             return getattr(obj, 'get_{0}_display'.format(field))()

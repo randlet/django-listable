@@ -1,9 +1,10 @@
 import importlib
 
-from django.core.urlresolvers import reverse, resolve
+from django.core.urlresolvers import reverse, resolve, get_script_prefix
 import django.db.models.fields
 
 BOOL_TYPE = django.db.models.fields.BooleanField().get_internal_type()
+
 
 def unique(seq):
     seen = set()
@@ -11,20 +12,23 @@ def unique(seq):
     return [x for x in seq if x not in seen and not seen_add(x)]
 
 
-def lookup_dunder_prop(obj, props):
+def lookup_dunder_prop(obj, props, multi=False):
     """
     Take an obj and lookup the value of a related attribute
     using __ notation.
 
     For example if Obj.a.b.c == "foo" then lookup_dunder (Obj, "a__b__c") == "foo"
     """
-
-    if "__" in props:
-        head, tail = props.split("__", 1)
-        obj = getattr(obj, head)
-        return lookup_dunder_prop(obj, tail)
-
-    return getattr(obj, props)
+    try:
+        if "__" in props:
+            head, tail = props.split("__", 1)
+            obj = getattr(obj, head)
+            return lookup_dunder_prop(obj, tail, multi=multi)
+        if multi:
+            return [getattr(o, props) for o in obj.all()]
+        return getattr(obj, props)
+    except AttributeError:
+        return None
 
 
 def class_for_view_name(view_name, args=None, kwargs=None):
@@ -32,11 +36,12 @@ def class_for_view_name(view_name, args=None, kwargs=None):
     see http://stackoverflow.com/a/21313506/79802
     """
 
-    reverse_ = reverse(view_name, args=args, kwargs=kwargs, prefix="")
+    reverse_ = reverse(view_name, args=args, kwargs=kwargs)
     if reverse_ and reverse_[0] != "/":
         reverse_ = "/%s" % reverse_
 
-    view_func = resolve(reverse_).func
+    prefix = get_script_prefix()
+    view_func = resolve(reverse_.replace(prefix, "/", 1)).func
     module = importlib.import_module(view_func.__module__)
     return getattr(module, view_func.__name__)
 
