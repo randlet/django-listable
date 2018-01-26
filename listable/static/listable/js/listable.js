@@ -237,7 +237,7 @@ function listable(moment) {
                 date_range.after($input_div);
 
                 var opens;
-                var left_offset = $(date_range).offset().left;
+                var left_offset = $($input_div).offset().left;
                 left_offset > 800 ? opens = 'left' : left_offset > 400 ? opens = 'center' : opens = 'right';
 
                 var ranges = {};
