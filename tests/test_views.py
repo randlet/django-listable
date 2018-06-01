@@ -4,10 +4,10 @@ sys.path.append("listable-demo")
 import json
 import datetime
 
-from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.conf import global_settings as settings
 from django.db.models import Q
 from django.test import Client, TestCase
+from django.urls import reverse
 import pytz
 
 from staff.models import Staff, INACTIVE

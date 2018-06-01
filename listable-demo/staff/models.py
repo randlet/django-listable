@@ -46,7 +46,7 @@ class Business(models.Model):
 class Department(models.Model):
 
     name = models.CharField(max_length=255)
-    business = models.ForeignKey(Business)
+    business = models.ForeignKey(Business, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -129,15 +129,15 @@ class Staff(models.Model):
 
     is_manager = models.BooleanField(default=False)
 
-    position = models.ForeignKey(Position)
-    department = models.ForeignKey(Department)
-    contract_type = models.ForeignKey(ContractType)
+    position = models.ForeignKey(Position, on_delete=models.CASCADE)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    contract_type = models.ForeignKey(ContractType, on_delete=models.CASCADE)
 
     date_hired = models.DateTimeField(default=add_a_datetime)
     last_incident = models.DateField(default=add_a_date)
 
     limit = models.Q(app_label='staff', model='genericmodela') | models.Q(app_label='staff', model='genericmodelb')
-    content_type = models.ForeignKey(ContentType, limit_choices_to=limit)
+    content_type = models.ForeignKey(ContentType, limit_choices_to=limit, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     generic_object = GenericForeignKey("content_type", "object_id")
 

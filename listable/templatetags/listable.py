@@ -3,9 +3,8 @@ import importlib
 
 from datetime import datetime
 from django import template
-from django.core.urlresolvers import reverse, resolve
+from django.urls import reverse
 from django.utils.safestring import mark_safe
-from django.db.models import FieldDoesNotExist
 from django.templatetags.static import static
 
 from .. import utils
