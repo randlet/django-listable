@@ -1,18 +1,31 @@
-import json
-import importlib
-
 from datetime import datetime
+import importlib
+import json
+
 from django import template
-from django.core.urlresolvers import reverse, resolve
-from django.utils.safestring import mark_safe
+from django.core.urlresolvers import resolve, reverse
 from django.db.models import FieldDoesNotExist
 from django.templatetags.static import static
+from django.utils.safestring import mark_safe
 
-from .. import utils
-from .. views import SELECT, TEXT, SELECT_MULTI, DATE, DATE_RANGE, SELECT_MULTI_FROM_MULTI
-from .. views import TODAY, THIS_WEEK, THIS_MONTH, THIS_QUARTER, THIS_YEAR
-from .. views import basestring, bytes, str, unicode
-from .. import settings
+from .. import settings, utils
+from ..views import (
+    DATE,
+    DATE_RANGE,
+    SELECT,
+    SELECT_MULTI,
+    SELECT_MULTI_FROM_MULTI,
+    TEXT,
+    THIS_MONTH,
+    THIS_QUARTER,
+    THIS_WEEK,
+    THIS_YEAR,
+    TODAY,
+    basestring,
+    bytes,
+    str,
+    unicode,
+)
 
 register = template.Library()
 
@@ -84,6 +97,8 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
     view_kwargs = context.get('kwargs', None)
     view_instance = context.get('view', None)
 
+    table_id = "#listable-table-" + view_name
+
     if save_state is None:
         save_state = settings.LISTABLE_STATE_SAVE
 
@@ -101,6 +116,8 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
 
     if view_instance:
         qs = view_instance.get_queryset()
+
+        table_id = "#" + view_instance.get_table_id()
 
         for field in cls.fields:
 
@@ -165,7 +182,7 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
     url = reverse(view_name, args=view_args, kwargs=view_kwargs)
 
     opts = {
-        "tableId": "#listable-table-" + view_name.replace(":", "_"),
+        "tableId": table_id.replace(":", "_").replace(".", "_"),
         "paginationType": pagination_type,
         "stateSave": save_state,
         "url": url,
