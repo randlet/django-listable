@@ -87,6 +87,7 @@ class BaseListableView(ListView):
     multi_separator = ', '
 
     paginate_by = li_settings.LISTABLE_PAGINATE_BY
+    filter_delay = li_settings.LISTABLE_FILTER_DELAY
 
     select_related = ()
     prefetch_related = ()

@@ -197,6 +197,7 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
         "cssInputClass": css_input_class,
         "cookie": settings.cookie_name(context['request'], view_name),
         "cookiePrefix": settings.cookie_prefix(context['request']),
+        "filteringDelay": cls.filter_delay,
     }
 
     if settings.LISTABLE_LANGUAGE:
