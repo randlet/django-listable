@@ -1,9 +1,9 @@
 -r demo.txt
 coverage>=3.7
 mock>=1.0.1
-pytest
-pytest-cov
-pytest-django
+pytest==3.8.1
+pytest-cov==2.6.0
+pytest-django==3.4.3
 pytz
 radar==0.3
 six

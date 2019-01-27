@@ -46,7 +46,7 @@ function listable(moment) {
     }).columnFilter({
         sPlaceHolder: "head:after",
         aoColumns: Listable.columnFilterDefs,
-        iFilteringDelay: 250
+        iFilteringDelay: Listable.filteringDelay
     });
 
     var cookie_obj = JSON.parse(/*window.*/getCookie(Listable.cookie));

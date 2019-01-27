@@ -1,21 +1,20 @@
 import datetime
 import json
-import six
 
 from django.conf import global_settings as settings
 from django.db.models import Q
 import django.db.models.fields
-from django.http import HttpResponse, Http404
+from django.http import Http404, HttpResponse
 from django.template.loader import get_template
 from django.urls import resolve
 from django.utils import formats
 from django.utils.translation import ugettext as _
 from django.views.generic import ListView
 from pytz import timezone
+import six
 
-from . import utils
 from . import settings as li_settings
-
+from . import utils
 
 cur_tz = timezone(settings.TIME_ZONE)
 
@@ -88,6 +87,7 @@ class BaseListableView(ListView):
     multi_separator = ', '
 
     paginate_by = li_settings.LISTABLE_PAGINATE_BY
+    filter_delay = li_settings.LISTABLE_FILTER_DELAY
 
     select_related = ()
     prefetch_related = ()
@@ -200,10 +200,7 @@ class BaseListableView(ListView):
         }
         return context
 
-    def get_context_data(self, *args, **kwargs):
-        """ Context data for full page request """
-        context = super(BaseListableView, self).get_context_data(*args, **kwargs)
-        template = get_template("listable/_table.html")
+    def get_table_id(self):
 
         # every table needs a unique ID to play well with sticky cookies
         resolve_match = resolve(self.request.path_info)
@@ -211,12 +208,19 @@ class BaseListableView(ListView):
         if resolve_match.namespace:
             current_url = "{0}_{1}".format(resolve_match.namespace, current_url)
 
-        table_id = "listable-table-" + current_url
+        table_id = ("listable-table-" + current_url)
+
+        return table_id
+
+    def get_context_data(self, *args, **kwargs):
+        """ Context data for full page request """
+        context = super(BaseListableView, self).get_context_data(*args, **kwargs)
+        template = get_template("listable/_table.html")
 
         headers = [self.get_header_for_field(f) for f in self.fields]
         table_context = {
             'headers': headers,
-            'table_id': table_id,
+            'table_id': self.get_table_id().replace(":", "_").replace(".", "_"),
             'request': self.request,
         }
         if d_version_old:
