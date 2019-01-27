@@ -23,23 +23,9 @@ d_version_old = d_version[0] == '1' and int(d_version[1]) < 8
 if d_version_old:
     from django.template import Context
 
-try:
-    unicode = unicode
-except (ImportError, NameError):
-    # 'unicode' is undefined, must be Python 3
-    from urllib.parse import unquote
-    from functools import reduce
-    str = str
-    unicode = str
-    bytes = bytes
-    basestring = (str, bytes)
-else:
-    from urllib import unquote
-    # 'unicode' exists, must be Python 2
-    str = str
-    unicode = unicode
-    bytes = str
-    basestring = basestring
+from urllib.parse import unquote
+from functools import reduce
+basestring = (str, bytes)
 
 
 TEXT = "text"
