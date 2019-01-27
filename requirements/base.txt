@@ -1,4 +1,4 @@
-django>=2.0,<=2.0.6
+django>=2.1,<2.2
 pytz
 radar==0.3
 six

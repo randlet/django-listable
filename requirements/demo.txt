@@ -1,1 +1,2 @@
-django-devserver>=0.8,<0.9
+-r test.txt
+django-devserver
