@@ -273,7 +273,11 @@ class BaseListableView(ListView):
         if self.get_extra() and 'select' in self.get_extra() and field in self.get_extra()['select']:
             queryset = queryset.extra(select=self.get_extra()['select'])
 
-        filters = [f if f != (None, None) else (NONEORNULL, 'None') for f in queryset.values_list(field, field).order_by(field)]
+        ordering = self.order_fields.get(field, field)
+        filters = [
+            f if f != (None, None) else (NONEORNULL, 'None')
+            for f in queryset.values_list(field, field).order_by(ordering)
+        ]
 
         return filters
 
