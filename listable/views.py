@@ -1,5 +1,7 @@
 import datetime
+from functools import reduce
 import json
+from urllib.parse import unquote
 
 from django.conf import global_settings as settings
 from django.db.models import Q
@@ -23,8 +25,6 @@ d_version_old = d_version[0] == '1' and int(d_version[1]) < 8
 if d_version_old:
     from django.template import Context
 
-from urllib.parse import unquote
-from functools import reduce
 basestring = (str, bytes)
 
 
@@ -260,6 +260,8 @@ class BaseListableView(ListView):
             queryset = queryset.extra(select=self.get_extra()['select'])
 
         ordering = self.order_fields.get(field, field)
+        if ordering in (False, True, None):
+            ordering = field
         filters = [
             f if f != (None, None) else (NONEORNULL, 'None')
             for f in queryset.values_list(field, field).order_by(ordering)
