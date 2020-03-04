@@ -1,6 +1,6 @@
 import os
 import sys
-sys.path.append("listable-demo")
+sys.path.append("listable_demo")
 
 import django
 from django.conf import settings
@@ -32,7 +32,7 @@ settings.configure(
         'django.contrib.messages.middleware.MessageMiddleware',
     ),
     LANGUAGE_CODE="en",
-    TIME_ZONE = 'America/Toronto',
+    TIME_ZONE='America/Toronto',
     STATIC_URL='/static/',
 
     TEMPLATES=[
@@ -58,7 +58,7 @@ settings.configure(
         },
     ],
     LISTABLE_PAGINATE_BY=10,
-    FIXTURE_DIRS=("listable-demo",),
+    FIXTURE_DIRS=("listable_demo",),
     SITE_ID=1,
 )
 django.setup()
