@@ -1,17 +1,20 @@
-import datetime
-import json
 
-from django.conf import settings
-from django.db.models import Q
+import datetime
 import django.db.models.fields
+import json
+import six
+
+from django.conf import global_settings as settings
+from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.template.loader import get_template
 from django.urls import resolve
 from django.utils import formats
 from django.utils.translation import ugettext as _
 from django.views.generic import ListView
+from functools import reduce
 from pytz import timezone
-import six
+from urllib.parse import unquote
 
 from . import settings as li_settings
 from . import utils
@@ -23,23 +26,7 @@ d_version_old = d_version[0] == '1' and int(d_version[1]) < 8
 if d_version_old:
     from django.template import Context
 
-try:
-    unicode = unicode
-except (ImportError, NameError):
-    # 'unicode' is undefined, must be Python 3
-    from urllib.parse import unquote
-    from functools import reduce
-    str = str
-    unicode = str
-    bytes = bytes
-    basestring = (str, bytes)
-else:
-    from urllib import unquote
-    # 'unicode' exists, must be Python 2
-    str = str
-    unicode = unicode
-    bytes = str
-    basestring = basestring
+basestring = (str, bytes)
 
 
 TEXT = "text"
@@ -273,7 +260,13 @@ class BaseListableView(ListView):
         if self.get_extra() and 'select' in self.get_extra() and field in self.get_extra()['select']:
             queryset = queryset.extra(select=self.get_extra()['select'])
 
-        filters = [f if f != (None, None) else (NONEORNULL, 'None') for f in queryset.values_list(field, field).order_by(field)]
+        ordering = self.order_fields.get(field, field)
+        if ordering in (False, True, None):
+            ordering = field
+        filters = [
+            f if f != (None, None) else (NONEORNULL, 'None')
+            for f in queryset.values_list(field, field).order_by(ordering)
+        ]
 
         return filters
 

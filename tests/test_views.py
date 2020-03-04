@@ -5,7 +5,7 @@ import datetime
 import pytz
 import sys
 
-from django.conf import settings
+from django.conf import global_settings as settings
 from django.db.models import Q
 from django.test import Client, TestCase
 from django.urls import reverse

@@ -1,12 +1,11 @@
 
-from django.db import models
+import radar
+
 from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
-
-
 from django.contrib.contenttypes.models import ContentType
+from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext as _
-import radar
 
 
 ACTIVE = 'active'
@@ -115,15 +114,16 @@ class Staff(models.Model):
 
     is_manager = models.BooleanField(default=False)
 
-    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, blank=True)
-    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
-    contract_type = models.ForeignKey(ContractType, on_delete=models.SET_NULL, null=True, blank=True)
+    position = models.ForeignKey(Position, on_delete=models.CASCADE)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    contract_type = models.ForeignKey(ContractType, on_delete=models.CASCADE)
 
     date_hired = models.DateTimeField(default=add_a_datetime)
     last_incident = models.DateField(default=add_a_date)
 
     limit = models.Q(app_label='staff', model='genericmodela') | models.Q(app_label='staff', model='genericmodelb')
-    content_type = models.ForeignKey(ContentType, limit_choices_to=limit, on_delete=models.SET_NULL, null=True, blank=True)
+    content_type = models.ForeignKey(ContentType, limit_choices_to=limit, on_delete=models.CASCADE)
+
     object_id = models.PositiveIntegerField()
     generic_object = GenericForeignKey("content_type", "object_id")
 

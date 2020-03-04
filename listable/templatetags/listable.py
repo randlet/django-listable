@@ -1,11 +1,9 @@
-from datetime import datetime
-import importlib
+
 import json
 
 from django import template
-from django.urls import resolve, reverse
-from django.db.models import FieldDoesNotExist
 from django.templatetags.static import static
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 
 from .. import settings, utils
@@ -21,10 +19,6 @@ from ..views import (
     THIS_WEEK,
     THIS_YEAR,
     TODAY,
-    basestring,
-    bytes,
-    str,
-    unicode,
 )
 
 register = template.Library()
@@ -64,7 +58,7 @@ def listable_js(): #pragma: nocover
 
 
 def values_to_dt(values):
-    return [{"value": unicode(x[0]), "label": unicode(x[1])} for x in utils.unique(values)]
+    return [{"value": str(x[0]), "label": str(x[1])} for x in utils.unique(values)]
 
 
 @register.filter(name="header")
