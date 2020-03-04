@@ -1,6 +1,6 @@
 import importlib
 
-from django.core.urlresolvers import reverse, resolve, get_script_prefix
+from django.urls import reverse, resolve, get_script_prefix
 import django.db.models.fields
 
 BOOL_TYPE = django.db.models.fields.BooleanField().get_internal_type()

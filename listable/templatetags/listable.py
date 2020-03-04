@@ -3,7 +3,7 @@ import importlib
 import json
 
 from django import template
-from django.core.urlresolvers import resolve, reverse
+from django.urls import resolve, reverse
 from django.db.models import FieldDoesNotExist
 from django.templatetags.static import static
 from django.utils.safestring import mark_safe

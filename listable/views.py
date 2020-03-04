@@ -2,11 +2,11 @@ import datetime
 import json
 
 from django.conf import settings
-from django.core.urlresolvers import resolve
 from django.db.models import Q
 import django.db.models.fields
 from django.http import Http404, HttpResponse
 from django.template.loader import get_template
+from django.urls import resolve
 from django.utils import formats
 from django.utils.translation import ugettext as _
 from django.views.generic import ListView
