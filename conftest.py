@@ -39,8 +39,8 @@ settings.configure(
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
             'DIRS': [
-                os.path.join("listable-demo", "listable_demo", 'templates'),
-                os.path.join("listable-demo", "listable_demo", "staff", 'templates'),
+                os.path.join("listable_demo", "listable_demo", 'templates'),
+                os.path.join("listable_demo", "listable_demo", "staff", 'templates'),
             ],
             'APP_DIRS': True,
             'OPTIONS': {
