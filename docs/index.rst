@@ -413,8 +413,8 @@ Add a css class to the datatables column filter inputs e.g.::
 A Complete Example
 ==================
 
-This is a complete example of a `django-listable` table. It is included
-as a demo app under the django-listable/listable-demo/
+This is a complete example of a `django_listable` table. It is included
+as a demo app under the django-listable/listable_demo/
 
 models.py
 ---------
