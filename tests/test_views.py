@@ -1,19 +1,19 @@
-import sys
-sys.path.append("listable-demo")
 
+import codecs
 import json
 import datetime
+import pytz
+import sys
 
 from django.conf import settings
-from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.test import Client, TestCase
-import pytz
+from django.urls import reverse
 
+sys.path.append("listable_demo")
 from staff.models import Staff, INACTIVE
 from listable import settings as lisettings
 
-import codecs
 _reader = codecs.getreader("utf-8")
 
 cur_tz = pytz.timezone(settings.TIME_ZONE)

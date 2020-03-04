@@ -6,4 +6,4 @@ pytest-cov==2.6.0
 pytest-django==3.4.3
 pytz
 radar==0.3
-six
+six==1.14.0

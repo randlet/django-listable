@@ -1,6 +1,8 @@
 from django.test import TestCase
 from mock import Mock
+import sys
 
+sys.path.append("listable_demo")
 from listable import utils
 from staff.views import StaffList
 

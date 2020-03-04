@@ -1,7 +1,7 @@
 import os
 import sys
 from optparse import OptionParser
-sys.path.append("listable-demo")
+sys.path.append("listable_demo")
 import django
 
 try:
@@ -34,13 +34,20 @@ try:
         #    'django.template.loaders.filesystem.Loader',
         #    # 'django.template.loaders.eggs.Loader',
         #),
+        MIDDLEWARE=(
+            'django.middleware.common.CommonMiddleware',
+            'django.contrib.sessions.middleware.SessionMiddleware',
+            'django.middleware.csrf.CsrfViewMiddleware',
+            'django.contrib.auth.middleware.AuthenticationMiddleware',
+            'django.contrib.messages.middleware.MessageMiddleware'
+        ),
 
         TEMPLATES=[
             {
                 'BACKEND': 'django.template.backends.django.DjangoTemplates',
                 'DIRS': [
-                    os.path.join("listable-demo", "listable_demo", 'templates'),
-                    os.path.join("listable-demo", "staff", 'templates'),
+                    os.path.join("listable_demo", "listable_demo", 'templates'),
+                    os.path.join("listable_demo", "staff", 'templates'),
                 ],
                 'APP_DIRS': True,
                 'OPTIONS': {
@@ -60,7 +67,7 @@ try:
             },
         ],
         LISTABLE_PAGINATE_BY=10,
-        FIXTURE_DIRS=("listable-demo",),
+        FIXTURE_DIRS=("listable_demo",),
         SITE_ID=1,
         NOSE_ARGS=['-s', '--with-coverage', '--cover-package=listable'],
     )
