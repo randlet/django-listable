@@ -3,22 +3,18 @@ from functools import reduce
 import json
 from urllib.parse import unquote
 
-from django.conf import global_settings as settings
 from django.db.models import Q
 import django.db.models.fields
 from django.http import Http404, HttpResponse
 from django.template.loader import get_template
 from django.urls import resolve
-from django.utils import formats
+from django.utils import formats, timezone
 from django.utils.translation import ugettext as _
 from django.views.generic import ListView
-from pytz import timezone
 import six
 
 from . import settings as li_settings
 from . import utils
-
-cur_tz = timezone(settings.TIME_ZONE)
 
 d_version = django.get_version().split('.')
 d_version_old = d_version[0] == '1' and int(d_version[1]) < 8
@@ -275,6 +271,8 @@ class BaseListableView(ListView):
         This method is awful :(
         """
 
+        cur_tz = timezone.get_current_timezone()
+
         for col_num, field in enumerate(self.fields):
 
             search_term = self.search_filters.get("sSearch_%d" % col_num, None)
@@ -299,22 +297,22 @@ class BaseListableView(ListView):
                 elif widget == DATE_RANGE:
                     start = datetime.datetime.strptime(search_term.split(' - ')[0], '%d %b %Y').replace(hour=0, minute=0, second=0)
                     end = datetime.datetime.strptime(search_term.split(' - ')[1], '%d %b %Y').replace(hour=23, minute=59, second=59)
-                    start = start.replace(tzinfo=cur_tz)
-                    end = end.replace(tzinfo=cur_tz)
+                    start = cur_tz.localize(start)
+                    end = cur_tz.localize(end)
                     search_term = (start, end)
 
                 elif widget == DATE:
                     try:
                         start = datetime.datetime.strptime(search_term.split('-')[0], '%a %b %d %Y %H:%M:%S %Z').replace(hour=0, minute=0, second=0)
                         end = datetime.datetime.strptime(search_term.split('-')[0], '%a %b %d %Y %H:%M:%S %Z').replace(hour=23, minute=59, second=59)
-                        start = start.replace(tzinfo=cur_tz)
-                        end = end.replace(tzinfo=cur_tz)
+                        start = cur_tz.localize(start)
+                        end = cur_tz.localize(end)
                         search_term = (start, end)
                     except ValueError:
                         start = datetime.datetime.strptime(search_term, '%d %b %Y').replace(hour=0, minute=0, second=0)
                         end = datetime.datetime.strptime(search_term, '%d %b %Y').replace(hour=23, minute=59, second=59)
-                        start = start.replace(tzinfo=cur_tz)
-                        end = end.replace(tzinfo=cur_tz)
+                        start = cur_tz.localize(start)
+                        end = cur_tz.localize(end)
                         search_term = (start, end)
 
             has_none = False

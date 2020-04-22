@@ -1,22 +1,22 @@
-import sys
-sys.path.append("listable-demo")
-
-import json
+import codecs
 import datetime
+import json
+import sys
 
-from django.conf import global_settings as settings
 from django.db.models import Q
 from django.test import Client, TestCase
 from django.urls import reverse
-import pytz
-
-from staff.models import Staff, INACTIVE
+from django.utils import timezone
 from listable import settings as lisettings
 
-import codecs
-_reader = codecs.getreader("utf-8")
+from staff.models import INACTIVE, Staff
 
-cur_tz = pytz.timezone(settings.TIME_ZONE)
+sys.path.append("listable-demo")
+
+
+
+
+_reader = codecs.getreader("utf-8")
 
 
 class TestViews(TestCase):
@@ -82,9 +82,12 @@ class TestViews(TestCase):
     def test_filter_date(self):
         """Test filtering base on a select_mulit widget"""
 
+        cur_tz = timezone.get_current_timezone()
+
         test_date = '2010-06-10 12:34:56'
         test_staff = Staff.objects.get(pk=10)
-        test_date_obj = datetime.datetime.strptime(test_date, '%Y-%m-%d %H:%M:%S').replace(tzinfo=cur_tz)
+        test_date_obj = cur_tz.localize(datetime.datetime.strptime(test_date, '%Y-%m-%d %H:%M:%S'))
+
         test_staff.date_hired = test_date_obj
         test_staff.save()
 
