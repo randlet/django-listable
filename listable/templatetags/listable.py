@@ -22,36 +22,38 @@ from ..views import (
 
 register = template.Library()
 
+DATATABLES_SCRIPTS = [
+    '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.js'),
+    '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.columnFilter.js'),
+    '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.searchPlugins.js'),
+    '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.bootstrap.js'),
+    '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.sort.js'),
+    '<script src="%s" type="text/javascript"></script>' % static('listable/js/bootstrap.multiselect.js'),
+    '<script src="%s" type="text/javascript"></script>' % static('listable/js/bootstrap-datepicker.min.js'),
+    '<script src="%s" type="text/javascript"></script>' % static('listable/js/moment.min.js'),
+    '<script src="%s" type="text/javascript"></script>' % static('listable/js/daterangepicker.js')
+]
+
+
+DATATABLES_CSS = [
+    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/jquery.dataTables.css')),
+    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/jquery.dataTables.bootstrap.css')),
+    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/bootstrap.multiselect.css')),
+    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/bootstrap-datepicker.min.css')),
+    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/daterangepicker.css')),
+    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/font-awesome.min.css')),
+    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/listable.css'))
+]
+
 
 @register.simple_tag
 def listable_css():
-
-    css = [
-        '<link href="{% static "listable/css/jquery.dataTables.css" %}" rel="stylesheet">',
-        '<link href="{% static "listable/css/jquery.dataTables.bootstrap.css" %}" rel="stylesheet">',
-        '<link href="{% static "listable/css/bootstrap.multiselect.css" %}" rel="stylesheet">',
-        '<link href="{% static "listable/css/bootstrap-datepicker.min.css" %}" rel="stylesheet">',
-        '<link href="{% static "listable/css/daterangepicker.css" %}" rel="stylesheet">',
-        '<link href="{% static "listable/css/font-awesome.min.css" %}" rel="stylesheet">',
-        '<link href="{% static "listable/css/listable.css" %}" rel="stylesheet">',
-    ]
-    return mark_safe('\n'.join(css))
+    return mark_safe('\n'.join(DATATABLES_CSS))
 
 
 @register.simple_tag
-def listable_js(): #pragma: nocover
-    scripts = [
-        '<script src="{% static "listable/js/jquery.dataTables.js" %}" type="text/javascript"></script>',
-        '<script src="{% static "listable/js/jquery.dataTables.columnFilter.js" %}" type="text/javascript"></script>',
-        '<script src="{% static "listable/js/jquery.dataTables.searchPlugins.js" %}" type="text/javascript"></script>',
-        '<script src="{% static "listable/js/jquery.dataTables.bootstrap.js" %}" type="text/javascript"></script>',
-        '<script src="{% static "listable/js/jquery.dataTables.sort.js" %}" type="text/javascript"></script>',
-        '<script src="{% static "listable/js/bootstrap.multiselect.js" %}" type="text/javascript"></script>',
-        '<script src="{% static "listable/js/bootstrap-datepicker.min.js" %}" type="text/javascript"></script>',
-        '<script src="{% static "listable/js/moment.min.js" %}" type="text/javascript"></script>',
-        '<script src="{% static "listable/js/daterangepicker.js" %}" type="text/javascript"></script>',
-    ]
-    return mark_safe('\n'.join(scripts))
+def listable_js():  #pragma: nocover
+    return mark_safe('\n'.join(DATATABLES_SCRIPTS))
 
 
 def values_to_dt(values):
