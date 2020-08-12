@@ -1,8 +1,8 @@
 import json
 
 from django import template
-from django.urls import reverse
 from django.templatetags.static import static
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 
 from .. import settings, utils
@@ -22,38 +22,36 @@ from ..views import (
 
 register = template.Library()
 
-DATATABLES_SCRIPTS = [
-    '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.js'),
-    '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.columnFilter.js'),
-    '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.searchPlugins.js'),
-    '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.bootstrap.js'),
-    '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.sort.js'),
-    '<script src="%s" type="text/javascript"></script>' % static('listable/js/bootstrap.multiselect.js'),
-    '<script src="%s" type="text/javascript"></script>' % static('listable/js/bootstrap-datepicker.min.js'),
-    '<script src="%s" type="text/javascript"></script>' % static('listable/js/moment.min.js'),
-    '<script src="%s" type="text/javascript"></script>' % static('listable/js/daterangepicker.js')
-]
-
-
-DATATABLES_CSS = [
-    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/jquery.dataTables.css')),
-    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/jquery.dataTables.bootstrap.css')),
-    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/bootstrap.multiselect.css')),
-    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/bootstrap-datepicker.min.css')),
-    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/daterangepicker.css')),
-    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/font-awesome.min.css')),
-    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/listable.css'))
-]
-
 
 @register.simple_tag
 def listable_css():
-    return mark_safe('\n'.join(DATATABLES_CSS))
+
+    css = [
+        '<link href="{% static "listable/css/jquery.dataTables.css" %}" rel="stylesheet">',
+        '<link href="{% static "listable/css/jquery.dataTables.bootstrap.css" %}" rel="stylesheet">',
+        '<link href="{% static "listable/css/bootstrap.multiselect.css" %}" rel="stylesheet">',
+        '<link href="{% static "listable/css/bootstrap-datepicker.min.css" %}" rel="stylesheet">',
+        '<link href="{% static "listable/css/daterangepicker.css" %}" rel="stylesheet">',
+        '<link href="{% static "listable/css/font-awesome.min.css" %}" rel="stylesheet">',
+        '<link href="{% static "listable/css/listable.css" %}" rel="stylesheet">',
+    ]
+    return mark_safe('\n'.join(css))
 
 
 @register.simple_tag
 def listable_js(): #pragma: nocover
-    return mark_safe('\n'.join(DATATABLES_SCRIPTS))
+    scripts = [
+        '<script src="{% static "listable/js/jquery.dataTables.js" %}" type="text/javascript"></script>',
+        '<script src="{% static "listable/js/jquery.dataTables.columnFilter.js" %}" type="text/javascript"></script>',
+        '<script src="{% static "listable/js/jquery.dataTables.searchPlugins.js" %}" type="text/javascript"></script>',
+        '<script src="{% static "listable/js/jquery.dataTables.bootstrap.js" %}" type="text/javascript"></script>',
+        '<script src="{% static "listable/js/jquery.dataTables.sort.js" %}" type="text/javascript"></script>',
+        '<script src="{% static "listable/js/bootstrap.multiselect.js" %}" type="text/javascript"></script>',
+        '<script src="{% static "listable/js/bootstrap-datepicker.min.js" %}" type="text/javascript"></script>',
+        '<script src="{% static "listable/js/moment.min.js" %}" type="text/javascript"></script>',
+        '<script src="{% static "listable/js/daterangepicker.js" %}" type="text/javascript"></script>',
+    ]
+    return mark_safe('\n'.join(scripts))
 
 
 def values_to_dt(values):
@@ -69,6 +67,8 @@ def get_dt_ordering(cls):
 
     orderings = []
 
+    fields = cls.get_fields()
+
     for idx, field in enumerate(cls.order_by):
         if field[0] == '-':
             direction = "desc"
@@ -77,7 +77,7 @@ def get_dt_ordering(cls):
             direction = "asc"
 
         try:
-            orderings.append([cls.fields.index(field), direction])
+            orderings.append([fields.index(field), direction])
         except (ValueError, IndexError):
             raise ValueError("The field '{field}' is an invalid listable order_by value. It is not present in the listable fields definition.".format(field=field))
 
@@ -112,7 +112,7 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
 
         table_id = "#" + view_instance.get_table_id()
 
-        for field in cls.fields:
+        for field in cls.get_fields():
 
             # try:
             #     mdl_field = utils.find_field(mdl, field)
