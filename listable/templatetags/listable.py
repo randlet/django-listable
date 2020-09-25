@@ -65,11 +65,11 @@ def header(value):
     return value.replace("__", " ").replace("_", " ").title()
 
 
-def get_dt_ordering(cls):
+def get_dt_ordering(cls, request):
 
     orderings = []
 
-    fields = cls.get_fields()
+    fields = cls().get_fields(request=request)
 
     for idx, field in enumerate(cls.order_by):
         if field[0] == '-':
@@ -114,7 +114,7 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
 
         table_id = "#" + view_instance.get_table_id()
 
-        for field in cls.get_fields():
+        for field in cls().get_fields(request=context['request']):
 
             # try:
             #     mdl_field = utils.find_field(mdl, field)
@@ -185,7 +185,7 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
         "autoWidth": auto_width,
         "displayLength": cls.paginate_by,
         "DOM": dom,
-        "order": get_dt_ordering(cls),
+        "order": get_dt_ordering(cls, request=context['request']),
         "columnDefs": column_defs,
         "columnFilterDefs": column_filter_defs,
         "cssTableClass": css_table_class,

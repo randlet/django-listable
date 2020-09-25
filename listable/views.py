@@ -82,18 +82,18 @@ class BaseListableView(ListView):
 
         super(BaseListableView, self).__init__(**kwargs)
 
-        for field in self.get_fields():
-            if field not in self.widgets:
-                if field in self.search_fields and not self.search_fields[field]:
-                    self.widgets[field] = None
-                else:
-                    self.widgets[field] = TEXT
-
     def get(self, request, *args, **kwargs):
         """
         return regular list view on page load and then json data on
         datatables ajax request.
         """
+
+        for field in self.get_fields(request=request):
+            if field not in self.widgets:
+                if field in self.search_fields and not self.search_fields[field]:
+                    self.widgets[field] = None
+                else:
+                    self.widgets[field] = TEXT
 
         self.search_filters = {}
 
@@ -199,7 +199,7 @@ class BaseListableView(ListView):
         context = super(BaseListableView, self).get_context_data(*args, **kwargs)
         template = get_template("listable/_table.html")
 
-        headers = [self.get_header_for_field(f) for f in self.get_fields()]
+        headers = [self.get_header_for_field(f) for f in self.get_fields(request=self.request)]
         table_context = {
             'headers': headers,
             'table_id': self.get_table_id().replace(":", "_").replace(".", "_"),
@@ -214,8 +214,7 @@ class BaseListableView(ListView):
 
         return context
 
-    @classmethod
-    def get_fields(self):
+    def get_fields(self, request=None):
         return self.fields
 
     def get_header_for_field(self, field):
@@ -277,7 +276,7 @@ class BaseListableView(ListView):
 
         cur_tz = timezone.get_current_timezone()
 
-        for col_num, field in enumerate(self.get_fields()):
+        for col_num, field in enumerate(self.get_fields(request=self.request)):
 
             search_term = self.search_filters.get("sSearch_%d" % col_num, None)
             filtering = self.search_fields.get(field, True)
@@ -404,7 +403,7 @@ class BaseListableView(ListView):
             order_cols.append((col, direction))
 
         orderings = []
-        fields = self.get_fields()
+        fields = self.get_fields(request=self.request)
         for colnum, direction in order_cols:
             field = fields[colnum]
             ordering = self.order_fields.get(field, field)
@@ -427,7 +426,7 @@ class BaseListableView(ListView):
 
     def get_rows(self, objects):
         rows = []
-        fields = self.get_fields()
+        fields = self.get_fields(request=self.request)
         for obj in objects:
             rows.append([self.format_col(field, obj) for field in fields])
         return rows
