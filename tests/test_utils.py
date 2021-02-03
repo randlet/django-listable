@@ -1,7 +1,8 @@
-from django.test import TestCase
-from mock import Mock
+from unittest.mock import Mock
 
+from django.test import TestCase
 from listable import utils
+
 from staff.views import StaffList
 
 

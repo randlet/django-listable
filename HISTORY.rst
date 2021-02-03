@@ -3,6 +3,16 @@
 History
 -------
 
+0.5.0 (2021-02-03)
+++++++++++++++++++
+
+* Fixed a same site cookie issue
+* Fixed a bug where select dropdowns were being truncated by bottom of page
+* Added a get_fields method to set fields dynamically
+* Fix an issue with incorrect timezones
+* Add support for Django 2+
+
+
 0.4.3 (2017-05-11)
 ++++++++++++++++++
 Fix values_to_dt to allow unicode
@@ -16,7 +26,7 @@ Add fix for when using FORCE_SCRIPT_NAME setting
 Update to support Django 1.8-1.10 and Python 2.7-3.5
 
 0.3.10 (2016-11-08)
-++++++++++++++++++
++++++++++++++++++++
 Cast search term to lower case if case insensitive search requested to allow
 easier filtering with extra queries.
 
@@ -49,7 +59,7 @@ Fix filtering and count queries for django-mssql
 * Fix issue with boolean field filtering
 
 0.2.10 (2014-12-16)
-++++++++++++++++++
++++++++++++++++++++
 * Fix issue with pagination type
 
 0.2.9 (2014-12-15)
