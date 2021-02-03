@@ -1,18 +1,24 @@
 import json
-import importlib
 
-from datetime import datetime
 from django import template
-from django.core.urlresolvers import reverse, resolve
-from django.utils.safestring import mark_safe
-from django.db.models import FieldDoesNotExist
 from django.templatetags.static import static
+from django.urls import reverse
+from django.utils.safestring import mark_safe
 
-from .. import utils
-from .. views import SELECT, TEXT, SELECT_MULTI, DATE, DATE_RANGE, SELECT_MULTI_FROM_MULTI
-from .. views import TODAY, THIS_WEEK, THIS_MONTH, THIS_QUARTER, THIS_YEAR
-from .. views import basestring, bytes, str, unicode
-from .. import settings
+from .. import settings, utils
+from ..views import (
+    DATE,
+    DATE_RANGE,
+    SELECT,
+    SELECT_MULTI,
+    SELECT_MULTI_FROM_MULTI,
+    TEXT,
+    THIS_MONTH,
+    THIS_QUARTER,
+    THIS_WEEK,
+    THIS_YEAR,
+    TODAY,
+)
 
 register = template.Library()
 
@@ -46,12 +52,12 @@ def listable_css():
 
 
 @register.simple_tag
-def listable_js(): #pragma: nocover
+def listable_js():  #pragma: nocover
     return mark_safe('\n'.join(DATATABLES_SCRIPTS))
 
 
 def values_to_dt(values):
-    return [{"value": unicode(x[0]), "label": unicode(x[1])} for x in utils.unique(values)]
+    return [{"value": str(x[0]), "label": str(x[1])} for x in utils.unique(values)]
 
 
 @register.filter(name="header")
@@ -59,9 +65,11 @@ def header(value):
     return value.replace("__", " ").replace("_", " ").title()
 
 
-def get_dt_ordering(cls):
+def get_dt_ordering(cls, request):
 
     orderings = []
+
+    fields = cls().get_fields(request=request)
 
     for idx, field in enumerate(cls.order_by):
         if field[0] == '-':
@@ -71,7 +79,7 @@ def get_dt_ordering(cls):
             direction = "asc"
 
         try:
-            orderings.append([cls.fields.index(field), direction])
+            orderings.append([fields.index(field), direction])
         except (ValueError, IndexError):
             raise ValueError("The field '{field}' is an invalid listable order_by value. It is not present in the listable fields definition.".format(field=field))
 
@@ -83,6 +91,8 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
     view_args = context.get('args', None)
     view_kwargs = context.get('kwargs', None)
     view_instance = context.get('view', None)
+
+    table_id = "#listable-table-" + view_name
 
     if save_state is None:
         save_state = settings.LISTABLE_STATE_SAVE
@@ -102,7 +112,9 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
     if view_instance:
         qs = view_instance.get_queryset()
 
-        for field in cls.fields:
+        table_id = "#" + view_instance.get_table_id()
+
+        for field in cls().get_fields(request=context['request']):
 
             # try:
             #     mdl_field = utils.find_field(mdl, field)
@@ -165,7 +177,7 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
     url = reverse(view_name, args=view_args, kwargs=view_kwargs)
 
     opts = {
-        "tableId": "#listable-table-" + view_name.replace(":", "_"),
+        "tableId": table_id.replace(":", "_").replace(".", "_"),
         "paginationType": pagination_type,
         "stateSave": save_state,
         "url": url,
@@ -173,12 +185,14 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
         "autoWidth": auto_width,
         "displayLength": cls.paginate_by,
         "DOM": dom,
-        "order": get_dt_ordering(cls),
+        "order": get_dt_ordering(cls, request=context['request']),
         "columnDefs": column_defs,
         "columnFilterDefs": column_filter_defs,
         "cssTableClass": css_table_class,
         "cssInputClass": css_input_class,
-        "cookie": "{0}_listable-table-{1}_".format(settings.DT_COOKIE_NAME, view_name)
+        "cookie": settings.cookie_name(context['request'], view_name),
+        "cookiePrefix": settings.cookie_prefix(context['request']),
+        "filteringDelay": cls.filter_delay,
     }
 
     if settings.LISTABLE_LANGUAGE:

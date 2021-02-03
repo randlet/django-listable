@@ -132,8 +132,10 @@
                     fnOnFiltered();
                 });
             } else {
-                input.keyup(function () {
+                var delayTimer = null;
+                var doSearch = function () {
                     if (oTable.fnSettings().oFeatures.bServerSide && iFilterLength != 0) {
+                        clearTimeout(delayTimer);
                         //If filter length is set in the server-side processing mode
                         //Check has the user entered at least iFilterLength new characters
 
@@ -156,6 +158,16 @@
                     /* Filter on the column (the index) of this element */
                     oTable.fnFilter(this.value, _fnColumnIndex(index), regex, smart); //Issue 37
                     fnOnFiltered();
+                };
+                input.keyup(function(){
+                    if (delayTimer){
+                        clearTimeout(delayTimer);
+                        delayTimer = null;
+                    }
+                    var that = this;
+                    delayTimer = setTimeout(function(){
+                        doSearch.call(that);
+                    }, defaults.iFilteringDelay);
                 });
             }
 

@@ -34,6 +34,14 @@ try:
         #    'django.template.loaders.filesystem.Loader',
         #    # 'django.template.loaders.eggs.Loader',
         #),
+        MIDDLEWARE=[
+            'django.middleware.security.SecurityMiddleware',
+            'django.contrib.sessions.middleware.SessionMiddleware',
+            'django.middleware.common.CommonMiddleware',
+            'django.middleware.csrf.CsrfViewMiddleware',
+            'django.contrib.auth.middleware.AuthenticationMiddleware',
+            'django.contrib.messages.middleware.MessageMiddleware'
+        ],
 
         TEMPLATES=[
             {
@@ -64,7 +72,6 @@ try:
         SITE_ID=1,
         NOSE_ARGS=['-s', '--with-coverage', '--cover-package=listable'],
     )
-
 
     from django_nose import NoseTestSuiteRunner
 except ImportError as e:

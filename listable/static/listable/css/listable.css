@@ -15,3 +15,8 @@
     border: 1px solid #ccc;
     width: 100%
 }
+
+input.search_init {
+  color: rgba(0, 0, 0, 0);
+
+}

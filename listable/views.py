@@ -1,48 +1,29 @@
 import datetime
+from functools import reduce
 import json
-import urllib
-import re
-import six
+from urllib.parse import unquote
 
-from django.core.exceptions import FieldError
-from django.core.urlresolvers import resolve
-from django.db import DatabaseError, connection
 from django.db.models import Q
 import django.db.models.fields
-from django.http import HttpResponse, Http404
+from django.http import Http404, HttpResponse
 from django.template.loader import get_template
-from django.utils import formats
+from django.urls import resolve
+from django.utils import formats, timezone
 from django.utils.translation import ugettext as _
 from django.views.generic import ListView
+import six
 
-from . import utils
 from . import settings as li_settings
+from . import utils
 
 d_version = django.get_version().split('.')
 d_version_old = d_version[0] == '1' and int(d_version[1]) < 8
 if d_version_old:
     from django.template import Context
 
-try:
-    unicode = unicode
-except (ImportError, NameError):
-    # 'unicode' is undefined, must be Python 3
-    from urllib.parse import unquote
-    from functools import reduce
-    str = str
-    unicode = str
-    bytes = bytes
-    basestring = (str, bytes)
-else:
-    from urllib import unquote
-    # 'unicode' exists, must be Python 2
-    str = str
-    unicode = unicode
-    bytes = str
-    basestring = basestring
+basestring = (str, bytes)
 
 
-DT_COOKIE_NAME = "SpryMedia_DataTables"
 TEXT = "text"
 SELECT = "select"
 SELECT_MULTI = "selectmulti"
@@ -88,6 +69,7 @@ class BaseListableView(ListView):
     multi_separator = ', '
 
     paginate_by = li_settings.LISTABLE_PAGINATE_BY
+    filter_delay = li_settings.LISTABLE_FILTER_DELAY
 
     select_related = ()
     prefetch_related = ()
@@ -100,18 +82,18 @@ class BaseListableView(ListView):
 
         super(BaseListableView, self).__init__(**kwargs)
 
-        for field in self.fields:
-            if field not in self.widgets:
-                if field in self.search_fields and not self.search_fields[field]:
-                    self.widgets[field] = None
-                else:
-                    self.widgets[field] = TEXT
-
     def get(self, request, *args, **kwargs):
         """
         return regular list view on page load and then json data on
         datatables ajax request.
         """
+
+        for field in self.get_fields(request=request):
+            if field not in self.widgets:
+                if field in self.search_fields and not self.search_fields[field]:
+                    self.widgets[field] = None
+                else:
+                    self.widgets[field] = TEXT
 
         self.search_filters = {}
 
@@ -135,7 +117,6 @@ class BaseListableView(ListView):
 
         if self.prefetch_related:
             self.object_list = self.object_list.prefetch_related(*self.prefetch_related)
-
 
         # Some Django backends can choke when paginating a query
         # that has an extra clause on it (the count() call fails)
@@ -169,8 +150,8 @@ class BaseListableView(ListView):
             # When pagination is enabled and object_list is a queryset,
             # it's better to do a cheap query than to load the unpaginated
             # queryset in memory.
-            if (self.get_paginate_by(self.object_list) is not None
-                    and hasattr(self.object_list, 'exists')):
+            if (self.get_paginate_by(self.object_list) is not None and
+                    hasattr(self.object_list, 'exists')):
                 is_empty = not self.object_list.exists()
             else:
                 is_empty = len(self.object_list) == 0
@@ -201,10 +182,7 @@ class BaseListableView(ListView):
         }
         return context
 
-    def get_context_data(self, *args, **kwargs):
-        """ Context data for full page request """
-        context = super(BaseListableView, self).get_context_data(*args, **kwargs)
-        template = get_template("listable/_table.html")
+    def get_table_id(self):
 
         # every table needs a unique ID to play well with sticky cookies
         resolve_match = resolve(self.request.path_info)
@@ -212,17 +190,32 @@ class BaseListableView(ListView):
         if resolve_match.namespace:
             current_url = "{0}_{1}".format(resolve_match.namespace, current_url)
 
-        table_id = "listable-table-" + current_url
+        table_id = ("listable-table-" + current_url)
 
-        headers = [self.get_header_for_field(f) for f in self.fields]
+        return table_id
+
+    def get_context_data(self, *args, **kwargs):
+        """ Context data for full page request """
+        context = super(BaseListableView, self).get_context_data(*args, **kwargs)
+        template = get_template("listable/_table.html")
+
+        headers = [self.get_header_for_field(f) for f in self.get_fields(request=self.request)]
+        table_context = {
+            'headers': headers,
+            'table_id': self.get_table_id().replace(":", "_").replace(".", "_"),
+            'request': self.request,
+        }
         if d_version_old:
-            context['listable_table'] = template.render(Context({'headers': headers, 'table_id': table_id}))
-        else:
-            context['listable_table'] = template.render({'headers': headers, 'table_id': table_id})
+            table_context = Context(table_context)
+
+        context['listable_table'] = template.render(table_context)
         context['args'] = self.args
         context['kwargs'] = self.kwargs
 
         return context
+
+    def get_fields(self, request=None):
+        return self.fields
 
     def get_header_for_field(self, field):
         try:
@@ -265,7 +258,13 @@ class BaseListableView(ListView):
         if self.get_extra() and 'select' in self.get_extra() and field in self.get_extra()['select']:
             queryset = queryset.extra(select=self.get_extra()['select'])
 
-        filters = [f if f != (None, None) else (NONEORNULL, 'None') for f in queryset.values_list(field, field).order_by(field)]
+        ordering = self.order_fields.get(field, field)
+        if ordering in (False, True, None):
+            ordering = field
+        filters = [
+            f if f != (None, None) else (NONEORNULL, 'None')
+            for f in queryset.values_list(field, field).order_by(ordering)
+        ]
 
         return filters
 
@@ -275,7 +274,9 @@ class BaseListableView(ListView):
         This method is awful :(
         """
 
-        for col_num, field in enumerate(self.fields):
+        cur_tz = timezone.get_current_timezone()
+
+        for col_num, field in enumerate(self.get_fields(request=self.request)):
 
             search_term = self.search_filters.get("sSearch_%d" % col_num, None)
             filtering = self.search_fields.get(field, True)
@@ -299,16 +300,22 @@ class BaseListableView(ListView):
                 elif widget == DATE_RANGE:
                     start = datetime.datetime.strptime(search_term.split(' - ')[0], '%d %b %Y').replace(hour=0, minute=0, second=0)
                     end = datetime.datetime.strptime(search_term.split(' - ')[1], '%d %b %Y').replace(hour=23, minute=59, second=59)
+                    start = cur_tz.localize(start)
+                    end = cur_tz.localize(end)
                     search_term = (start, end)
 
                 elif widget == DATE:
                     try:
                         start = datetime.datetime.strptime(search_term.split('-')[0], '%a %b %d %Y %H:%M:%S %Z').replace(hour=0, minute=0, second=0)
                         end = datetime.datetime.strptime(search_term.split('-')[0], '%a %b %d %Y %H:%M:%S %Z').replace(hour=23, minute=59, second=59)
+                        start = cur_tz.localize(start)
+                        end = cur_tz.localize(end)
                         search_term = (start, end)
                     except ValueError:
                         start = datetime.datetime.strptime(search_term, '%d %b %Y').replace(hour=0, minute=0, second=0)
                         end = datetime.datetime.strptime(search_term, '%d %b %Y').replace(hour=23, minute=59, second=59)
+                        start = cur_tz.localize(start)
+                        end = cur_tz.localize(end)
                         search_term = (start, end)
 
             has_none = False
@@ -399,8 +406,9 @@ class BaseListableView(ListView):
             order_cols.append((col, direction))
 
         orderings = []
+        fields = self.get_fields(request=self.request)
         for colnum, direction in order_cols:
-            field = self.fields[colnum]
+            field = fields[colnum]
             ordering = self.order_fields.get(field, field)
 
             if ordering:
@@ -410,7 +418,7 @@ class BaseListableView(ListView):
                     orderings.append("%s%s" % (direction, ordering))
                 else:
                     try:
-                        #eg ordering=("last_name","first_name", )
+                        # eg ordering=("last_name","first_name", )
                         for o in ordering:
                             orderings.append("%s%s" % (direction, o))
                     except TypeError:
@@ -421,8 +429,9 @@ class BaseListableView(ListView):
 
     def get_rows(self, objects):
         rows = []
+        fields = self.get_fields(request=self.request)
         for obj in objects:
-            rows.append([self.format_col(field, obj) for field in self.fields])
+            rows.append([self.format_col(field, obj) for field in fields])
         return rows
 
     def format_col(self, field, obj):
@@ -494,7 +503,7 @@ class BaseListableView(ListView):
         # columns to sort on
         params["iSortingCols"] = 0  # tally of number of colums to sort on
 
-        for idx, (col, dir_, _) in enumerate(dt_cookie_params["aaSorting"]):
+        for idx, (col, dir_, __) in enumerate(dt_cookie_params["aaSorting"]):
             params["iSortCol_%d" % (idx)] = col
             params["sSortDir_%d" % (idx)] = dir_
             params["iSortingCols"] += 1
@@ -511,10 +520,9 @@ class BaseListableView(ListView):
         cookie_dt_params = None
 
         current_url = resolve(self.request.path_info).url_name
-        cookie_name = "{0}_listable-table-{1}_".format(DT_COOKIE_NAME, current_url)
+        cookie_name = li_settings.cookie_name(self.request, current_url)
         for k, v in self.request.COOKIES.items():
             if k == cookie_name and v:
                 cookie_dt_params = json.loads(unquote(v))
 
         return cookie_dt_params
-

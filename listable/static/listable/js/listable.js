@@ -41,11 +41,12 @@ function listable(moment) {
         aoColumns: Listable.columnDefs,
         aaSorting: Listable.order,
         bFilter: true,
-        sDom: Listable.DOM
+        sDom: Listable.DOM,
+        sCookiePrefix: Listable.cookiePrefix
     }).columnFilter({
         sPlaceHolder: "head:after",
         aoColumns: Listable.columnFilterDefs,
-        iFilteringDelay: 250
+        iFilteringDelay: Listable.filteringDelay
     });
 
     var cookie_obj = JSON.parse(/*window.*/getCookie(Listable.cookie));
@@ -211,7 +212,18 @@ function listable(moment) {
                         .multiselect({
                             includeSelectAllOption: true,
                             numberDisplayed: 1,
-                            nonSelectedText: '------'
+                            nonSelectedText: '------',
+                            onDropdownShown: function(event) {
+                                /* try to ensure the dropdown does not get truncated for long
+                                 * selects and/or small browser windows */
+                                var $menu = $("table ul.multiselect-container.dropdown-menu");
+                                var origMaxHeight = parseInt($menu.css('max-height'), 10);
+                                var selHeight = $(select).height();
+                                var selPos = $(select).parent().offset().top;
+                                var winHeight = $("body").height();
+                                var maxHeight = Math.min(500, winHeight - (selPos + selHeight));
+                                var con = $menu.css('max-height', maxHeight);//.toFixed(0)+'px', 'scroll': 'auto'});
+                            }
                         });
                 } else {
                     $(select).attr('multiple', false).multiselect({});

@@ -10,7 +10,13 @@ LISTABLE_DOM = getattr(settings, "LISTABLE_DOM", '<"row"<"col-sm-6"i><"col-sm-6"
 LISTABLE_PAGINATION_TYPE = getattr(settings, "LISTABLE_PAGINATION_TYPE", "full_numbers")
 LISTABLE_STATE_SAVE = getattr(settings, "LISTABLE_STATE_SAVE", True)
 LISTABLE_PAGINATE_BY = getattr(settings, "LISTABLE_PAGINATE_BY", 10)
+LISTABLE_FILTER_DELAY = getattr(settings, "LISTABLE_FILTER_DELAY", 300)
 LISTABLE_LANGUAGE = getattr(settings, "LISTABLE_LANGUAGE", False)
 
-DT_COOKIE_NAME = "SpryMedia_DataTables"
 
+def cookie_name(request, view_name):
+    return cookie_prefix(request) + "listable-table-{0}_".format(view_name)
+
+
+def cookie_prefix(request):
+    return "dt-{0}_".format(str(request.user.id))

@@ -1,7 +1,1 @@
-Django>=1.8.1,<=1.10
-django-devserver
-coverage>=3.7
-mock>=1.0.1
-nose==1.3.7
-django-nose>=1.4.2
-radar==0.3
+-r requirements/test.txt
