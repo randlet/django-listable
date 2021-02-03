@@ -1,22 +1,13 @@
 Welcome to django-listable's documentation!
-=================================================================
+###########################################
 
 .. image:: https://travis-ci.org/randlet/django-listable.svg?branch=master
     :target: https://travis-ci.org/randlet/django-listable
 
-Contents:
 
-.. toctree::
-   :maxdepth: 3
-
-   contributing
-   authors
-   history
-
-
-=============================
+=====
 About
-=============================
+=====
 
 Listable is a Django package to make the integration of your Django
 models with `Datatables.js <https://datatables.net/>`_ easy.
@@ -95,9 +86,9 @@ Default page size.::
     LISTABLE_PAGINATE_BY = 10
 
 
-========
+=====
 Usage
-========
+=====
 
 There's four steps to using django-listable
 

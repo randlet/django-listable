@@ -32,6 +32,7 @@ setup(
     version=version,
     description='A reusable Django app to make integrations with the DataTables javascript library easy.',
     long_description=readme + '\n\n' + history,
+    long_description_content_type="text/x-rst",
     author='Randle Taylor',
     author_email='randle.taylor@gmail.com',
     url='https://github.com/randlet/django-listable',
