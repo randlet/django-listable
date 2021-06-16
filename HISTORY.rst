@@ -4,6 +4,12 @@
 History
 =======
 
+0.5.1 (2021-06-15)
+------------------
+
+* wrap datatables css/scripts in function so static is not called at import
+
+
 
 0.5.0 (2021-02-03)
 ------------------

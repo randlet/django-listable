@@ -22,38 +22,40 @@ from ..views import (
 
 register = template.Library()
 
-DATATABLES_SCRIPTS = [
-    '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.js'),
-    '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.columnFilter.js'),
-    '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.searchPlugins.js'),
-    '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.bootstrap.js'),
-    '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.sort.js'),
-    '<script src="%s" type="text/javascript"></script>' % static('listable/js/bootstrap.multiselect.js'),
-    '<script src="%s" type="text/javascript"></script>' % static('listable/js/bootstrap-datepicker.min.js'),
-    '<script src="%s" type="text/javascript"></script>' % static('listable/js/moment.min.js'),
-    '<script src="%s" type="text/javascript"></script>' % static('listable/js/daterangepicker.js')
-]
+def get_listable_scripts():
+    return [
+        '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.js'),
+        '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.columnFilter.js'),
+        '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.searchPlugins.js'),
+        '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.bootstrap.js'),
+        '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.dataTables.sort.js'),
+        '<script src="%s" type="text/javascript"></script>' % static('listable/js/bootstrap.multiselect.js'),
+        '<script src="%s" type="text/javascript"></script>' % static('listable/js/bootstrap-datepicker.min.js'),
+        '<script src="%s" type="text/javascript"></script>' % static('listable/js/moment.min.js'),
+        '<script src="%s" type="text/javascript"></script>' % static('listable/js/daterangepicker.js')
+    ]
 
 
-DATATABLES_CSS = [
-    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/jquery.dataTables.css')),
-    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/jquery.dataTables.bootstrap.css')),
-    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/bootstrap.multiselect.css')),
-    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/bootstrap-datepicker.min.css')),
-    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/daterangepicker.css')),
-    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/font-awesome.min.css')),
-    '<link href="{0}" rel="stylesheet">'.format(static('listable/css/listable.css'))
-]
+def get_listable_css():
+    return [
+        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/jquery.dataTables.css')),
+        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/jquery.dataTables.bootstrap.css')),
+        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/bootstrap.multiselect.css')),
+        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/bootstrap-datepicker.min.css')),
+        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/daterangepicker.css')),
+        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/font-awesome.min.css')),
+        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/listable.css'))
+    ]
 
 
 @register.simple_tag
 def listable_css():
-    return mark_safe('\n'.join(DATATABLES_CSS))
+    return mark_safe('\n'.join(get_listable_css()))
 
 
 @register.simple_tag
 def listable_js():  #pragma: nocover
-    return mark_safe('\n'.join(DATATABLES_SCRIPTS))
+    return mark_safe('\n'.join(get_listable_scripts()))
 
 
 def values_to_dt(values):
@@ -210,7 +212,7 @@ def listable(context, view_name, dom="", save_state=None, pagination_type="", cs
 
     scripts = ['<script type="text/javascript">var Listable = {0};</script>'.format(json.dumps(opts))]
     if not requirejs:
-        scripts += DATATABLES_SCRIPTS
+        scripts += get_listable_scripts()
         scripts += ['<script src="{0}" type="text/javascript"></script>'.format(static('listable/js/listable.js'))]
 
     return mark_safe("\n".join(scripts))
