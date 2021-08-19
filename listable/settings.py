@@ -12,6 +12,7 @@ LISTABLE_STATE_SAVE = getattr(settings, "LISTABLE_STATE_SAVE", True)
 LISTABLE_PAGINATE_BY = getattr(settings, "LISTABLE_PAGINATE_BY", 10)
 LISTABLE_FILTER_DELAY = getattr(settings, "LISTABLE_FILTER_DELAY", 300)
 LISTABLE_LANGUAGE = getattr(settings, "LISTABLE_LANGUAGE", False)
+LISTABLE_ENCODING = getattr(settings, "LISTABLE_ENCODING", "iso-8859-1")
 
 
 def cookie_name(request, view_name):

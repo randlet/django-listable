@@ -3,6 +3,7 @@ from functools import reduce
 import json
 from urllib.parse import unquote
 
+from django.conf import settings
 from django.db.models import Q
 import django.db.models.fields
 from django.http import Http404, HttpResponse
@@ -287,15 +288,16 @@ class BaseListableView(ListView):
             if widget is None:
                 continue
 
+            encoding = self.request.encoding or li_settings.LISTABLE_ENCODING
             if search_term:
                 if widget == SELECT:
-                    search_term = [unquote(search_term).replace('\\', '')]
+                    search_term = [unquote(search_term, encoding=encoding).replace('\\', '')]
 
                 elif widget in [SELECT_MULTI, SELECT_MULTI_FROM_MULTI]:
                     if search_term in ['^(.*)$', '^()$']:
                         search_term = ''
                     else:
-                        search_term = unquote(search_term[2:-2]).replace('\\', '').split('|')
+                        search_term = unquote(search_term[2:-2], encoding=encoding).replace('\\', '').split('|')
 
                 elif widget == DATE_RANGE:
                     start = datetime.datetime.strptime(search_term.split(' - ')[0], '%d %b %Y').replace(hour=0, minute=0, second=0)
@@ -517,12 +519,13 @@ class BaseListableView(ListView):
     def dt_cookie(self):
         """return raw data tables cookie as dict"""
 
+        encoding = self.request.encoding or li_settings.LISTABLE_ENCODING
         cookie_dt_params = None
 
         current_url = resolve(self.request.path_info).url_name
         cookie_name = li_settings.cookie_name(self.request, current_url)
         for k, v in self.request.COOKIES.items():
             if k == cookie_name and v:
-                cookie_dt_params = json.loads(unquote(v))
+                cookie_dt_params = json.loads(unquote(v, encoding=encoding))
 
         return cookie_dt_params
