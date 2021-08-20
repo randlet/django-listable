@@ -4,6 +4,11 @@
 History
 =======
 
+0.5.2 (2021-08-20)
+------------------
+
+* Fix issue with encoding of search filters
+
 0.5.1 (2021-06-15)
 ------------------
 
