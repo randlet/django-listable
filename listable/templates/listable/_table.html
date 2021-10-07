@@ -2,10 +2,10 @@
 <table id="{{table_id}}" class="table">
     <thead>
         <tr>
-            {% for header in headers %}<th>{{header}}</th>{% endfor %}
+            {% for field, header in fields %}<th data-field="{{field }}">{{header}}</th>{% endfor %}
         </tr>
         <tr>
-            {% for header in headers %}<th>{{header}}</th>{% endfor %}
+          {% for field, header in fields %}<th data-field="{{field }}">{{header}}</th>{% endfor %}
         </tr>
     </thead>
     <tbody>
@@ -19,7 +19,7 @@
     </tbody>
     <tfoot>
         <tr>
-            {% for header in headers %}<th>{{header}}</th>{% endfor %}
+          {% for field, header in fields %}<th data-field="{{field }}">{{header}}</th>{% endfor %}
         </tr>
     </tfoot>
 

@@ -200,9 +200,9 @@ class BaseListableView(ListView):
         context = super(BaseListableView, self).get_context_data(*args, **kwargs)
         template = get_template("listable/_table.html")
 
-        headers = [self.get_header_for_field(f) for f in self.get_fields(request=self.request)]
+        fields = [(f, self.get_header_for_field(f)) for f in self.get_fields(request=self.request)]
         table_context = {
-            'headers': headers,
+            'fields': fields,
             'table_id': self.get_table_id().replace(":", "_").replace(".", "_"),
             'request': self.request,
         }

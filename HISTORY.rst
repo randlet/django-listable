@@ -4,6 +4,12 @@
 History
 =======
 
+0.6.0 (2021-10-07)
+------------------
+
+* Add field names to column headers as data attributes
+* Add columnSearch to Listable context object
+
 0.5.2 (2021-08-20)
 ------------------
 
