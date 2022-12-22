@@ -10,7 +10,7 @@ from django.http import Http404, HttpResponse
 from django.template.loader import get_template
 from django.urls import resolve
 from django.utils import formats, timezone
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.views.generic import ListView
 import six
 
@@ -59,6 +59,10 @@ NEXT_YEAR = "Next Year"
 NONEORNULL = 'noneornull'
 
 
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
+
 class BaseListableView(ListView):
 
     fields = ()
@@ -101,7 +105,7 @@ class BaseListableView(ListView):
         # below adapted from Django list view code
         self.object_list = self.get_queryset()
 
-        if not self.request.is_ajax():
+        if not is_ajax(self.request):
             return super(BaseListableView, self).get(request, *args, **kwargs)
 
         self.set_query_params()

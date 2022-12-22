@@ -43,7 +43,11 @@ def class_for_view_name(view_name, args=None, kwargs=None):
     prefix = get_script_prefix()
     view_func = resolve(reverse_.replace(prefix, "/", 1)).func
     module = importlib.import_module(view_func.__module__)
-    return getattr(module, view_func.__name__)
+
+    try:
+        return getattr(module, view_func.__name__)
+    except AttributeError:
+        return getattr(module, view_func.view_class.__name__)
 
 
 def find_field(cls, lookup):
