@@ -1,18 +1,10 @@
-from __future__ import unicode_literals
-
-
-from django.utils.encoding import python_2_unicode_compatible
 from django.db import models
-try:
-    from django.contrib.contenttypes.generic import GenericRelation, GenericForeignKey
-except:
-
-    from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
+from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
 
 
 from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 import radar
 
 
@@ -29,7 +21,6 @@ ACTIVE_CHOICES = (
 ACTIVE_CHOICES_DISPLAY = dict(ACTIVE_CHOICES)
 
 
-@python_2_unicode_compatible
 class Business(models.Model):
 
     name = models.CharField(max_length=255)
@@ -42,7 +33,6 @@ class Business(models.Model):
         return self.name
 
 
-@python_2_unicode_compatible
 class Department(models.Model):
 
     name = models.CharField(max_length=255)
@@ -52,7 +42,6 @@ class Department(models.Model):
         return self.name
 
 
-@python_2_unicode_compatible
 class Position(models.Model):
 
     name = models.CharField(max_length=255)
@@ -61,7 +50,6 @@ class Position(models.Model):
         return self.name
 
 
-@python_2_unicode_compatible
 class ContractType(models.Model):
 
     name = models.CharField(max_length=32)
@@ -85,7 +73,6 @@ class AbstractGeneric(models.Model):
         abstract = True
 
 
-@python_2_unicode_compatible
 class GenericModelA(AbstractGeneric):
 
     class Meta:
@@ -95,7 +82,6 @@ class GenericModelA(AbstractGeneric):
         return self.name
 
 
-@python_2_unicode_compatible
 class GenericModelB(AbstractGeneric):
 
     class Meta:
@@ -120,7 +106,6 @@ def add_a_date():
     return add_a_datetime().date()
 
 
-@python_2_unicode_compatible
 class Staff(models.Model):
 
     first_name = models.CharField(max_length=255, help_text=_("Enter the name of the staff being rounded"))

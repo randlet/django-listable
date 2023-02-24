@@ -3,7 +3,6 @@ from functools import reduce
 import json
 from urllib.parse import unquote
 
-from django.conf import settings
 from django.db.models import Q
 import django.db.models.fields
 from django.http import Http404, HttpResponse
@@ -101,7 +100,8 @@ class BaseListableView(ListView):
         # below adapted from Django list view code
         self.object_list = self.get_queryset()
 
-        if not self.request.is_ajax():
+        is_ajax = self.request.headers.get('x-requested-with') == 'XMLHttpRequest'
+        if not is_ajax:
             return super(BaseListableView, self).get(request, *args, **kwargs)
 
         self.set_query_params()
@@ -110,7 +110,15 @@ class BaseListableView(ListView):
         if self.extra:
             self.object_list = self.object_list.extra(**self.extra)
 
-        self.object_list = self.filter_queryset(self.object_list)
+        has_union = (
+            self.object_list.query.combined_queries and
+            self.object_list.query.combinator == 'union'
+        )
+        if not has_union:
+            # You can not filter a queryset after it has a union performed on it. You
+            # must prefilter your union'ed querysets
+            self.object_list = self.filter_queryset(self.object_list)
+
         self.object_list = self.order_queryset(self.object_list)
 
         if self.select_related:
@@ -132,7 +140,7 @@ class BaseListableView(ListView):
                 try:
                     # works ok on mssql
                     return orig_count()
-                except:
+                except Exception:
                     try:
                         from django.db import connection
                         cursor = connection.cursor()
@@ -140,7 +148,7 @@ class BaseListableView(ListView):
                         count_sql = "SELECT COUNT(*) FROM ({0})".format(sql)
                         cursor.execute(count_sql, params)
                         return cursor.fetchone()[0]
-                    except:
+                    except Exception:
                         # fall back to iterating and counting :(
                         return len(_ for x in self.object_list.values_list("pk"))
             self.object_list.count = count
