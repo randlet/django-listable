@@ -3,6 +3,7 @@ from functools import reduce
 import json
 from urllib.parse import unquote
 
+from django.contrib.postgres.search import TrigramSimilarity
 from django.db.models import Q
 import django.db.models.fields
 from django.http import Http404, HttpResponse
@@ -64,6 +65,7 @@ class BaseListableView(ListView):
     widgets = {}
     order_fields = {}
     search_fields = {}
+    trigram_settings = {}  # to use, pass similarity key; e.g. {'similarity': 0.3}
     headers = {}
 
     multi_separator = ', '
@@ -363,7 +365,7 @@ class BaseListableView(ListView):
                             has_none = True if NONEORNULL in search_term else False
                             filtering = '{0}__in'.format(filtering)
 
-                        elif widget == TEXT:
+                        elif widget == TEXT and not self.trigram_settings:
                             filtering = '{0}__icontains'.format(filtering)
 
                         elif widget in [DATE, DATE_RANGE]:
@@ -371,6 +373,9 @@ class BaseListableView(ListView):
 
                         if has_none:
                             qs = qs.filter(Q(**{"{0}__isnull".format(field): True}) | Q(**{filtering: search_term})).distinct()
+                        elif widget == TEXT and self.trigram_settings:
+                            qs = qs.annotate(similarity=TrigramSimilarity(filtering, search_term)).filter(
+                                similarity__gt=self.trigram_settings['similarity']).order_by('-similarity')
                         else:
                             qs = qs.filter(**{filtering: search_term}).distinct()
 
