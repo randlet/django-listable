@@ -3,7 +3,6 @@ from functools import reduce
 import json
 from urllib.parse import unquote
 
-from django.contrib.postgres.search import TrigramSimilarity
 from django.db.models import Q
 import django.db.models.fields
 from django.http import Http404, HttpResponse
