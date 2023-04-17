@@ -10,6 +10,7 @@ from django.http import Http404, HttpResponse
 from django.template.loader import get_template
 from django.urls import resolve
 from django.utils import formats, timezone
+from django.utils.text import smart_split
 from django.utils.translation import ugettext as _
 from django.views.generic import ListView
 import six
@@ -65,7 +66,7 @@ class BaseListableView(ListView):
     widgets = {}
     order_fields = {}
     search_fields = {}
-    trigram_settings = {}  # to use, pass similarity key; e.g. {'similarity': 0.3}
+    loose_text_search = False
     headers = {}
 
     multi_separator = ', '
@@ -365,7 +366,7 @@ class BaseListableView(ListView):
                             has_none = True if NONEORNULL in search_term else False
                             filtering = '{0}__in'.format(filtering)
 
-                        elif widget == TEXT and not self.trigram_settings:
+                        elif widget == TEXT:
                             filtering = '{0}__icontains'.format(filtering)
 
                         elif widget in [DATE, DATE_RANGE]:
@@ -373,9 +374,8 @@ class BaseListableView(ListView):
 
                         if has_none:
                             qs = qs.filter(Q(**{"{0}__isnull".format(field): True}) | Q(**{filtering: search_term})).distinct()
-                        elif widget == TEXT and self.trigram_settings:
-                            qs = qs.annotate(similarity=TrigramSimilarity(filtering, search_term)).filter(
-                                similarity__gt=self.trigram_settings['similarity']).order_by('-similarity')
+                        elif widget == TEXT and self.loose_text_search:
+                            qs = qs.filter(*[Q(**{filtering: term}) for term in smart_split(search_term)])
                         else:
                             qs = qs.filter(**{filtering: search_term}).distinct()
 
