@@ -4,6 +4,13 @@
 History
 =======
 
+0.8.0 (2023-04-18)
+------------------
+
+* Added a loose_text_search setting to views.  Set ``loose_text_search = True``
+  on your view to enable partial matching in your text searches. For example
+  "Fo Ba" will match "Foo Bar".
+
 0.7.0 (2023-02-24)
 ------------------
 

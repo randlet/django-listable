@@ -238,6 +238,13 @@ strings or a falsy value to disable searching on that field.  For example::
 
 if a field is not declared in search_field's it a filter using `icontains` is assumed.
 
+ *loose_text_search*
+
+If set to True, will split search terms. E.g. "Sm ti" will return an object with field value of "Small Ticket".
+This is very similar to how Django's admin backend does its searches. Be default, the value is False for backward
+compatibility.
+
+
 *order_fields (optional)*
 
 Order fields allows you to define how a column should be ordered (similar to
