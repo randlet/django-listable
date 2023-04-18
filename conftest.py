@@ -60,5 +60,6 @@ settings.configure(
     LISTABLE_PAGINATE_BY=10,
     FIXTURE_DIRS=("listable-demo",),
     SITE_ID=1,
+    SECRET_KEY="abc",
 )
 django.setup()

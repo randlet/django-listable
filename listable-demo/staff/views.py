@@ -1,4 +1,9 @@
-from django.utils.translation import gettext as _
+
+try:
+    from django.utils.translation import ugettext as _
+except ImportError:
+    from django.utils.translation import gettext as _
+
 from django.contrib.contenttypes.models import ContentType
 from listable.views import BaseListableView, SELECT, SELECT_MULTI, DATE, DATE_RANGE
 from listable.views import TODAY, YESTERDAY, TOMORROW, LAST_7_DAYS, LAST_14_DAYS, LAST_30_DAYS, LAST_365_DAYS, THIS_WEEK, THIS_MONTH, THIS_QUARTER, THIS_YEAR, LAST_WEEK, LAST_MONTH, LAST_QUARTER, LAST_YEAR, WEEK_TO_DATE, MONTH_TO_DATE, QUARTER_TO_DATE, YEAR_TO_DATE, NEXT_WEEK, NEXT_MONTH, NEXT_QUARTER, NEXT_YEAR

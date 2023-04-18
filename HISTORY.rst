@@ -4,6 +4,29 @@
 History
 =======
 
+0.8.0 (2023-04-18)
+------------------
+
+* Added a loose_text_search setting to views.  Set ``loose_text_search = True``
+  on your view to enable partial matching in your text searches. For example
+  "Fo Ba" will match "Foo Bar".
+
+0.7.0 (2023-02-24)
+------------------
+
+* Listable for Django 3.2
+
+0.6.0 (2021-10-07)
+------------------
+
+* Add field names to column headers as data attributes
+* Add columnSearch to Listable context object
+
+0.5.2 (2021-08-20)
+------------------
+
+* Fix issue with encoding of search filters
+
 0.5.1 (2021-06-15)
 ------------------
 

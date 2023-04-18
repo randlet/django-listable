@@ -3,6 +3,8 @@ import datetime
 import json
 import sys
 
+from unittest import mock
+
 from django.db.models import Q
 from django.test import Client, TestCase
 from django.urls import reverse
@@ -115,6 +117,35 @@ class TestViews(TestCase):
 
         self.assertTrue(len(data) > 0)
         self.assertEqual(payload["iTotalDisplayRecords"], num_records)
+
+    def test_filter_plain_loose(self):
+        """Test filtering based on a plain text input with loose_text_searc = True"""
+
+        client = Client()
+        search_term = "Vol ta"  # should match Volup tas department
+        url = reverse("staff-list")+"?sEcho=1&iColumns=8&sColumns=&iDisplayStart=0&iDisplayLength=10&mDataProp_0=0&mDataProp_1=1&mDataProp_2=2&mDataProp_3=3&mDataProp_4=4&mDataProp_5=5&mDataProp_6=6&mDataProp_7=7&sSearch=&bRegex=false&sSearch_0=&bRegex_0=false&bSearchable_0=true&sSearch_1=&bRegex_1=false&bSearchable_1=true&sSearch_2=&bRegex_2=false&bSearchable_2=true&sSearch_3={search_term}&bRegex_3=false&bSearchable_3=true&sSearch_4=&bRegex_4=false&bSearchable_4=true&sSearch_5=&bRegex_5=false&bSearchable_5=true&sSearch_6=&bRegex_6=false&bSearchable_6=true&sSearch_7=&bRegex_7=false&bSearchable_7=true&iSortingCols=0&bSortable_0=true&bSortable_1=true&bSortable_2=true&bSortable_3=true&bSortable_4=true&bSortable_5=true&bSortable_6=true&bSortable_7=true&sRangeSeparator=~&_=1414439607643".format(search_term=search_term)
+
+        with mock.patch("staff.views.StaffList.loose_text_search", True):
+            response = client.get(url, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+        num_records = Staff.objects.filter(department__name="Volup tas").count()
+        payload = json.loads(response.content.decode('utf-8'))
+        data = payload.pop("aaData")
+        assert len(data) == num_records
+
+    def test_filter_plain_loose_disabled(self):
+        """Test filtering based on a plain text input with loose_text_search = True"""
+
+        client = Client()
+        search_term = "Vol ta"  # should not match Volup tas department
+        url = reverse("staff-list")+"?sEcho=1&iColumns=8&sColumns=&iDisplayStart=0&iDisplayLength=10&mDataProp_0=0&mDataProp_1=1&mDataProp_2=2&mDataProp_3=3&mDataProp_4=4&mDataProp_5=5&mDataProp_6=6&mDataProp_7=7&sSearch=&bRegex=false&sSearch_0=&bRegex_0=false&bSearchable_0=true&sSearch_1=&bRegex_1=false&bSearchable_1=true&sSearch_2=&bRegex_2=false&bSearchable_2=true&sSearch_3={search_term}&bRegex_3=false&bSearchable_3=true&sSearch_4=&bRegex_4=false&bSearchable_4=true&sSearch_5=&bRegex_5=false&bSearchable_5=true&sSearch_6=&bRegex_6=false&bSearchable_6=true&sSearch_7=&bRegex_7=false&bSearchable_7=true&iSortingCols=0&bSortable_0=true&bSortable_1=true&bSortable_2=true&bSortable_3=true&bSortable_4=true&bSortable_5=true&bSortable_6=true&bSortable_7=true&sRangeSeparator=~&_=1414439607643".format(search_term=search_term)
+
+        with mock.patch("staff.views.StaffList.loose_text_search", False):
+            response = client.get(url, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+        payload = json.loads(response.content.decode('utf-8'))
+        data = payload.pop("aaData")
+        assert len(data) == 0
 
     def test_filter_iterable(self):
         """Test filtering based on a plain text input"""
