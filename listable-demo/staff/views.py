@@ -1,11 +1,7 @@
 
-try:
-    from django.utils.translation import ugettext as _
-except ImportError:
-    from django.utils.translation import gettext as _
-
+from django.utils.translation import gettext as _
 from django.contrib.contenttypes.models import ContentType
-from listable.views import BaseListableView, SELECT, SELECT_MULTI, DATE, DATE_RANGE
+from listable.views import BaseListableView, SELECT, SELECT_MULTI, DATE, DATE_RANGE, SELECT_MULTI_FROM_MULTI
 from listable.views import TODAY, YESTERDAY, TOMORROW, LAST_7_DAYS, LAST_14_DAYS, LAST_30_DAYS, LAST_365_DAYS, THIS_WEEK, THIS_MONTH, THIS_QUARTER, THIS_YEAR, LAST_WEEK, LAST_MONTH, LAST_QUARTER, LAST_YEAR, WEEK_TO_DATE, MONTH_TO_DATE, QUARTER_TO_DATE, YEAR_TO_DATE, NEXT_WEEK, NEXT_MONTH, NEXT_QUARTER, NEXT_YEAR
 
 from . import models
@@ -27,7 +23,8 @@ class StaffList(BaseListableView):
         "is_manager",
         "contract_type__name",
         "date_hired",
-        "last_incident"
+        "last_incident",
+        "generic_object_multi__name"
     )
 
     widgets = {
@@ -39,7 +36,8 @@ class StaffList(BaseListableView):
         "is_manager": SELECT,
         "contract_type__name": SELECT_MULTI,
         "date_hired": DATE,
-        "last_incident": DATE_RANGE
+        "last_incident": DATE_RANGE,
+        "generic_object_multi__name": SELECT_MULTI_FROM_MULTI
     }
 
     date_ranges = {
@@ -69,6 +67,7 @@ class StaffList(BaseListableView):
     order_by = ("-name",)
 
     select_related = ("department", "position", "department__business", "contract_type")
+    prefetch_related = ("generic_object_multi",)
 
     def generic(self, obj):
         return obj.generic_object.name

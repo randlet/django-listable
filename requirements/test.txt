@@ -1,9 +1,7 @@
 -r base.txt
-coverage>=3.7
 pytest==3.8.1
 pytest-cov==4.0.0
 pytest-django==4.5.2
-pytz
 radar==0.3
 six
 build

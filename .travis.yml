@@ -1,12 +1,15 @@
 language: python
+# pyhton 3.9 not tested
 python:
   - "3.6"
   - "3.7"
   - "3.8"
+  - "3.10"
 env:
     - DJANGO=2.1
     - DJANGO=2.2
-
+    - DJANGO=3.2
+    - DJANGO=4.2
 install:
     - pip install --upgrade pip
     - pip install -r requirements/test.txt

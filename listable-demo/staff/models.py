@@ -1,15 +1,13 @@
 
 import radar
+import datetime
 
 from django.db import models
 from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-from django.utils import timezone
+# from django.utils import timezone
 
-try:
-    from django.utils.translation import ugettext as _
-except ImportError:
-    from django.utils.translation import gettext as _
+from django.utils.translation import gettext as _
 
 
 ACTIVE = 'active'
@@ -100,8 +98,8 @@ incident_years = [str(i) for i in range(2014, 2017)]
 
 
 def add_a_datetime():
-    start = timezone.datetime(year=2000, month=1, day=1, tzinfo=timezone.utc)
-    stop = timezone.datetime(year=2016, month=12, day=31, tzinfo=timezone.utc)
+    start = datetime.datetime(year=2000, month=1, day=1, tzinfo=datetime.timezone.utc)
+    stop = datetime.datetime(year=2016, month=12, day=31, tzinfo=datetime.timezone.utc)
     dt = radar.random_datetime(start=start, stop=stop)
     return dt
 
@@ -129,6 +127,10 @@ class Staff(models.Model):
     content_type = models.ForeignKey(ContentType, limit_choices_to=limit, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     generic_object = GenericForeignKey("content_type", "object_id")
+    generic_object_multi = models.ManyToManyField(
+        GenericModelB, blank=True,
+        related_name='generic_object_multi'
+    )
 
     class Meta:
         verbose_name_plural = "staff"

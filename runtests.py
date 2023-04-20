@@ -4,6 +4,9 @@ from optparse import OptionParser
 sys.path.append("listable-demo")
 import django
 
+if django.get_version().startswith("4"):
+    raise ImportError("Use pytest for running tests.")
+
 try:
     from django.conf import settings
 
