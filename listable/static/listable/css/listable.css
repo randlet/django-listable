@@ -17,6 +17,17 @@
 }
 
 input.search_init {
-  color: rgba(0, 0, 0, 0);
-
+    color: rgba(0, 0, 0, 0);
+}
+.ui-stoggle {
+    pointer-events: none;
+}
+.filter-hidden.active > a {
+    background-color: #fff;
+}
+.filter-hidden.active > a:hover {
+    background-color: #f5f5f5;
+}
+.ui-stoggle--label-on .ui-stoggle--label-text {
+    background-color: #d1d1d1;
 }

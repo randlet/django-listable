@@ -64,6 +64,11 @@ class StaffList(BaseListableView):
         "contract_type__name": _("Contract Type")
     }
 
+    multi_separator = '|'
+    multi_include_and_or = {
+        "generic_object_multi__name": True
+    }
+
     order_by = ("-name",)
 
     select_related = ("department", "position", "department__business", "contract_type")

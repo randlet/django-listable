@@ -18,6 +18,7 @@ from ..views import (
     THIS_WEEK,
     THIS_YEAR,
     TODAY,
+    TOGGLE_AND_OR
 )
 
 register = template.Library()
@@ -32,7 +33,8 @@ def get_listable_scripts():
         '<script src="%s" type="text/javascript"></script>' % static('listable/js/bootstrap.multiselect.js'),
         '<script src="%s" type="text/javascript"></script>' % static('listable/js/bootstrap-datepicker.min.js'),
         '<script src="%s" type="text/javascript"></script>' % static('listable/js/moment.min.js'),
-        '<script src="%s" type="text/javascript"></script>' % static('listable/js/daterangepicker.js')
+        '<script src="%s" type="text/javascript"></script>' % static('listable/js/daterangepicker.js'),
+        '<script src="%s" type="text/javascript"></script>' % static('listable/js/jquery.toggler.js'),
     ]
 
 
@@ -44,6 +46,7 @@ def get_listable_css():
         '<link href="{0}" rel="stylesheet">'.format(static('listable/css/bootstrap-datepicker.min.css')),
         '<link href="{0}" rel="stylesheet">'.format(static('listable/css/daterangepicker.css')),
         '<link href="{0}" rel="stylesheet">'.format(static('listable/css/font-awesome.min.css')),
+        '<link href="{0}" rel="stylesheet">'.format(static('listable/css/ui-toggle.css')),
         '<link href="{0}" rel="stylesheet">'.format(static('listable/css/listable.css'))
     ]
 
@@ -165,7 +168,11 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
                     values = values_to_dt(choices)
                 else:
                     values = values_to_dt(view_instance.get_filters(field, queryset=qs))
-                column_filter_defs.append({'type': 'select', 'values': values, 'multiple': 'multiple'})
+
+                if cls.multi_include_and_or.get(field, False):
+                    values.insert(0, {'value': TOGGLE_AND_OR, 'label': ''})
+
+                column_filter_defs.append({'type': 'select', 'values': values, 'multiple': 'multiple', 'include_and_or': cls.multi_include_and_or.get(field, False)})
                 column_search.append({'sSearch': init_search, 'bRegex': True})
 
             elif widget_type == DATE_RANGE:

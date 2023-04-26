@@ -25,7 +25,7 @@ function listable(moment) {
         }
         return cookieValue;
     }
-
+    console.log(Listable)
     var table = $(Listable.tableId).addClass(
         Listable.cssTableClass
     ).dataTable({
@@ -207,10 +207,11 @@ function listable(moment) {
                 var c = parseInt(col) + 1;
                 var select = $("thead > tr > th:nth-child(" + c + ") select");
                 if (Listable.columnFilterDefs[col].multiple) {
+
                     $(select)
                         .attr('multiple', 'multiple')
                         .multiselect({
-                            includeSelectAllOption: true,
+                            includeSelectAllOption: true,//!Listable.columnFilterDefs[col].include_and_or ,
                             numberDisplayed: 1,
                             nonSelectedText: '------',
                             onDropdownShown: function(event) {
@@ -222,6 +223,30 @@ function listable(moment) {
                                 var selPos = $(select).parent().offset().top;
                                 var winHeight = $("body").height();
                                 var maxHeight = Math.min(500, winHeight - (selPos + selHeight));
+
+                                if (Listable.columnFilterDefs[col].include_and_or) {
+
+                                    if (!this.andor_added) {
+                                        this.andor_added = true
+                                        let container = select.parent()
+                                        let select_all = container.find('.multiselect-item.multiselect-all')
+                                        let and_or = select_all.next()
+                                        and_or.addClass('filter-hidden')
+                                        select_all.insertAfter(and_or)
+                                        let toggle = and_or.find('input')
+
+                                        toggle.checkToggler({
+                                            labelOn: "OR",
+                                            labelOff: "AND"
+                                        })
+
+                                        toggle.click(function (e) {
+                                            e.stopPropagation()
+                                        })
+                                    }
+
+                                    maxHeight += 50
+                                }
                                 var con = $menu.css('max-height', maxHeight);//.toFixed(0)+'px', 'scroll': 'auto'});
                             }
                         });

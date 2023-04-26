@@ -60,6 +60,7 @@ NEXT_QUARTER = "Next Quarter"
 NEXT_YEAR = "Next Year"
 
 NONEORNULL = 'noneornull'
+TOGGLE_AND_OR = 'toggleandor'
 
 
 class BaseListableView(ListView):
@@ -72,6 +73,7 @@ class BaseListableView(ListView):
     headers = {}
 
     multi_separator = ', '
+    multi_include_and_or = {}
 
     paginate_by = li_settings.LISTABLE_PAGINATE_BY
     filter_delay = li_settings.LISTABLE_FILTER_DELAY
@@ -92,6 +94,9 @@ class BaseListableView(ListView):
         return regular list view on page load and then json data on
         datatables ajax request.
         """
+
+        for g in request.GET:
+            print('{}: {}'.format(g, request.GET[g]))
 
         for field in self.get_fields(request=request):
             if field not in self.widgets:
@@ -295,6 +300,8 @@ class BaseListableView(ListView):
             search_term = self.search_filters.get("sSearch_%d" % col_num, None)
             filtering = self.search_fields.get(field, True)
             widget = self.widgets[field]
+            include_and_or = self.multi_include_and_or.get(field, False)
+            and_or = 'OR'
 
             # would like to use __regex here, but mssql doesn't come standard with __regex functionaliy
             # instead of installing regex_clr, some logic is used
@@ -311,6 +318,12 @@ class BaseListableView(ListView):
                         search_term = ''
                     else:
                         search_term = unquote(search_term[2:-2], encoding=encoding).replace('\\', '').split('|')
+
+                        if include_and_or:
+                            if 'toggleandor' in search_term:
+                                search_term.remove('toggleandor')
+                            else:
+                                and_or = 'AND'
 
                 elif widget == DATE_RANGE:
                     start = datetime.datetime.strptime(search_term.split(' - ')[0], '%d %b %Y').replace(hour=0, minute=0, second=0)
@@ -364,7 +377,7 @@ class BaseListableView(ListView):
 
                     else:
 
-                        if widget in [SELECT, SELECT_MULTI, SELECT_MULTI_FROM_MULTI]:
+                        if widget in [SELECT, SELECT_MULTI]:
                             has_none = True if NONEORNULL in search_term else False
                             filtering = '{0}__in'.format(filtering)
 
@@ -374,7 +387,16 @@ class BaseListableView(ListView):
                         elif widget in [DATE, DATE_RANGE]:
                             filtering = '{0}__range'.format(filtering)
 
-                        if has_none:
+                        elif widget == SELECT_MULTI_FROM_MULTI:
+                            if include_and_or and and_or == 'AND':
+                                filtering = '{0}'.format(filtering)
+                            else:
+                                filtering = '{0}__in'.format(filtering)
+
+                        if widget == SELECT_MULTI_FROM_MULTI and and_or == 'AND':
+                            for term in search_term:
+                                qs = qs.filter(**{filtering: term})
+                        elif has_none:
                             qs = qs.filter(Q(**{"{0}__isnull".format(field): True}) | Q(**{filtering: search_term})).distinct()
                         elif widget == TEXT and self.loose_text_search:
                             qs = qs.filter(*[Q(**{filtering: term}) for term in smart_split(search_term)])
