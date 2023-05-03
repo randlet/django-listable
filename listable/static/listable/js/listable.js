@@ -25,7 +25,7 @@ function listable(moment) {
         }
         return cookieValue;
     }
-    console.log(Listable)
+
     var table = $(Listable.tableId).addClass(
         Listable.cssTableClass
     ).dataTable({

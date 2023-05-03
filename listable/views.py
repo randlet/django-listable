@@ -95,9 +95,6 @@ class BaseListableView(ListView):
         datatables ajax request.
         """
 
-        for g in request.GET:
-            print('{}: {}'.format(g, request.GET[g]))
-
         for field in self.get_fields(request=request):
             if field not in self.widgets:
                 if field in self.search_fields and not self.search_fields[field]:
