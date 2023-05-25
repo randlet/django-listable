@@ -397,7 +397,7 @@
 						$.each( selectedOptions, function( i, sFilter ) {
 							asEscapedFilters.push( fnRegExpEscape( sFilter ) );
 						} );
-						var re = '^(' + asEscapedFilters.join('|') + ')$';
+						var re = '^(' + asEscapedFilters.join('`|`') + ')$';
 					}
 
 					oTable.fnFilter( re, index, true, false );

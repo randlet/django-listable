@@ -4,6 +4,13 @@
 History
 =======
 
+0.8.1 (2023-05-25)
+------------------
+
+* In order to allow ``|`` characters in searches, the search term separator for
+  multi selects has been updated to use ```|``` which is a 3 character sequence
+  unlikely to apply in normal searches.
+
 0.8.0 (2023-04-18)
 ------------------
 

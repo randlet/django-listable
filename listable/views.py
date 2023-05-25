@@ -307,7 +307,7 @@ class BaseListableView(ListView):
                     if search_term in ['^(.*)$', '^()$']:
                         search_term = ''
                     else:
-                        search_term = unquote(search_term[2:-2], encoding=encoding).replace('\\', '').split('|')
+                        search_term = unquote(search_term[2:-2], encoding=encoding).replace('\\', '').split('`|`')
 
                 elif widget == DATE_RANGE:
                     start = datetime.datetime.strptime(search_term.split(' - ')[0], '%d %b %Y').replace(hour=0, minute=0, second=0)
