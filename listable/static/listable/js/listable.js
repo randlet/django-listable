@@ -224,7 +224,7 @@ function listable(moment) {
                                 var winHeight = $("body").height();
                                 var maxHeight = Math.min(500, winHeight - (selPos + selHeight));
 
-                                if (Listable.columnFilterDefs[col].include_and_or) {
+                                if (Listable.columnFilterDefs[col] && Listable.columnFilterDefs[col].include_and_or) {
 
                                     if (!this.andor_added) {
                                         this.andor_added = true
