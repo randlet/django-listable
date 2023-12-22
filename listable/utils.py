@@ -43,6 +43,8 @@ def class_for_view_name(view_name, args=None, kwargs=None):
     prefix = get_script_prefix()
     view_func = resolve(reverse_.replace(prefix, "/", 1)).func
     module = importlib.import_module(view_func.__module__)
+    if hasattr(view_func, "view_class"):
+        return getattr(module, view_func.view_class.__name__)
     return getattr(module, view_func.__name__)
 
 
