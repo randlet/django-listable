@@ -66,6 +66,21 @@ class BaseListableView(ListView):
     order_fields = {}
     search_fields = {}
     loose_text_search = False
+
+    # Live filters will return a list of distinct values that still remain
+    # in the queryset after all filters have been applied. This is useful
+    # for limiting the options in a select widget to only those that are
+    # still available. Note that this requires an additional query for every
+    # SELECT, SELECT_MULTI_FROM_MULTI or SELECT_MULTI column. The live filters
+    # are returned in the JSON response in the `liveFilters` key in the following
+    # format:
+    # [
+    #   [distinct_value1, distinct_value2, ...], # column 1
+    #   None, # column 2, if column is not filterable or SELECT.*
+    # ]
+    # Live filtering is disabled by default.
+    live_filters = False
+
     headers = {}
 
     multi_separator = ', '
@@ -191,7 +206,30 @@ class BaseListableView(ListView):
             "iTotalDisplayRecords": self.object_list.count(),
             "sEcho": secho,
         }
+
+        if self.live_filters:
+            context["liveFilters"] = self.get_live_filters()
+
         return context
+
+    def get_live_filters(self):
+        live_filters = []
+
+        for field in self.get_fields(request=self.request):
+            filter_allowed = self.search_fields.get(field, True)
+            widget_type = self.widgets.get(field, TEXT)
+
+            if not filter_allowed or widget_type not in [SELECT, SELECT_MULTI, SELECT_MULTI_FROM_MULTI]:
+                live_filters.append(None)
+                continue
+
+            distinct_values = self.object_list.order_by().values_list(field, flat=True).distinct()
+
+            # values_to_dt calls str on the values so we do the same here
+            live_filters.append([str(x) if x is not None else NONEORNULL for x in distinct_values])
+
+        return live_filters
+
 
     def get_table_id(self):
 

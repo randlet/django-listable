@@ -50,6 +50,59 @@ function listable(moment) {
         iFilteringDelay: Listable.filteringDelay
     });
 
+    if (Listable.liveFilters) {
+        table.fnSettings().aoDrawCallback.push({
+            fn(settings) {
+                // There is no easy way to get the JSON data that was returned from the server last
+                // and no callback that is triggered only on ajax requests, so instead we look at the
+                // jqXHR object that is stored in the settings object to determine the last set of
+                // live filters that were returned from the server.
+                if (!(settings.jqXHR && settings.jqXHR.responseJSON && settings.jqXHR.responseJSON.liveFilters)) {
+                    return;
+                }
+
+                settings.jqXHR.responseJSON.liveFilters.forEach((filters, idx) => {
+                    if (!filters) return;
+
+                    const colNum = parseInt(idx, 10) + 1;
+                    const $filterSelect = $(`thead > tr > th:nth-child(${colNum}) select`);
+
+                    // Exclude empty options from the sorting
+                    const allOptions = $filterSelect.find('option:not([value=""])').toArray().map((option) => option.value).sort();
+
+                    // The live filters returned from the server are unescaped, however the columnFilter
+                    // library escapes the option values when rendering, so we'll escape the filters here
+                    // to match the columnFilter library's rendering.
+                    const availableOptions = new Set(filters.map((option) => escape(option)));
+
+                    // Also include already checked options in the available options so they show up at the top
+                    // even if they don't have any visible rows.
+                    $filterSelect.parent().find('.multiselect-container li input:checked').each((_, input) => {
+                        availableOptions.add(input.value);
+                    });
+
+                    // Show all options
+                    $filterSelect.parent().find('.multiselect-container li').removeClass('no-matches');
+
+                    // Sort and move the available options to the top of the list
+                    allOptions.filter((option) => availableOptions.has(option)).forEach((option) => {
+                        $filterSelect.parent().find(`ul.multiselect-container li input[value="${option}"]`)
+                          .closest('li').detach()
+                          .appendTo($filterSelect.parent().find('ul.multiselect-container'));
+                    });
+
+                    // Sort and move the unavailable options after the available options
+                    allOptions.filter((option) => !availableOptions.has(option)).forEach((option) => {
+                        $filterSelect.parent().find(`ul.multiselect-container li input[value="${option}"]`)
+                          .closest('li').addClass('no-matches')
+                          .detach()
+                          .appendTo($filterSelect.parent().find('ul.multiselect-container'));
+                    });
+                });
+            },
+        });
+    }
+
     var cookie_obj = JSON.parse(/*window.*/getCookie(Listable.cookie));
 
     if (cookie_obj) {
