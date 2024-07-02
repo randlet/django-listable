@@ -87,5 +87,6 @@ class StaffList(BaseListableView):
         return {"select": {'genericname': extraq}}
 
 
-class StaffListWithLiveFilters(StaffList):
+class StaffListLiveFilters(StaffList):
     live_filters = True
+    template_name = "staff/staff_list_live_filters.html"
