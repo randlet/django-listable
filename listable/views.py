@@ -1,4 +1,5 @@
 import datetime
+import typing
 from functools import reduce
 import json
 from urllib.parse import unquote
@@ -59,6 +60,12 @@ NEXT_YEAR = "Next Year"
 NONEORNULL = 'noneornull'
 
 
+class QuerysetFilters(typing.NamedTuple):
+    """Keep track of filters to apply to a queryset and whether to apply distinct"""
+    filters: list[Q]
+    distinct: bool
+
+
 class BaseListableView(ListView):
 
     fields = ()
@@ -96,7 +103,6 @@ class BaseListableView(ListView):
     defer = True
 
     def __init__(self, *args, **kwargs):
-
         super(BaseListableView, self).__init__(**kwargs)
 
     def get(self, request, *args, **kwargs):
@@ -223,7 +229,7 @@ class BaseListableView(ListView):
                 live_filters.append(None)
                 continue
 
-            distinct_values = self.object_list.order_by().values_list(field, flat=True).distinct()
+            distinct_values = self._live_filters_qs[field].order_by().values_list(field, flat=True).distinct()
 
             # values_to_dt calls str on the values so we do the same here
             live_filters.append([str(x) if x is not None else NONEORNULL for x in distinct_values])
@@ -325,7 +331,11 @@ class BaseListableView(ListView):
 
         cur_tz = timezone.get_current_timezone()
 
-        for col_num, field in enumerate(self.get_fields(request=self.request)):
+        # Dict from field/column -> django Q filters to apply for the column
+        qs_filters: dict[str, QuerysetFilters] = {}
+        fields = self.get_fields(request=self.request)
+
+        for col_num, field in enumerate(fields):
 
             search_term = self.search_filters.get("sSearch_%d" % col_num, None)
             filtering = self.search_fields.get(field, True)
@@ -410,11 +420,20 @@ class BaseListableView(ListView):
                             filtering = '{0}__range'.format(filtering)
 
                         if has_none:
-                            qs = qs.filter(Q(**{"{0}__isnull".format(field): True}) | Q(**{filtering: search_term})).distinct()
+                            qs_filters[field] = QuerysetFilters(
+                                filters=[Q(**{"{0}__isnull".format(field): True}) | Q(**{filtering: search_term})],
+                                distinct=True,
+                            )
                         elif widget == TEXT and self.loose_text_search:
-                            qs = qs.filter(*[Q(**{filtering: term}) for term in smart_split(search_term)])
+                            qs_filters[field] = QuerysetFilters(
+                                filters=[Q(**{filtering: term}) for term in smart_split(search_term)],
+                                distinct=False,
+                            )
                         else:
-                            qs = qs.filter(**{filtering: search_term}).distinct()
+                            qs_filters[field] = QuerysetFilters(
+                                filters=[Q(**{filtering: search_term})],
+                                distinct=True,
+                            )
 
                 else:
 
@@ -426,14 +445,46 @@ class BaseListableView(ListView):
                         for i in range(len(filtering)):
                             filterings = filterings + ('{0}__in'.format(filtering[i]),)
                         queries = reduce(lambda q, f: q | Q(**{f: search_term}), filterings, Q())
-                        qs = qs.filter(queries)
+                        qs_filters[field] = QuerysetFilters(filters=[queries], distinct=False)
 
                     elif widget == TEXT:
                         queries = reduce(lambda q, f: q | Q(**{f: search_term}), filtering, Q())
-                        qs = qs.filter(queries)
+                        qs_filters[field] = QuerysetFilters(filters=[queries], distinct=False)
 
                     elif widget in [DATE, DATE_RANGE, SELECT_MULTI_FROM_MULTI]:
                         raise ValueError('%s widget not configurable for multiple filters.' % widget)
+
+        # for column specific filters (to determine live filter options), we point
+        # back to the original queryset to start with and then apply filters below
+        self._live_filters_qs = {
+            field: qs
+            for field in fields
+        }
+
+        for field_to_filter_on, qs_filter in qs_filters.items():
+
+            # Apply all filters, one by one, to the original queryset. This determines
+            # what is shown in the table.
+            qs = qs.filter(*qs_filter.filters)
+            if qs_filter.distinct:
+                qs = qs.distinct()
+
+            # Update the queryset used for live filters if live filters are enabled
+            if not self.live_filters:
+                continue
+
+            # Filter on this field for all individual columns as well, except if the filter
+            # applies to the field/column itself. This determines which options are available
+            # in the live filters.
+            for live_filter_field in self._live_filters_qs:
+                if live_filter_field == field_to_filter_on:
+                    continue
+
+                self._live_filters_qs[live_filter_field] = self._live_filters_qs[live_filter_field].filter(
+                    *qs_filter.filters
+                )
+                if qs_filter.distinct:
+                    self._live_filters_qs[live_filter_field] = self._live_filters_qs[live_filter_field].distinct()
 
         return qs
 
