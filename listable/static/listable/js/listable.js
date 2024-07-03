@@ -59,7 +59,7 @@ function listable(moment) {
                 searcher = searcher.replace('^(', '').replace(')$', '');
                 if (searcher != '.*') {
                     var c = parseInt(i) + 1;
-                    var searchers = searcher.split('|');
+                    var searchers = searcher.split('`|`');
                     var select = $("thead > tr > th:nth-child(" + c + ") select");
                     for (var j in searchers) {
                         var option = $(select).children("option[value='" + searchers[j] + "']");
