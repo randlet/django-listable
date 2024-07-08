@@ -43,6 +43,7 @@ function listable(moment) {
         bFilter: true,
         sDom: Listable.DOM,
         sCookiePrefix: Listable.cookiePrefix,
+        oLanguage: Listable.language
     }).columnFilter({
         sPlaceHolder: "head:after",
         aoColumns: Listable.columnFilterDefs,

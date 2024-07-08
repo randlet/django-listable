@@ -210,6 +210,8 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
 
     if settings.LISTABLE_LANGUAGE:
         opts.update(language=settings.LISTABLE_LANGUAGE)
+    else:
+        opts.update(language={})
 
     return opts
 
