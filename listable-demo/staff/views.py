@@ -85,3 +85,8 @@ class StaffList(BaseListableView):
          """.format(cta.pk, ctb.pk)
 
         return {"select": {'genericname': extraq}}
+
+
+class StaffListLiveFilters(StaffList):
+    live_filters = True
+    template_name = "staff/staff_list_live_filters.html"

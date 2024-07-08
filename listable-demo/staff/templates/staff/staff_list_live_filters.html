@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load listable %}
+
+{% block extra_css %}
+    {% listable_css %}
+  <style>
+  li.no-matches label {
+    color: #aaa;
+  }
+  </style>
+{% endblock extra_css %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        {{listable_table}}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{% listable 'staff-list-live-filters' save_state=True pagination_type="bootstrap3" css_input_class="input-xs " %}
+{% endblock extra_js %}
+

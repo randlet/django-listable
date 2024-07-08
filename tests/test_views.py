@@ -42,6 +42,53 @@ class TestViews(TestCase):
         self.assertEqual(len(data), num_records)
         self.assertEqual(payload['iTotalRecords'], Staff.objects.count())
 
+    def test_live_filters(self):
+        client = Client()
+        response = client.get(reverse("staff-list-live-filters"), HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        str_response = response.content.decode('utf-8')
+        payload = json.loads(str_response)
+
+        # All rows match filter
+        self.assertEqual(payload['iTotalRecords'], Staff.objects.count())
+        self.assertEqual(payload['iTotalDisplayRecords'], Staff.objects.count())
+
+        # All distinct Contract types are available for the contract_type column
+        self.assertCountEqual(
+            payload['liveFilters'][9],
+            set(Staff.objects.values_list('contract_type__name', flat=True)),
+        )
+        self.assertEqual(len(payload['liveFilters'][9]), 5)
+
+        # All distinct active choices are available for the active column
+        self.assertCountEqual(
+            payload['liveFilters'][2],
+            set(Staff.objects.values_list('active', flat=True)),
+        )
+        self.assertEqual(len(payload['liveFilters'][2]), 2)
+
+        # Match inactive
+        url = reverse("staff-list-live-filters")+"?sEcho=1&iColumns=8&sColumns=&iDisplayStart=0&iDisplayLength=10&mDataProp_0=0&mDataProp_1=1&mDataProp_2=2&mDataProp_3=3&mDataProp_4=4&mDataProp_5=5&mDataProp_6=6&mDataProp_7=7&sSearch=&bRegex=false&sSearch_0=&bRegex_0=false&bSearchable_0=true&sSearch_1=&bRegex_1=false&bSearchable_1=true&sSearch_2=inactive&bRegex_2=false&bSearchable_2=true&sSearch_3=&bRegex_3=false&bSearchable_3=true&sSearch_4=&bRegex_4=false&bSearchable_4=true&sSearch_5=&bRegex_5=false&bSearchable_5=true&sSearch_6=&bRegex_6=false&bSearchable_6=true&sSearch_7=&bRegex_7=false&bSearchable_7=true&iSortingCols=0&bSortable_0=true&bSortable_1=true&bSortable_2=true&bSortable_3=true&bSortable_4=true&bSortable_5=true&bSortable_6=true&bSortable_7=true&sRangeSeparator=~&_=1414439607637"
+        response = client.get(url, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        str_response = response.content.decode('utf-8')
+        payload = json.loads(str_response)
+
+        # The options for contact type are fewer since we filtered on the active column
+        self.assertCountEqual(
+            payload['liveFilters'][9],
+            set(Staff.objects.filter(active=INACTIVE).values_list('contract_type__name', flat=True)),
+        )
+        self.assertEqual(len(payload['liveFilters'][9]), 3)
+
+        # However the choices for 'active' are still the same, since the live
+        # filter queryset for this column does not filter on the active
+        # column itself
+        self.assertCountEqual(
+            payload['liveFilters'][2],
+            set(Staff.objects.values_list('active', flat=True)),
+        )
+        self.assertEqual(len(payload['liveFilters'][2]), 2)
+
+
     def test_filter_select(self):
         """Test filtering based on a select widget"""
 
