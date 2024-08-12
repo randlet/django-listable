@@ -4,6 +4,11 @@
 History
 =======
 
+0.8.5 (2024-07-03)
+------------------
+
+* Fix issue with filters containing Unicode characters
+
 0.8.3 (2024-07-03)
 ------------------
 

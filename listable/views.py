@@ -1,8 +1,7 @@
 import datetime
+import json
 import typing
 from functools import reduce
-import json
-from urllib.parse import unquote
 
 from django.db.models import Q
 import django.db.models.fields
@@ -349,13 +348,13 @@ class BaseListableView(ListView):
             encoding = self.request.encoding or li_settings.LISTABLE_ENCODING
             if search_term:
                 if widget == SELECT:
-                    search_term = [unquote(search_term, encoding=encoding).replace('\\', '')]
+                    search_term = [utils.unquote_unicode(search_term, encoding=encoding).replace('\\', '')]
 
                 elif widget in [SELECT_MULTI, SELECT_MULTI_FROM_MULTI]:
                     if search_term in ['^(.*)$', '^()$']:
                         search_term = ''
                     else:
-                        search_term = unquote(search_term[2:-2], encoding=encoding).replace('\\', '').split('`|`')
+                        search_term = utils.unquote_unicode(search_term[2:-2], encoding=encoding).replace('\\', '').split('`|`')
 
                 elif widget == DATE_RANGE:
                     start = datetime.datetime.strptime(search_term.split(' - ')[0], '%d %b %Y').replace(hour=0, minute=0, second=0)
@@ -627,6 +626,6 @@ class BaseListableView(ListView):
         cookie_name = li_settings.cookie_name(self.request, current_url)
         for k, v in self.request.COOKIES.items():
             if k == cookie_name and v:
-                cookie_dt_params = json.loads(unquote(v, encoding=encoding))
+                cookie_dt_params = json.loads(utils.unquote_unicode(v, encoding=encoding))
 
         return cookie_dt_params

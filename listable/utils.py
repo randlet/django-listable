@@ -1,4 +1,6 @@
 import importlib
+import re
+from urllib.parse import unquote
 
 from django.urls import reverse, resolve, get_script_prefix
 import django.db.models.fields
@@ -75,3 +77,11 @@ def find_field(cls, lookup):
 
     return field
 
+
+def unquote_unicode(string, encoding):
+    """Unquote and decode unicode characters which were escaped by javascript.
+
+    See https://stackoverflow.com/a/23158853
+    """
+    string = unquote(string, encoding=encoding).replace('\\', '')
+    return re.sub(r'%u([a-fA-F0-9]{4}|[a-fA-F0-9]{2})', lambda m: chr(int(m.group(1), 16)), string)
