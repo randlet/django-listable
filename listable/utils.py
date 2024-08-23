@@ -78,10 +78,61 @@ def find_field(cls, lookup):
     return field
 
 
-def unquote_unicode(string, encoding):
-    """Unquote and decode unicode characters which were escaped by javascript.
+def unquote_unicode(string, encoding='utf-8'):
+    """Unquote and decode Unicode characters, handling surrogate pairs and
+    standalone Unicode characters.
 
-    See https://stackoverflow.com/a/23158853
+    """
+
+def unquote_unicode(string, encoding='utf-8'):
+    """
+    Unquote and decode Unicode characters, handling surrogate pairs and
+    standalone Unicode characters.
+
+    (I wish I could claim I wrote this myself but it was primarily written by
+    ChatGPT with *a lot* of coaching from me.)
     """
     string = unquote(string, encoding=encoding).replace('\\', '')
-    return re.sub(r'%u([a-fA-F0-9]{4}|[a-fA-F0-9]{2})', lambda m: chr(int(m.group(1), 16)), string)
+
+    def decode_surrogate_pair(match):
+        """Decodes a surrogate pair into a single Unicode character."""
+        high_surrogate = int(match.group(1), 16)
+        low_surrogate = int(match.group(2), 16)
+        combined_codepoint = ((high_surrogate - 0xD800) * 0x400) + (low_surrogate - 0xDC00) + 0x10000
+        return chr(combined_codepoint)
+
+    def decode_single_unicode_escape(match):
+        """Decodes a single %uXXXX sequence."""
+        codepoint = int(match.group(1), 16)
+        return chr(codepoint)
+
+    # First, decode all surrogate pairs into their corresponding Unicode characters
+    string = re.sub(r'%u(D[89A-B][0-9A-F]{2})%u(DC[0-9A-F]{2})', decode_surrogate_pair, string)
+
+    # Then, decode all remaining %uXXXX sequences (including standalone characters and variation selectors)
+    string = re.sub(r'%u([a-fA-F0-9]{4})', decode_single_unicode_escape, string)
+
+    # Finally, decode any remaining %XX sequences (e.g., regular URL-encoded characters)
+    string = re.sub(r'%([a-fA-F0-9]{2})', lambda m: chr(int(m.group(1), 16)), string)
+
+    # Ensure any remaining surrogate pairs in the string are combined into full characters
+    def combine_remaining_surrogates(s):
+        result = []
+        i = 0
+        while i < len(s):
+            # Check for a high surrogate
+            if 0xD800 <= ord(s[i]) <= 0xDBFF and i + 1 < len(s):
+                high_surrogate = ord(s[i])
+                low_surrogate = ord(s[i + 1])
+                if 0xDC00 <= low_surrogate <= 0xDFFF:
+                    # Combine into a single character
+                    combined_codepoint = ((high_surrogate - 0xD800) * 0x400) + (low_surrogate - 0xDC00) + 0x10000
+                    result.append(chr(combined_codepoint))
+                    i += 2  # Skip the low surrogate as it's been combined
+                    continue
+            result.append(s[i])
+            i += 1
+        return ''.join(result)
+
+    # Apply the final surrogate combination pass
+    return combine_remaining_surrogates(string)

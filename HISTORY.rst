@@ -4,6 +4,11 @@
 History
 =======
 
+0.8.6 (2024-08-22)
+------------------
+
+* Fix issue with filters containing Unicode characters that contain surrogate pairs
+
 0.8.5 (2024-07-03)
 ------------------
 
