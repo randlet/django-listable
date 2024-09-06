@@ -4,6 +4,22 @@
 History
 =======
 
+0.8.7 (2024-09-06)
+------------------
+
+* Allow specifying ``nulls_first`` and ``nulls_last`` behaviour in the ``order_fields`` options. For
+  example:
+
+  .. code-block:: python
+
+    class SomeListableView(BaseListableView):
+        order_fields = {
+            "some_field":  {
+                "desc": {"nulls_last": True},
+                "asc": {"nulls_fist": True},
+            }
+        }
+
 0.8.6 (2024-08-22)
 ------------------
 

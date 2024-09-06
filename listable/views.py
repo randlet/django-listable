@@ -3,7 +3,7 @@ import json
 import typing
 from functools import reduce
 
-from django.db.models import Q
+from django.db.models import F, Q
 import django.db.models.fields
 from django.http import Http404, HttpResponse
 from django.template.loader import get_template
@@ -518,6 +518,13 @@ class BaseListableView(ListView):
                 if isinstance(ordering, basestring):
                     # eg ordering= 'first_name' or ordering = 'business__name'
                     orderings.append("%s%s" % (direction, ordering))
+                elif isinstance(ordering, dict):
+                    dir_key = "desc" if direction == "-" else "asc"
+                    nulls_last = ordering.get(dir_key, {}).get('nulls_last', False)
+                    nulls_first = ordering.get(dir_key, {}).get('nulls_first', False)
+                    nulls = {"nulls_first": nulls_first, "nulls_last": nulls_last}
+                    field = F(ordering.get('field', field))
+                    orderings.append(field.desc(**nulls) if direction == "-" else field.asc(**nulls))
                 else:
                     try:
                         # eg ordering=("last_name","first_name", )
