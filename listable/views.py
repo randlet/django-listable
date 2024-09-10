@@ -3,7 +3,7 @@ import json
 import typing
 from functools import reduce
 
-from django.db.models import Q
+from django.db.models import Q, QuerySet
 import django.db.models.fields
 from django.http import Http404, HttpResponse
 from django.template.loader import get_template
@@ -306,7 +306,8 @@ class BaseListableView(ListView):
     def get_filters(self, field, queryset=None):
         """Populates options for SELECT and SELECT_MULTI filters based on values in the initial queryset"""
 
-        if not queryset or len(queryset) == 0:
+        is_django_queryset = isinstance(queryset, QuerySet)
+        if queryset is None or (not is_django_queryset and len(queryset) == 0):
             queryset = self.get_queryset()
 
         if self.get_extra() and 'select' in self.get_extra() and field in self.get_extra()['select']:
