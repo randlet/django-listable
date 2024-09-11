@@ -315,6 +315,11 @@ class BaseListableView(ListView):
         if queryset is None or (not is_django_queryset and len(queryset) == 0):
             queryset = self.get_queryset()
 
+        try:
+            return getattr(self, f'get_{field}_choices')(queryset)
+        except AttributeError:
+            pass
+
         if self.get_extra() and 'select' in self.get_extra() and field in self.get_extra()['select']:
             queryset = queryset.extra(select=self.get_extra()['select'])
 

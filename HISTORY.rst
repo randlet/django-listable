@@ -4,6 +4,13 @@
 History
 =======
 
+0.8.8 (2024-09-11)
+------------------
+
+* Improved page performance by reducing `queryset.count()` calls.
+
+* Added ``get_{field}_choices`` to allow for custom select and multi-select dropdown choices.
+
 0.8.7 (2024-09-06)
 ------------------
 
