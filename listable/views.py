@@ -205,10 +205,15 @@ class BaseListableView(ListView):
         except (TypeError, ValueError):
             secho = None
 
+        if "paginator" in context and context["paginator"] is not None:
+            object_count = context["paginator"].count
+        else:
+            object_count = self.object_list.count()
+
         context = {
             "aaData": self.get_rows(object_list),
             "iTotalRecords": self.get_queryset().count(),
-            "iTotalDisplayRecords": self.object_list.count(),
+            "iTotalDisplayRecords": object_count,
             "sEcho": secho,
         }
 
