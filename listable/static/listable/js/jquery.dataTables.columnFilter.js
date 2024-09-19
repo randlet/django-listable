@@ -112,7 +112,8 @@
                 search_init = '';
             }
 
-            var input = $('<input type="text" class="' + search_init + sCSSClass + '" value="' + inputvalue + '" rel="' + i + '"/>');
+            var input = $('<input type="text" class="' + search_init + sCSSClass + '" rel="' + i + '"/>');
+            input.attr('value', inputvalue); // set attribute after in case inputvalue has " in it
             if (iMaxLenght != undefined && iMaxLenght != -1) {
                 input.attr('maxlength', iMaxLenght);
             }
