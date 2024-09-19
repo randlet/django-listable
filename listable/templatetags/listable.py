@@ -3,6 +3,7 @@ import json
 from django import template
 from django.templatetags.static import static
 from django.urls import reverse
+from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
 from .. import settings, utils
@@ -59,7 +60,7 @@ def listable_js():  #pragma: nocover
 
 
 def values_to_dt(values):
-    return [{"value": str(x[0]), "label": str(x[1])} for x in utils.unique(values)]
+    return [{"value": str(escape(x[0])), "label": escape(str(x[1]))} for x in utils.unique(values)]
 
 
 @register.filter(name="header")
@@ -140,7 +141,7 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
 
             elif widget_type == TEXT:
                 column_filter_defs.append({"type": "text"})
-                column_search.append({'sSearch': init_search, 'bRegex': False})
+                column_search.append({'sSearch': escape(init_search), 'bRegex': False})
 
             # elif widget_type == SELECT and mdl_field:
             elif widget_type == SELECT:

@@ -2,6 +2,7 @@ import datetime
 import json
 import typing
 from functools import reduce
+from html import unescape
 
 from django.db.models import F, Q, QuerySet
 import django.db.models.fields
@@ -9,6 +10,7 @@ from django.http import Http404, HttpResponse
 from django.template.loader import get_template
 from django.urls import resolve
 from django.utils import formats, timezone
+from django.utils.html import escape
 from django.utils.text import smart_split
 from django.utils.translation import gettext as _
 from django.views.generic import ListView
@@ -236,7 +238,7 @@ class BaseListableView(ListView):
             distinct_values = self._live_filters_qs[field].order_by().values_list(field, flat=True).distinct()
 
             # values_to_dt calls str on the values so we do the same here
-            live_filters.append([str(x) if x is not None else NONEORNULL for x in distinct_values])
+            live_filters.append([escape(str(x)) if x is not None else NONEORNULL for x in distinct_values])
 
         return live_filters
 
@@ -293,21 +295,6 @@ class BaseListableView(ListView):
         """ Get page size requested by DataTables if available else default value"""
         return int(self.search_filters.get("iDisplayLength", self.paginate_by))
 
-    qs_count = 0
-
-    # def get_queryset(self):
-    #     """ filter and order queryset based on DataTables parameters """
-    #
-    #     # wer're not displaying anything on page load
-    #     # if self.defer and not self.request.is_ajax():
-    #     #     return self.model.objects.none()
-    #     self.qs_count += 1
-    #     print self.qs_count
-    #
-    #     qs = super(BaseListableView, self).get_queryset()
-    #
-    #     return qs
-
     def get_filters(self, field, queryset=None):
         """Populates options for SELECT and SELECT_MULTI filters based on values in the initial queryset"""
 
@@ -347,7 +334,7 @@ class BaseListableView(ListView):
 
         for col_num, field in enumerate(fields):
 
-            search_term = self.search_filters.get("sSearch_%d" % col_num, None)
+            search_term = unescape(self.search_filters.get("sSearch_%d" % col_num, None))
             filtering = self.search_fields.get(field, True)
             widget = self.widgets[field]
 
@@ -358,14 +345,16 @@ class BaseListableView(ListView):
 
             encoding = self.request.encoding or li_settings.LISTABLE_ENCODING
             if search_term:
+                if widget == TEXT:
+                    search_term = unescape(utils.unquote_unicode(search_term))
                 if widget == SELECT:
-                    search_term = [utils.unquote_unicode(search_term, encoding=encoding).replace('\\', '')]
+                    search_term = [unescape(utils.unquote_unicode(search_term, encoding=encoding))]
 
                 elif widget in [SELECT_MULTI, SELECT_MULTI_FROM_MULTI]:
                     if search_term in ['^(.*)$', '^()$']:
                         search_term = ''
                     else:
-                        search_term = utils.unquote_unicode(search_term[2:-2], encoding=encoding).replace('\\', '').split('`|`')
+                        search_term = [unescape(s) for s in utils.unquote_unicode(search_term[2:-2], encoding=encoding).split('`|`')]
 
                 elif widget == DATE_RANGE:
                     start = datetime.datetime.strptime(search_term.split(' - ')[0], '%d %b %Y').replace(hour=0, minute=0, second=0)
@@ -566,8 +555,8 @@ class BaseListableView(ListView):
         # fk property
         if "__" in field:
             if is_multi:
-                return self.multi_separator.join(utils.lookup_dunder_prop(obj, field, multi=True))
-            return utils.lookup_dunder_prop(obj, field)
+                return escape(self.multi_separator.join(utils.lookup_dunder_prop(obj, field, multi=True)))
+            return escape(utils.lookup_dunder_prop(obj, field))
         elif is_multi:
             raise AttributeError("Must specify field to display for many to many field (ie: %s__id)" % field)
 
@@ -592,7 +581,7 @@ class BaseListableView(ListView):
         elif attr is None:
             return ""
 
-        return "%s" % attr
+        return escape("%s" % attr)
 
     def set_query_params(self):
         """
