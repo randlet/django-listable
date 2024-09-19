@@ -79,12 +79,6 @@ def find_field(cls, lookup):
 
 
 def unquote_unicode(string, encoding='utf-8'):
-    """Unquote and decode Unicode characters, handling surrogate pairs and
-    standalone Unicode characters.
-
-    """
-
-def unquote_unicode(string, encoding='utf-8'):
     """
     Unquote and decode Unicode characters, handling surrogate pairs and
     standalone Unicode characters.
@@ -92,7 +86,7 @@ def unquote_unicode(string, encoding='utf-8'):
     (I wish I could claim I wrote this myself but it was primarily written by
     ChatGPT with *a lot* of coaching from me.)
     """
-    string = unquote(string, encoding=encoding).replace('\\', '')
+    string = unquote(string, encoding=encoding)
 
     def decode_surrogate_pair(match):
         """Decodes a surrogate pair into a single Unicode character."""
