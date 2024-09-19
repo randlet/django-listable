@@ -644,6 +644,9 @@ class BaseListableView(ListView):
         cookie_name = li_settings.cookie_name(self.request, current_url)
         for k, v in self.request.COOKIES.items():
             if k == cookie_name and v:
-                cookie_dt_params = json.loads(utils.unquote_unicode(v, encoding=encoding))
+                try:
+                    cookie_dt_params = json.loads(utils.unquote_unicode(v, encoding=encoding))
+                except json.decoder.JSONDecodeError:
+                    cookie_dt_params = None
 
         return cookie_dt_params
