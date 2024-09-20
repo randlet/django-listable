@@ -18,6 +18,7 @@
 * @sRangeFormat                 string      Default format of the From ... to ... range inputs. Default is From {from} to {to}
 * @aoColumns                    Array       Array of the filter settings that will be applied on the columns
 */
+
 (function ($) {
 
 
@@ -95,6 +96,12 @@
             //return oTable.fnSettings().oApi._fnColumnIndexToVisible(oTable.fnSettings(), iColumnIndex);
         }
 
+        function unescapeHTML(escaped) {
+          const div = document.createElement('div');
+          div.innerHTML = escaped;
+          return div.textContent || div.innerText || "";
+        }
+
         function fnCreateInput(oTable, regex, smart, bIsNumber, iFilterLength, iMaxLenght) {
             var sCSSClass = "text_filter form-control";
             if (bIsNumber)
@@ -113,7 +120,7 @@
             }
 
             var input = $('<input type="text" class="' + search_init + sCSSClass + '" rel="' + i + '"/>');
-            input.attr('value', inputvalue); // set attribute after in case inputvalue has " in it
+            input.attr('value', unescapeHTML(inputvalue)); // set attribute after in case inputvalue has " in it
             if (iMaxLenght != undefined && iMaxLenght != -1) {
                 input.attr('maxlength', iMaxLenght);
             }
@@ -160,7 +167,18 @@
                     oTable.fnFilter(this.value, _fnColumnIndex(index), regex, smart); //Issue 37
                     fnOnFiltered();
                 };
-                input.keyup(function(){
+                input.keyup(function(event){
+                    const isCtrla = event.keyCode === 65 && event.ctrlKey;
+                    const isDelete = event.keyCode === 46;
+                    const isBackspace = event.keyCode === 8;
+                    const isRemove = isDelete || isBackspace;
+                    const isPrintable = event.key && event.key.length === 1; // Not e.g. "Control" or "Shift"
+                    const isManualTrigger = typeof event.key === "undefined"; // e.g. $foo.trigger('change');
+                    const ignore = (isCtrla || !isPrintable) && !isRemove && !isManualTrigger;
+                    if (ignore){
+                      // don't need to search if just selecting text or user pressed a modifier key
+                      return;
+                    }
                     if (delayTimer){
                         clearTimeout(delayTimer);
                         delayTimer = null;
@@ -271,7 +289,7 @@
             //th.append(to);
             //th.append(_fnRangeLabelPart(2));
 
-            for (ti = 0; ti < aoFragments.length; ti++) {
+            for (let ti = 0; ti < aoFragments.length; ti++) {
 
                 if (aoFragments[ti] == properties.sDateFromToken) {
                     th.append(from);
@@ -354,7 +372,7 @@
             var r = '<select class="search_init select_filter form-control" rel="' + i + '"><option value="" class="search_init">' + sLabel + '</option>';
             if(bMultiselect) {
                 r = '<select class="search_init select_filter form-control" rel="' + i + '" multiple>';
-			}
+            }
             var j = 0;
             var iLen = aData.length;
             for (j = 0; j < iLen; j++) {
@@ -367,13 +385,21 @@
                     r += '<option ' + selected + ' value="' + escape(aData[j]) + '">' + aData[j] + '</option>';
                 }
                 else {
-                    var selected = '';
+                    var selected = filterOptionIsMatch(currentFilter, aData[j].value) ? 'selected' : '' ;
                     if (bRegex) {
                         //Do not escape values if they are explicitely set to avoid escaping special characters in the regexp
-                        if (aData[j].value == currentFilter) selected = 'selected ';
+                        if (aData[j].value == currentFilter) {
+                          selected = 'selected ';
+                        }
                         r += '<option ' + selected + 'value="' + aData[j].value + '">' + aData[j].label + '</option>';
                     } else {
-                        if (escape(aData[j].value) == currentFilter) selected = 'selected ';
+                        const escaped = aData[j].value;
+                        const filter = unescape(currentFilter).replace(/\\/,'');
+                        if ( escaped === filter ||
+                            (filter && filter.length > 4 && filter.slice(0, 2) === '^(' && filter.slice(-2) == ')$' && escaped === filter.slice(2, -2))
+                           ) {
+                          selected = 'selected ';
+                        }
                         r += '<option ' + selected + 'value="' + escape(aData[j].value) + '">' + aData[j].label + '</option>';
                     }
                 }
@@ -396,7 +422,7 @@
 						var re = '^(.*)$';
 					}else{
 						$.each( selectedOptions, function( i, sFilter ) {
-							asEscapedFilters.push( fnRegExpEscape( sFilter ) );
+							asEscapedFilters.push( sFilter );
 						} );
 						var re = '^(' + asEscapedFilters.join('`|`') + ')$';
 					}
@@ -433,7 +459,6 @@
                         return function (oSettings) {
                             // Only rebuild the select on the second draw - i.e. when the Ajax
                             // data has been loaded.
-                            console.log(sLabel);
                             if (oSettings.iDraw == 2 && oSettings.sAjaxSource != null && oSettings.sAjaxSource != "" && !oSettings.oFeatures.bServerSide) {
                                 return fnCreateColumnSelect(oTable, aData && aData(oSettings.aoData, oSettings), _fnColumnIndex(iColumn), nTh, sLabel, bRegex, oSelected, bMultiselect); //Issue 37
                             }
@@ -446,10 +471,6 @@
             fnCreateColumnSelect(oTable, typeof(aData) == 'function' ? null: aData, _fnColumnIndex(i), th, label, bRegex, oSelected, bMultiselect); //Issue 37
 
         }
-
-		function fnRegExpEscape( sText ) {
-			return sText.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-		};
 
 		function fnCreateDropdown(aData) {
 			var index = i;
@@ -661,7 +682,24 @@
         }
 
 
-
+        function filterOptionIsMatch(filterValue, option) {
+          if (!filterValue) {
+            return false;
+          }
+          const filter = unescape(filterValue)
+            .replace(/\\/, ''); // dataTables escapes filter values like '.' but the options are not escaped
+          return (
+            filter === option
+            || (
+              // check for regex match
+              (
+                filter.length > 4
+                && (filter.slice(0, 2) === '^(' && filter.slice(-2) == ')$')
+                && option === filter.slice(2, -2)
+              )
+            )
+          );
+        }
 
         var oTable = this;
 
@@ -783,8 +821,8 @@
                             break;
                         case "text":
                         default:
-                            bRegex = (aoColumn.bRegex == null ? false : aoColumn.bRegex);
-                            bSmart = (aoColumn.bSmart == null ? false : aoColumn.bSmart);
+                            const bRegex = (aoColumn.bRegex == null ? false : aoColumn.bRegex);
+                            const bSmart = (aoColumn.bSmart == null ? false : aoColumn.bSmart);
                             fnCreateInput(oTable, bRegex, bSmart, false, aoColumn.iFilterLength, aoColumn.iMaxLenght);
                             break;
 
@@ -792,7 +830,7 @@
                 }
             });
 
-            for (j = 0; j < aiCustomSearch_Indexes.length; j++) {
+            for (let j = 0; j < aiCustomSearch_Indexes.length; j++) {
                 //var index = aiCustomSearch_Indexes[j];
                 var fnSearch_ = function () {
                     var id = oTable.attr("id");
@@ -807,12 +845,13 @@
 
                 oTable.fnSettings().fnServerData = function (sSource, aoData, fnCallback) {
 
-                    for (j = 0; j < aiCustomSearch_Indexes.length; j++) {
+                    for (let j = 0; j < aiCustomSearch_Indexes.length; j++) {
                         var index = aiCustomSearch_Indexes[j];
 
-                        for (k = 0; k < aoData.length; k++) {
-                            if (aoData[k].name == "sSearch_" + index)
+                        for (let k = 0; k < aoData.length; k++) {
+                            if (aoData[k].name == "sSearch_" + index) {
                                 aoData[k].value = afnSearch_[j]();
+                            }
                         }
                     }
                     aoData.push({ "name": "sRangeSeparator", "value": properties.sRangeSeparator });

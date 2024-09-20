@@ -220,6 +220,20 @@
     }
 },
 {
+    "pk": 5,
+    "model": "staff.position",
+    "fields": {
+        "name": "(Machine)$x5kyy</script><script>console.alert(1)</script>q66dj"
+    }
+},
+{
+    "pk": 6,
+    "model": "staff.position",
+    "fields": {
+        "name": "^(regex like and Quotes \" and slashes \\$)"
+    }
+},
+{
     "pk": 1,
     "model": "staff.genericmodela",
     "fields": {
@@ -3668,6 +3682,40 @@
     }
 },
 {
+    "pk": 202,
+    "model": "staff.staff",
+    "fields": {
+        "first_name": "(Machine)$x5kyy</script><script>console.log(1)</script>q66dj",
+        "last_name": "XSS",
+        "object_id": 2,
+        "department": 2,
+        "content_type": [
+            "staff",
+            "genericmodela"
+        ],
+        "contract_type": 7,
+        "active": "active",
+        "position": 5
+    }
+},
+{
+    "pk": 203,
+    "model": "staff.staff",
+    "fields": {
+        "first_name": "Quotes \" and slashes \\ \\ \\\\ '",
+        "last_name": "XSS",
+        "object_id": 2,
+        "department": 2,
+        "content_type": [
+            "staff",
+            "genericmodela"
+        ],
+        "contract_type": 6,
+        "active": "active",
+        "position": 6
+    }
+},
+{
     "pk": 1,
     "model": "staff.contracttype",
     "fields": {
@@ -3700,6 +3748,20 @@
     "model": "staff.contracttype",
     "fields": {
         "name": "Other"
+    }
+},
+{
+    "pk": 6,
+    "model": "staff.contracttype",
+    "fields": {
+        "name": "^(regex like and Quotes \" and slashes \\$) "
+    }
+},
+{
+    "pk": 7,
+    "model": "staff.contracttype",
+    "fields": {
+        "name": "(Machine)$x5kyy</script><script>console.log(1)</script>q66dj"
     }
 }
 ]

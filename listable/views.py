@@ -10,7 +10,7 @@ from django.http import Http404, HttpResponse
 from django.template.loader import get_template
 from django.urls import resolve
 from django.utils import formats, timezone
-from django.utils.html import escape
+from django.utils.html import escape, conditional_escape
 from django.utils.text import smart_split
 from django.utils.translation import gettext as _
 from django.views.generic import ListView
@@ -334,7 +334,7 @@ class BaseListableView(ListView):
 
         for col_num, field in enumerate(fields):
 
-            search_term = unescape(self.search_filters.get("sSearch_%d" % col_num, None))
+            search_term = self.search_filters.get("sSearch_%d" % col_num, None)
             filtering = self.search_fields.get(field, True)
             widget = self.widgets[field]
 
@@ -435,7 +435,6 @@ class BaseListableView(ListView):
                             )
 
                 else:
-
                     if self.get_extra() and 'select' in self.get_extra() and field in self.get_extra()['select']:
                         raise ValueError('Multiple filters on field not configurable with extra.')
 
@@ -447,7 +446,11 @@ class BaseListableView(ListView):
                         qs_filters[field] = QuerysetFilters(filters=[queries], distinct=False)
 
                     elif widget == TEXT:
-                        queries = reduce(lambda q, f: q | Q(**{f: search_term}), filtering, Q())
+                        queries = Q()
+                        for f in filtering:
+                            if "__icontains" in f:
+                                search_term = search_term.lower()
+                            queries |= Q(**{f: search_term})
                         qs_filters[field] = QuerysetFilters(filters=[queries], distinct=False)
 
                     elif widget in [DATE, DATE_RANGE, SELECT_MULTI_FROM_MULTI]:
@@ -544,6 +547,10 @@ class BaseListableView(ListView):
         return rows
 
     def format_col(self, field, obj):
+        """Escape contents unless they're already marked safe or escaped."""
+        return conditional_escape(self._format_col(field, obj))
+
+    def _format_col(self, field, obj):
 
         is_multi = self.widgets[field] == SELECT_MULTI_FROM_MULTI
 
@@ -555,8 +562,8 @@ class BaseListableView(ListView):
         # fk property
         if "__" in field:
             if is_multi:
-                return escape(self.multi_separator.join(utils.lookup_dunder_prop(obj, field, multi=True)))
-            return escape(utils.lookup_dunder_prop(obj, field))
+                return self.multi_separator.join(utils.lookup_dunder_prop(obj, field, multi=True))
+            return utils.lookup_dunder_prop(obj, field)
         elif is_multi:
             raise AttributeError("Must specify field to display for many to many field (ie: %s__id)" % field)
 
@@ -581,7 +588,7 @@ class BaseListableView(ListView):
         elif attr is None:
             return ""
 
-        return escape("%s" % attr)
+        return "%s" % attr
 
     def set_query_params(self):
         """
