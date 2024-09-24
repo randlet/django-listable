@@ -388,7 +388,7 @@
               (
                 filter.length > 4
                 && (filter.slice(0, 2) === '^(' && filter.slice(-2) == ')$')
-                && option === filter.slice(2, -2)
+                && filter.slice(2, -2).split('`|`').includes(option)
               )
             )
           );

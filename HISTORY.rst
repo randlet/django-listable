@@ -4,8 +4,8 @@
 History
 =======
 
-0.8.9 (2024-09-20)
-------------------
+0.8.10 (2024-09-20)
+-------------------
 
 * Fixed XSS issues and filtering items with quotes
 
