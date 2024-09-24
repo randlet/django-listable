@@ -155,7 +155,7 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
                     values = values_to_dt(view_instance.get_filters(field, queryset=qs))
 
                 column_filter_defs.append({'type': 'select', 'values': values, 'label': '-----'})
-                column_search.append({'sSearch': init_search, 'bRegex': False})
+                column_search.append({'sSearch': escape(init_search), 'bRegex': False})
 
             elif widget_type in [SELECT_MULTI, SELECT_MULTI_FROM_MULTI]:
                 is_local = field in [f.name for f in mdl._meta.fields]
@@ -167,7 +167,7 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
                 else:
                     values = values_to_dt(view_instance.get_filters(field, queryset=qs))
                 column_filter_defs.append({'type': 'select', 'values': values, 'multiple': 'multiple'})
-                column_search.append({'sSearch': init_search, 'bRegex': True})
+                column_search.append({'sSearch': escape(init_search), 'bRegex': True})
 
             elif widget_type == DATE_RANGE:
 
@@ -177,11 +177,11 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
                     'type': 'daterange',
                     'ranges': ranges
                 })
-                column_search.append({'sSearch': init_search, 'bRegex': False})
+                column_search.append({'sSearch': escape(init_search), 'bRegex': False})
 
             elif widget_type == DATE:
                 column_filter_defs.append({'type': 'date'})
-                column_search.append({'sSearch': init_search, 'bRegex': False})
+                column_search.append({'sSearch': escape(init_search), 'bRegex': False})
 
             else:
                 raise TypeError("{wt} is not a valid widget type".format(wt=widget_type))

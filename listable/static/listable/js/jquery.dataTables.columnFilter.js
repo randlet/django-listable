@@ -19,6 +19,7 @@
 * @aoColumns                    Array       Array of the filter settings that will be applied on the columns
 */
 
+
 (function ($) {
 
 
@@ -96,10 +97,21 @@
             //return oTable.fnSettings().oApi._fnColumnIndexToVisible(oTable.fnSettings(), iColumnIndex);
         }
 
-        function unescapeHTML(escaped) {
-          const div = document.createElement('div');
-          div.innerHTML = escaped;
-          return div.textContent || div.innerText || "";
+        function unescapeHTML(s, quote = true) {
+          /* Reverse html escaping of special characters.
+           *
+           * This is the opposite of Python's html.escape.
+           * */
+          let unescaped = s;
+          unescaped = unescaped.replace(/&lt;/g, '<');
+          unescaped = unescaped.replace(/&gt;/g, '>');
+          unescaped = unescaped.replace(/&amp;/g, '&'); // Must be done last!
+
+          if (quote) {
+            unescaped = unescaped.replace(/&quot;/g, '"');
+            unescaped = unescaped.replace(/&#x27;/g, "'");
+          }
+          return unescaped;
         }
 
         function fnCreateInput(oTable, regex, smart, bIsNumber, iFilterLength, iMaxLenght) {
@@ -120,7 +132,9 @@
             }
 
             var input = $('<input type="text" class="' + search_init + sCSSClass + '" rel="' + i + '"/>');
-            input.attr('value', unescapeHTML(inputvalue)); // set attribute after in case inputvalue has " in it
+            // Search value may have e.g. < encoded as &lt; hence we need to
+            // unescape HTML so proper value is shown to user.
+            input.attr('value', unescapeHTML(inputvalue)); // set attribute after in case search value has a " in it
             if (iMaxLenght != undefined && iMaxLenght != -1) {
                 input.attr('maxlength', iMaxLenght);
             }
@@ -361,6 +375,26 @@
 
         }
 
+        function filterOptionIsMatch(filter, option) {
+          /* Compare a query string filter value with a drop down option value to see if the option
+           * should be reselected on page load. */
+          if (!filter) {
+            return false;
+          }
+          return (
+            filter === option
+            || (
+              // check for regex match
+              (
+                filter.length > 4
+                && (filter.slice(0, 2) === '^(' && filter.slice(-2) == ')$')
+                && option === filter.slice(2, -2)
+              )
+            )
+          );
+        }
+
+
         function fnCreateColumnSelect(oTable, aData, iColumn, nTh, sLabel, bRegex, oSelected, bMultiselect) {
             if (aData == null)
                 aData = _fnGetColumnValues(oTable.fnSettings(), iColumn, true, false, true);
@@ -377,31 +411,12 @@
             var iLen = aData.length;
             for (j = 0; j < iLen; j++) {
                 if (typeof (aData[j]) != 'object') {
-                    var selected = '';
-                    if (escape(aData[j]) == currentFilter
-                        || escape(aData[j]) == escape(currentFilter)
-                        )
-                        selected = 'selected '
+                    var selected = filterOptionIsMatch(currentFilter, aData[j]) ? 'selected' : '' ;
                     r += '<option ' + selected + ' value="' + escape(aData[j]) + '">' + aData[j] + '</option>';
                 }
                 else {
                     var selected = filterOptionIsMatch(currentFilter, aData[j].value) ? 'selected' : '' ;
-                    if (bRegex) {
-                        //Do not escape values if they are explicitely set to avoid escaping special characters in the regexp
-                        if (aData[j].value == currentFilter) {
-                          selected = 'selected ';
-                        }
-                        r += '<option ' + selected + 'value="' + aData[j].value + '">' + aData[j].label + '</option>';
-                    } else {
-                        const escaped = aData[j].value;
-                        const filter = unescape(currentFilter).replace(/\\/,'');
-                        if ( escaped === filter ||
-                            (filter && filter.length > 4 && filter.slice(0, 2) === '^(' && filter.slice(-2) == ')$' && escaped === filter.slice(2, -2))
-                           ) {
-                          selected = 'selected ';
-                        }
-                        r += '<option ' + selected + 'value="' + escape(aData[j].value) + '">' + aData[j].label + '</option>';
-                    }
+                    r += '<option ' + selected + ' value="' + escape(aData[j].value) + '">' + aData[j].label + '</option>';
                 }
             }
 
@@ -440,11 +455,11 @@
 					if (bRegex)
 						oTable.fnFilter($(this).val(), iColumn, bRegex); //Issue 41
 					else
-						oTable.fnFilter(unescape($(this).val()), iColumn); //Issue 25
+						oTable.fnFilter($(this).val(), iColumn); //Issue 25
 					fnOnFiltered();
 				});
 				if (currentFilter != null && currentFilter != "")//Issue 81
-					oTable.fnFilter(unescape(currentFilter), iColumn);
+					oTable.fnFilter(currentFilter, iColumn);
 			}
         }
 
@@ -679,26 +694,6 @@
                 default:
                     return sRangeFormat.substring(sRangeFormat.indexOf("{to}") + 4);
             }
-        }
-
-
-        function filterOptionIsMatch(filterValue, option) {
-          if (!filterValue) {
-            return false;
-          }
-          const filter = unescape(filterValue)
-            .replace(/\\/, ''); // dataTables escapes filter values like '.' but the options are not escaped
-          return (
-            filter === option
-            || (
-              // check for regex match
-              (
-                filter.length > 4
-                && (filter.slice(0, 2) === '^(' && filter.slice(-2) == ')$')
-                && option === filter.slice(2, -2)
-              )
-            )
-          );
         }
 
         var oTable = this;
