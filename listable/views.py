@@ -531,8 +531,8 @@ class BaseListableView(ListView):
                     orderings.append("%s%s" % (direction, ordering))
                 elif isinstance(ordering, dict):
                     dir_key = "desc" if direction == "-" else "asc"
-                    nulls_last = ordering.get(dir_key, {}).get('nulls_last', False)
-                    nulls_first = ordering.get(dir_key, {}).get('nulls_first', False)
+                    nulls_last = ordering.get(dir_key, {}).get('nulls_last', None)
+                    nulls_first = ordering.get(dir_key, {}).get('nulls_first', None)
                     nulls = {"nulls_first": nulls_first, "nulls_last": nulls_last}
                     field = F(ordering.get('field', field))
                     orderings.append(field.desc(**nulls) if direction == "-" else field.asc(**nulls))
