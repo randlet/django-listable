@@ -4,6 +4,11 @@
 History
 =======
 
+0.9.1 (2025-12-31)
+------------------
+
+* Eliminate 1 get_fields call to improve efficiency if get_fields hits the DB
+
 0.9.0 (2025-03-28)
 ------------------
 

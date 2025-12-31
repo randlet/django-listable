@@ -68,13 +68,11 @@ def header(value):
     return value.replace("__", " ").replace("_", " ").title()
 
 
-def get_dt_ordering(cls, request):
+def get_dt_ordering(fields, order_by, request):
 
     orderings = []
 
-    fields = cls().get_fields(request=request)
-
-    for idx, field in enumerate(cls.order_by):
+    for idx, field in enumerate(order_by):
         if field[0] == '-':
             direction = "desc"
             field = field[1:]
@@ -114,12 +112,13 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
     column_search = []
 
     request = context['request']
+    fields = cls().get_fields(request=request)
     if view_instance:
         qs = view_instance.get_queryset()
 
         table_id = "#" + view_instance.get_table_id()
 
-        for field in cls().get_fields(request=request):
+        for field in fields:
 
             # try:
             #     mdl_field = utils.find_field(mdl, field)
@@ -197,7 +196,7 @@ def get_options(context, view_name, dom="", save_state=None, pagination_type="",
         "autoWidth": auto_width,
         "displayLength": cls.paginate_by,
         "DOM": dom,
-        "order": get_dt_ordering(cls, request=context['request']),
+        "order": get_dt_ordering(fields, cls.order_by, request=context['request']),
         "columnDefs": column_defs,
         "columnFilterDefs": column_filter_defs,
         "columnSearch": column_search,
