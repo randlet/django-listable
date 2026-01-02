@@ -5,6 +5,7 @@ from functools import reduce
 from html import unescape
 
 from django.db.models import F, Q, QuerySet
+from django.core.exceptions import FieldDoesNotExist
 import django.db.models.fields
 from django.http import Http404, HttpResponse
 from django.template.loader import get_template
@@ -106,6 +107,29 @@ class BaseListableView(ListView):
     def __init__(self, *args, **kwargs):
         super(BaseListableView, self).__init__(**kwargs)
 
+    def _filtering_needs_distinct(self, qs, filtering):
+        if not isinstance(filtering, basestring):
+            return True
+
+        model = qs.model
+        parts = filtering.split("__")
+        for part in parts:
+            try:
+                field = model._meta.get_field(part)
+            except FieldDoesNotExist:
+                break
+
+            if getattr(field, "many_to_many", False) or getattr(field, "one_to_many", False):
+                return True
+
+            if getattr(field, "many_to_one", False) or getattr(field, "one_to_one", False):
+                model = field.related_model
+                continue
+
+            break
+
+        return False
+
     def get(self, request, *args, **kwargs):
         """
         return regular list view on page load and then json data on
@@ -143,6 +167,9 @@ class BaseListableView(ListView):
             # must prefilter your union'ed querysets
             self.object_list = self.filter_queryset(self.object_list)
 
+        # Count off the filtered queryset before ordering to avoid join-heavy sorts.
+        self._count_queryset = self.object_list.order_by()
+
         self.object_list = self.order_queryset(self.object_list)
 
         if self.select_related:
@@ -158,24 +185,28 @@ class BaseListableView(ListView):
         # db call and if all else fails just iterate the queryset and count it.
         # Not ideal but it seems to work.
         if self.extra:
-            orig_count = self.object_list.count
+            def make_count(qs):
+                orig_count = qs.count
 
-            def count():
-                try:
-                    # works ok on mssql
-                    return orig_count()
-                except Exception:
+                def count():
                     try:
-                        from django.db import connection
-                        cursor = connection.cursor()
-                        sql, params = self.object_list.query.sql_with_params()
-                        count_sql = "SELECT COUNT(*) FROM ({0})".format(sql)
-                        cursor.execute(count_sql, params)
-                        return cursor.fetchone()[0]
+                        # works ok on mssql
+                        return orig_count()
                     except Exception:
-                        # fall back to iterating and counting :(
-                        return len(_ for x in self.object_list.values_list("pk"))
-            self.object_list.count = count
+                        try:
+                            from django.db import connection
+                            cursor = connection.cursor()
+                            sql, params = qs.query.sql_with_params()
+                            count_sql = "SELECT COUNT(*) FROM ({0})".format(sql)
+                            cursor.execute(count_sql, params)
+                            return cursor.fetchone()[0]
+                        except Exception:
+                            # fall back to iterating and counting :(
+                            return len(_ for x in qs.values_list("pk"))
+                return count
+
+            self.object_list.count = make_count(self.object_list)
+            self._count_queryset.count = make_count(self._count_queryset)
 
         allow_empty = self.get_allow_empty()
 
@@ -210,7 +241,7 @@ class BaseListableView(ListView):
         if "paginator" in context and context["paginator"] is not None:
             object_count = context["paginator"].count
         else:
-            object_count = self.object_list.count()
+            object_count = self._count_queryset.count()
 
         context = {
             "aaData": self.get_rows(object_list),
@@ -421,7 +452,7 @@ class BaseListableView(ListView):
                         if has_none:
                             qs_filters[field] = QuerysetFilters(
                                 filters=[Q(**{"{0}__isnull".format(field): True}) | Q(**{filtering: search_term})],
-                                distinct=True,
+                                distinct=self._filtering_needs_distinct(qs, filtering),
                             )
                         elif widget == TEXT and self.loose_text_search:
                             qs_filters[field] = QuerysetFilters(
@@ -431,7 +462,7 @@ class BaseListableView(ListView):
                         else:
                             qs_filters[field] = QuerysetFilters(
                                 filters=[Q(**{filtering: search_term})],
-                                distinct=True,
+                                distinct=self._filtering_needs_distinct(qs, filtering),
                             )
 
                 else:

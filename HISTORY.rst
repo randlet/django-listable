@@ -4,6 +4,14 @@
 History
 =======
 
+0.9.2 (2025-12-31)
+------------------
+
+* Efficiency improvements:
+
+    * Only use distinct if required.
+    * Count before ordering
+
 0.9.1 (2025-12-31)
 ------------------
 
