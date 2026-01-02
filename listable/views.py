@@ -167,7 +167,9 @@ class BaseListableView(ListView):
             # must prefilter your union'ed querysets
             self.object_list = self.filter_queryset(self.object_list)
 
-        # Count off the filtered queryset before ordering to avoid join-heavy sorts.
+        # Count before ordering. Ordering on related fields can add joins and a sort,
+        # and Django may carry that ORDER BY into the count query, making it much
+        # more expensive than a plain filtered COUNT(*).
         self._count_queryset = self.object_list.order_by()
 
         self.object_list = self.order_queryset(self.object_list)
