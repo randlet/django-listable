@@ -392,22 +392,22 @@ class BaseListableView(ListView):
                 elif widget == DATE_RANGE:
                     start = datetime.datetime.strptime(search_term.split(' - ')[0], '%d %b %Y').replace(hour=0, minute=0, second=0)
                     end = datetime.datetime.strptime(search_term.split(' - ')[1], '%d %b %Y').replace(hour=23, minute=59, second=59)
-                    start = cur_tz.localize(start)
-                    end = cur_tz.localize(end)
+                    start = utils.localize_dt(start, cur_tz)
+                    end = utils.localize_dt(end, cur_tz)
                     search_term = (start, end)
 
                 elif widget == DATE:
                     try:
                         start = datetime.datetime.strptime(search_term.split('-')[0], '%a %b %d %Y %H:%M:%S %Z').replace(hour=0, minute=0, second=0)
                         end = datetime.datetime.strptime(search_term.split('-')[0], '%a %b %d %Y %H:%M:%S %Z').replace(hour=23, minute=59, second=59)
-                        start = cur_tz.localize(start)
-                        end = cur_tz.localize(end)
+                        start = utils.localize_dt(start, cur_tz)
+                        end = utils.localize_dt(end, cur_tz)
                         search_term = (start, end)
                     except ValueError:
                         start = datetime.datetime.strptime(search_term, '%d %b %Y').replace(hour=0, minute=0, second=0)
                         end = datetime.datetime.strptime(search_term, '%d %b %Y').replace(hour=23, minute=59, second=59)
-                        start = cur_tz.localize(start)
-                        end = cur_tz.localize(end)
+                        start = utils.localize_dt(start, cur_tz)
+                        end = utils.localize_dt(end, cur_tz)
                         search_term = (start, end)
 
             has_none = False

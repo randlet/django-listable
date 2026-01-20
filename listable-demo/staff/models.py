@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
 
@@ -96,8 +98,8 @@ incident_years = [str(i) for i in range(2014, 2017)]
 
 
 def add_a_datetime():
-    start = timezone.datetime(year=2000, month=1, day=1, tzinfo=timezone.utc)
-    stop = timezone.datetime(year=2016, month=12, day=31, tzinfo=timezone.utc)
+    start = timezone.datetime(year=2000, month=1, day=1, tzinfo=datetime.UTC)
+    stop = timezone.datetime(year=2016, month=12, day=31, tzinfo=datetime.UTC)
     dt = radar.random_datetime(start=start, stop=stop)
     return dt
 

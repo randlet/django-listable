@@ -130,3 +130,13 @@ def unquote_unicode(string, encoding='utf-8'):
 
     # Apply the final surrogate combination pass
     return combine_remaining_surrogates(string)
+
+
+def localize_dt(dt, tz):
+    """Helper function to localize datetime either using pytz or zoneinfo."""
+    if hasattr(tz, "localize"):
+        # pytz timezone
+        return tz.localize(dt)
+    else:
+        # zoneinfo timezone
+        return dt.replace(tzinfo=tz)
