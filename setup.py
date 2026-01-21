@@ -12,7 +12,8 @@ except ImportError:
 version = '0.9.3'
 
 if sys.argv[-1] == 'publish':
-    os.system('python setup.py sdist upload')
+    os.system('python -m build --wheel --sdist')
+    os.system('twine upload dist/*')
     print("You probably want to also tag the version now:")
     print("  git tag -a %s -m 'version %s'" % (version, version))
     print("  git push --tags")
@@ -38,17 +39,25 @@ setup(
     url='https://github.com/randlet/django-listable',
     packages=[
         'listable',
+        'listable.static',
+        'listable.static.listable',
+        'listable.static.listable.css',
+        'listable.static.listable.fonts',
+        'listable.static.listable.img',
+        'listable.static.listable.js',
+        'listable.templates',
+        'listable.templates.listable',
+        'listable.templatetags',
     ],
     include_package_data=True,
     install_requires=install_requires,
-    license="BSD",
+    license="BSD-3-Clause",
     zip_safe=False,
     keywords='django-listable',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Framework :: Django',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
