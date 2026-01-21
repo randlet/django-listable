@@ -11,8 +11,10 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.html import escape
 from listable import settings as lisettings
+from listable.utils import localize_dt
 
 from staff.models import INACTIVE, Staff
+
 
 sys.path.append("listable-demo")
 
@@ -165,7 +167,7 @@ class TestViews(TestCase):
 
         test_date = '2010-06-10 12:34:56'
         test_staff = Staff.objects.get(pk=10)
-        test_date_obj = cur_tz.localize(datetime.datetime.strptime(test_date, '%Y-%m-%d %H:%M:%S'))
+        test_date_obj = localize_dt(datetime.datetime.strptime(test_date, '%Y-%m-%d %H:%M:%S'), cur_tz)
 
         test_staff.date_hired = test_date_obj
         test_staff.save()
