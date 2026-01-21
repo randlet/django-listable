@@ -4,6 +4,11 @@
 History
 =======
 
+0.9.3 (2026-01-21)
+------------------
+
+* Adds support for Django 5 / zoneinfo timezones.
+
 0.9.2 (2025-12-31)
 ------------------
 
