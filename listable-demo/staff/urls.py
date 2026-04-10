@@ -8,4 +8,9 @@ urlpatterns = [
         views.StaffListLiveFilters.as_view(),
         name="staff-list-live-filters",
     ),
+    path(
+        'staff-list-static-live-filters/',
+        views.StaffListStaticLiveFilters.as_view(),
+        name="staff-list-static-live-filters",
+    ),
 ]
