@@ -90,3 +90,9 @@ class StaffList(BaseListableView):
 class StaffListLiveFilters(StaffList):
     live_filters = True
     template_name = "staff/staff_list_live_filters.html"
+
+
+class StaffListStaticLiveFilters(StaffListLiveFilters):
+    static_live_filters = {
+        "is_manager": ["True", "False"],
+    }

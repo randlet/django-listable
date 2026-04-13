@@ -90,6 +90,13 @@ class BaseListableView(ListView):
     # Live filtering is disabled by default.
     live_filters = False
 
+    # Dictionary mapping field names to lists of static filter values. When a
+    # field is listed here, the corresponding SELECT DISTINCT query in
+    # get_live_filters is skipped and the static values are returned instead.
+    # Useful for fields with a small, known set of values (e.g. booleans).
+    # Example: static_live_filters = {"is_active": ["True", "False"]}
+    static_live_filters = {}
+
     headers = {}
 
     multi_separator = ', '
@@ -247,7 +254,7 @@ class BaseListableView(ListView):
 
         context = {
             "aaData": self.get_rows(object_list),
-            "iTotalRecords": self.get_queryset().count(),
+            "iTotalRecords": getattr(self, '_unfiltered_count', None) or self.get_queryset().count(),
             "iTotalDisplayRecords": object_count,
             "sEcho": secho,
         }
@@ -261,6 +268,11 @@ class BaseListableView(ListView):
         live_filters = []
 
         for field in self.get_fields(request=self.request):
+
+            if field in self.static_live_filters:
+                live_filters.append(self.static_live_filters[field])
+                continue
+
             filter_allowed = self.search_fields.get(field, True)
             widget_type = self.widgets.get(field, TEXT)
 
@@ -358,6 +370,8 @@ class BaseListableView(ListView):
 
         This method is awful :(
         """
+
+        self._unfiltered_count = qs.order_by().count()
 
         cur_tz = timezone.get_current_timezone()
 
