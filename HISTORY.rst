@@ -4,6 +4,11 @@
 History
 =======
 
+0.9.4 (2026-04-13)
+------------------
+
+* Eliminated some duplicate calls of queryset.count()
+
 0.9.3 (2026-01-21)
 ------------------
 

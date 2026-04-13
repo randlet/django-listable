@@ -98,8 +98,8 @@ incident_years = [str(i) for i in range(2014, 2017)]
 
 
 def add_a_datetime():
-    start = timezone.datetime(year=2000, month=1, day=1, tzinfo=datetime.UTC)
-    stop = timezone.datetime(year=2016, month=12, day=31, tzinfo=datetime.UTC)
+    start = timezone.datetime(year=2000, month=1, day=1, tzinfo=datetime.timezone.utc)
+    stop = timezone.datetime(year=2016, month=12, day=31, tzinfo=datetime.timezone.utc)
     dt = radar.random_datetime(start=start, stop=stop)
     return dt
 

@@ -5,7 +5,7 @@ import sys
 
 from unittest import mock
 
-from django.db.models import Q
+from django.db.models import Q, QuerySet
 from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils import timezone
@@ -14,6 +14,7 @@ from listable import settings as lisettings
 from listable.utils import localize_dt
 
 from staff.models import INACTIVE, Staff
+from staff.views import StaffListStaticLiveFilters
 
 
 sys.path.append("listable-demo")
@@ -350,6 +351,34 @@ class TestViews(TestCase):
         inactive_count = Staff.objects.filter(active=INACTIVE).count()
         self.assertEqual(payload['iTotalDisplayRecords'], inactive_count)
 
+    def test_cached_unfiltered_count_with_extra_count_fallback(self):
+        """AJAX requests should still work when count() fails on .extra() querysets."""
+
+        client = Client()
+        original_count = QuerySet.count
+
+        def count_with_extra_failure(queryset):
+            if getattr(queryset.query, "extra_select", None):
+                raise Exception("backend count failure")
+            return original_count(queryset)
+
+        with mock.patch(
+            "django.db.models.query.QuerySet.count",
+            autospec=True,
+            side_effect=count_with_extra_failure,
+        ):
+            response = client.get(
+                reverse("staff-list") + "?sEcho=1&iColumns=8&sColumns="
+                "&iDisplayStart=0&iDisplayLength=10",
+                HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            )
+
+        self.assertEqual(response.status_code, 200)
+        payload = json.loads(response.content.decode('utf-8'))
+        total = Staff.objects.count()
+        self.assertEqual(payload['iTotalRecords'], total)
+        self.assertEqual(payload['iTotalDisplayRecords'], total)
+
     def test_static_live_filters(self):
         """Fields listed in static_live_filters should return the declared
         values instead of running a SELECT DISTINCT query."""
@@ -369,6 +398,16 @@ class TestViews(TestCase):
             payload['liveFilters'][9],
             set(escape(s) for s in Staff.objects.values_list('contract_type__name', flat=True)),
         )
+
+    def test_static_live_filters_are_included_in_initial_options(self):
+        """Static live filters should be selectable even if the queryset misses one value."""
+
+        Staff.objects.update(is_manager=True)
+
+        view = StaffListStaticLiveFilters()
+        filters = view.get_filters("is_manager", queryset=Staff.objects.all())
+
+        self.assertEqual(filters, [("True", "True"), ("False", "False")])
 
     def test_static_live_filters_unaffected_by_filtering(self):
         """Static live filter values should remain constant even when other

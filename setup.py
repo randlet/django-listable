@@ -9,7 +9,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
-version = '0.9.3'
+version = '0.9.4'
 
 if sys.argv[-1] == 'publish':
     os.system('python -m build --wheel --sdist')

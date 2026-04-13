@@ -93,7 +93,10 @@ class BaseListableView(ListView):
     # Dictionary mapping field names to lists of static filter values. When a
     # field is listed here, the corresponding SELECT DISTINCT query in
     # get_live_filters is skipped and the static values are returned instead.
-    # Useful for fields with a small, known set of values (e.g. booleans).
+    # get_filters still merges these values into the initial option list so the
+    # first-rendered <select> includes static options even when the queryset
+    # currently lacks one of them. Useful for fields with a small, known set of
+    # values (e.g. booleans).
     # Example: static_live_filters = {"is_active": ["True", "False"]}
     static_live_filters = {}
 
@@ -216,6 +219,11 @@ class BaseListableView(ListView):
 
             self.object_list.count = make_count(self.object_list)
             self._count_queryset.count = make_count(self._count_queryset)
+            if hasattr(self, "_unfiltered_count"):
+                self._unfiltered_count.count = make_count(self._unfiltered_count)
+                self._unfiltered_count = self._unfiltered_count.count()
+        elif hasattr(self, "_unfiltered_count"):
+            self._unfiltered_count = self._unfiltered_count.count()
 
         allow_empty = self.get_allow_empty()
 
@@ -252,9 +260,13 @@ class BaseListableView(ListView):
         else:
             object_count = self._count_queryset.count()
 
+        total_records = getattr(self, '_unfiltered_count', None)
+        if total_records is None:
+            total_records = self.get_queryset().count()
+
         context = {
             "aaData": self.get_rows(object_list),
-            "iTotalRecords": getattr(self, '_unfiltered_count', None) or self.get_queryset().count(),
+            "iTotalRecords": total_records,
             "iTotalDisplayRecords": object_count,
             "sEcho": secho,
         }
@@ -363,6 +375,27 @@ class BaseListableView(ListView):
             for f in queryset.values_list(field, field).order_by(ordering)
         ]
 
+        if field in self.static_live_filters:
+            # Initial filter options come from the queryset, so merge in static
+            # values here to make missing options selectable on first render.
+            # get_live_filters intentionally returns only the declared static
+            # values for these fields to avoid the DISTINCT query entirely.
+            static_filters = [
+                (value, value) if value is not None else (NONEORNULL, 'None')
+                for value in self.static_live_filters[field]
+            ]
+            seen = set()
+            merged_filters = []
+
+            for choice in static_filters + filters:
+                key = str(choice[0])
+                if key in seen:
+                    continue
+                seen.add(key)
+                merged_filters.append(choice)
+
+            return merged_filters
+
         return filters
 
     def filter_queryset(self, qs):
@@ -371,7 +404,7 @@ class BaseListableView(ListView):
         This method is awful :(
         """
 
-        self._unfiltered_count = qs.order_by().count()
+        self._unfiltered_count = qs.order_by()
 
         cur_tz = timezone.get_current_timezone()
 
