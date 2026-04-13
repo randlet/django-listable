@@ -305,3 +305,106 @@ class TestViews(TestCase):
         payload_names = [x[1] for x in data]
 
         self.assertListEqual(names, payload_names)
+
+    def test_cached_unfiltered_count(self):
+        """iTotalRecords should use _unfiltered_count cached in filter_queryset
+        rather than calling get_queryset().count() again."""
+
+        client = Client()
+        total = Staff.objects.count()
+
+        # Unfiltered request
+        response = client.get(
+            reverse("staff-list") + "?sEcho=1&iColumns=8&sColumns="
+            "&iDisplayStart=0&iDisplayLength=10",
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+        payload = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(payload['iTotalRecords'], total)
+
+        # Filtered request — iTotalRecords should still equal the full count
+        url = (
+            reverse("staff-list") +
+            "?sEcho=2&iColumns=8&sColumns="
+            "&iDisplayStart=0&iDisplayLength=10"
+            "&mDataProp_0=0&mDataProp_1=1&mDataProp_2=2&mDataProp_3=3"
+            "&mDataProp_4=4&mDataProp_5=5&mDataProp_6=6&mDataProp_7=7"
+            "&sSearch=&bRegex=false"
+            "&sSearch_0=&bRegex_0=false&bSearchable_0=true"
+            "&sSearch_1=&bRegex_1=false&bSearchable_1=true"
+            "&sSearch_2=inactive&bRegex_2=false&bSearchable_2=true"
+            "&sSearch_3=&bRegex_3=false&bSearchable_3=true"
+            "&sSearch_4=&bRegex_4=false&bSearchable_4=true"
+            "&sSearch_5=&bRegex_5=false&bSearchable_5=true"
+            "&sSearch_6=&bRegex_6=false&bSearchable_6=true"
+            "&sSearch_7=&bRegex_7=false&bSearchable_7=true"
+            "&iSortingCols=0"
+            "&bSortable_0=true&bSortable_1=true&bSortable_2=true"
+            "&bSortable_3=true&bSortable_4=true&bSortable_5=true"
+            "&bSortable_6=true&bSortable_7=true"
+            "&sRangeSeparator=~&_=1414439607637"
+        )
+        response = client.get(url, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        payload = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(payload['iTotalRecords'], total)
+        inactive_count = Staff.objects.filter(active=INACTIVE).count()
+        self.assertEqual(payload['iTotalDisplayRecords'], inactive_count)
+
+    def test_static_live_filters(self):
+        """Fields listed in static_live_filters should return the declared
+        values instead of running a SELECT DISTINCT query."""
+
+        client = Client()
+        response = client.get(
+            reverse("staff-list-static-live-filters"),
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+        payload = json.loads(response.content.decode('utf-8'))
+
+        # is_manager is at field index 8 and has static_live_filters declared
+        self.assertEqual(payload['liveFilters'][8], ["True", "False"])
+
+        # Dynamic live filters should still work for other columns
+        self.assertCountEqual(
+            payload['liveFilters'][9],
+            set(escape(s) for s in Staff.objects.values_list('contract_type__name', flat=True)),
+        )
+
+    def test_static_live_filters_unaffected_by_filtering(self):
+        """Static live filter values should remain constant even when other
+        columns are filtered, since they are not derived from the queryset."""
+
+        client = Client()
+        # Filter on active=inactive (column 2)
+        url = (
+            reverse("staff-list-static-live-filters") +
+            "?sEcho=1&iColumns=8&sColumns="
+            "&iDisplayStart=0&iDisplayLength=10"
+            "&mDataProp_0=0&mDataProp_1=1&mDataProp_2=2&mDataProp_3=3"
+            "&mDataProp_4=4&mDataProp_5=5&mDataProp_6=6&mDataProp_7=7"
+            "&sSearch=&bRegex=false"
+            "&sSearch_0=&bRegex_0=false&bSearchable_0=true"
+            "&sSearch_1=&bRegex_1=false&bSearchable_1=true"
+            "&sSearch_2=inactive&bRegex_2=false&bSearchable_2=true"
+            "&sSearch_3=&bRegex_3=false&bSearchable_3=true"
+            "&sSearch_4=&bRegex_4=false&bSearchable_4=true"
+            "&sSearch_5=&bRegex_5=false&bSearchable_5=true"
+            "&sSearch_6=&bRegex_6=false&bSearchable_6=true"
+            "&sSearch_7=&bRegex_7=false&bSearchable_7=true"
+            "&iSortingCols=0"
+            "&bSortable_0=true&bSortable_1=true&bSortable_2=true"
+            "&bSortable_3=true&bSortable_4=true&bSortable_5=true"
+            "&bSortable_6=true&bSortable_7=true"
+            "&sRangeSeparator=~&_=1414439607637"
+        )
+        response = client.get(url, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        payload = json.loads(response.content.decode('utf-8'))
+
+        # Static values stay the same regardless of active filter
+        self.assertEqual(payload['liveFilters'][8], ["True", "False"])
+
+        # Dynamic filters should reflect the filtered queryset
+        self.assertCountEqual(
+            payload['liveFilters'][9],
+            set(Staff.objects.filter(active=INACTIVE).values_list('contract_type__name', flat=True)),
+        )
